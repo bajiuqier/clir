@@ -23,8 +23,8 @@ class CLIRMatrixDataset(Dataset):
         item = self.dataset[index]
         query = item['query']
         documet = []
-        documet.append(item['pos'][0][0])
-        documet.append(item['neg'][0][0])
+        documet.append(item['pos'][0])
+        documet.append(item['neg'][0])
 
         return query, documet
     
