@@ -43,19 +43,9 @@ def main():
         set_seed(args.seed)
     
     # ------------------------ 加载 tokenizer、model、model_config、dataset、dataloader等等 ------------------------
-    if args.config_name:
-        config = AutoConfig.from_pretrained(args.config_name, trust_remote_code=args.trust_remote_code)
-    else:
-        config = AutoConfig.from_pretrained(args.model_name_or_path, trust_remote_code=args.trust_remote_code)
-
-    if args.tokenizer_name:
-        tokenizer = AutoTokenizer.from_pretrained(
-            args.tokenizer_name, use_fast=not args.use_slow_tokenizer, trust_remote_code=args.trust_remote_code
-        )
-    else:
-        tokenizer = AutoTokenizer.from_pretrained(
-            args.model_name_or_path, use_fast=not args.use_slow_tokenizer, trust_remote_code=args.trust_remote_code
-        )
+    tokenizer = AutoTokenizer.from_pretrained(
+        args.model_name_or_path, use_fast=not args.use_slow_tokenizer, trust_remote_code=args.trust_remote_code
+    )
 
     model = DaulModel(args)
     

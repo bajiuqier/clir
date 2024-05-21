@@ -2,17 +2,12 @@ import argparse
 from pathlib import Path
 from transformers import SchedulerType
 
-HOME_DIR = Path.home().parent / 'mnt' / 'workspace'
+HOME_DIR = Path.home() / 'Desktop'
 
 def parse_args():
     parser = argparse.ArgumentParser(description="myself argments")
 
-    parser.add_argument(
-        "--dataset_name",
-        type=str,
-        default=None,
-        help="The name of the dataset to use (via the datasets library).",
-    )
+    # ------------------------------------- train/val/test data_file -------------------------------------
     parser.add_argument(
         "--train_file",
         type=str,
@@ -28,6 +23,8 @@ def parse_args():
     parser.add_argument(
         "--test_file", type=str, default=None, help="A csv or a json file containing the test data."
     )
+
+    # ------------------------------------- tokenizer -------------------------------------
     parser.add_argument(
         "--max_length",
         type=int,
@@ -44,16 +41,22 @@ def parse_args():
         help="If passed, pad all samples to `max_length`. Otherwise, dynamic padding is used.",
     )
     parser.add_argument(
-        "--config_name",
-        type=str,
-        default=None,
-        help="加载 模型的config配置",
-    )
-    parser.add_argument(
         "--tokenizer_name",
         type=str,
         default=None,
         help="加载 tokenizer_name ",
+    )
+    parser.add_argument(
+        "--use_slow_tokenizer",
+        action="store_true",
+        help="If passed, will use a slow tokenizer (not backed by the 🤗 Tokenizers library).",
+    )
+    # ------------------------------------- model -------------------------------------
+    parser.add_argument(
+        "--config_name",
+        type=str,
+        default=None,
+        help="加载 模型的config配置",
     )
     parser.add_argument(
         "--model_name_or_path",
@@ -74,11 +77,7 @@ def parse_args():
         default=True,
         help="对模型输出的文本向量 进行 normlized 操作",
     )
-    parser.add_argument(
-        "--use_slow_tokenizer",
-        action="store_true",
-        help="If passed, will use a slow tokenizer (not backed by the 🤗 Tokenizers library).",
-    )
+
     parser.add_argument(
         "--per_device_train_batch_size",
         type=int,
@@ -91,13 +90,14 @@ def parse_args():
         default=8,
         help="Batch size (per device) for the evaluation dataloader.",
     )
+    # ------------------------------------- 学习率/优化器相关参数 -------------------------------------
     parser.add_argument(
         "--learning_rate",
         type=float,
         default=5e-5,
         help="Initial learning rate (after the potential warmup period) to use.",
     )
-    parser.add_argument("--weight_decay", type=float, default=0.0, help="Weight decay to use.")
+    parser.add_argument("--weight_decay", type=float, default=0.001, help="Weight decay to use.")
     parser.add_argument("--num_train_epochs", type=int, default=3, help="Total number of training epochs to perform.")
     parser.add_argument(
         "--max_train_steps",
@@ -133,6 +133,8 @@ def parse_args():
     parser.add_argument(
         "--num_warmup_steps", type=int, default=0, help="Number of steps for the warmup in the lr scheduler."
     )
+
+    # ------------------------------------- model train -------------------------------------
     parser.add_argument(
         "--output_dir",
         type=str,
@@ -200,7 +202,7 @@ def parse_args():
     args = parser.parse_args()
 
     # Sanity checks
-    if args.dataset_name is None and args.train_file is None and args.validation_file is None:
+    if args.train_file is None and args.validation_file is None:
         raise ValueError("Need either a task name or a training/validation file.")
     else:
         if args.train_file is not None:
@@ -209,7 +211,6 @@ def parse_args():
         if args.validation_file is not None:
             extension = args.validation_file.split(".")[-1]
             assert extension in ["csv", "json", "jsonl"], "`validation_file` should be a csv or a json file."
-
 
     return args
 
