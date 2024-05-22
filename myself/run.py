@@ -2,7 +2,7 @@ import logging
 import math
 import os
 import random
-
+import logging
 import torch
 from accelerate import Accelerator
 from accelerate.logging import get_logger
@@ -26,17 +26,20 @@ from argments import parse_args
 from data import CLIRMatrixDataset, CLIRMatrixCollator
 from modeling import DaulModel
 
-logger = get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 def main():
     args = parse_args()
 
     logging.basicConfig(
-        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-        datefmt="%m/%d/%Y %H:%M:%S",
         level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler("training.log"),
+            logging.StreamHandler()
+        ]
     )
-    transformers.utils.logging.set_verbosity_error()
+
 
     # 初始化 Accelerator
     accelerator = (

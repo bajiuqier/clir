@@ -6,7 +6,12 @@ HOME_DIR = Path.home() / 'Desktop'
 
 def parse_args():
     parser = argparse.ArgumentParser(description="myself argments")
-
+    parser.add_argument(
+        "--log_path",
+        type=str,
+        default=str(HOME_DIR / 'clir' / 'training_logs'),
+        help="训练日志文件路径"
+    )
     # ------------------------------------- train/val/test data_file -------------------------------------
     parser.add_argument(
         "--train_file",
