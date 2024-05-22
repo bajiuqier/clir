@@ -167,7 +167,7 @@ def parse_args():
     parser.add_argument(
         "--with_tracking",
         type=bool,
-        default=True,
+        default=False,
         help="Whether to enable experiment trackers for logging. 是否启用实验跟踪器进行日志记录 ",
     )
     parser.add_argument(

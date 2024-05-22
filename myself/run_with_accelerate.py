@@ -133,6 +133,10 @@ def main():
     logger.info(f"  Gradient Accumulation steps = {args.gradient_accumulation_steps}")
     logger.info(f"  Total optimization steps = {args.max_train_steps}")
 
+    # Only show the progress bar once on each machine.
+    # 进度条设置
+    # progress_bar = tqdm(range(args.max_train_steps), disable=not accelerator.is_local_main_process)
+    # completed_steps = 0
     starting_epoch = 0
 
     # 从 checkpoint 恢复训练
@@ -162,6 +166,10 @@ def main():
             completed_steps = resume_step // args.gradient_accumulation_steps
             resume_step -= starting_epoch * len(train_dataloader)
 
+    # update the progress_bar if load from checkpoint
+    # 更新进度条
+    # progress_bar.update(completed_steps)
+
     for epoch in range(starting_epoch, args.num_train_epochs):
         model.train()
         if args.with_tracking:
@@ -173,7 +181,7 @@ def main():
             active_dataloader = accelerator.skip_first_batches(train_dataloader, resume_step)
         else:
             active_dataloader = train_dataloader
-        for batch_idx, batch in enumerate(active_dataloader):
+        for step, batch in enumerate(active_dataloader):
             outputs = model(**batch)
             loss = outputs.loss
             # We keep track of the loss at each epoch
