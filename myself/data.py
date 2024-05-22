@@ -56,7 +56,7 @@ class CLIRMatrixCollator(DataCollatorWithPadding):
             max_length=self.document_max_len,
             return_tensors="pt",
         )
-        return {"query": q_collated, "passage": d_collated}
+        return {"query": q_collated, "document": d_collated}
 
 
 

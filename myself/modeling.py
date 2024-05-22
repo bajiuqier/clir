@@ -53,7 +53,7 @@ class DualModel(nn.Module):
             self.loss_function = nn.CrossEntropyLoss()
         
     def compute_similarity(self, q_representation: Tensor, d_representation: Tensor):
-        if self.normlized:
+        if self.normalized:
             if len(d_representation.size()) == 2:
                 return torch.matmul(q_representation, d_representation.transpose(0, 1))
             return torch.matmul(q_representation, d_representation.transpose(-2, -1))
@@ -63,8 +63,8 @@ class DualModel(nn.Module):
                                            dim=-1)
 
     def forward(self, query: Dict[str, Tensor] = None, document: Dict[str, Tensor] = None):
-        q_representation = self.embedding_model(query)
-        d_representation = self.embedding_model(document)
+        q_representation = self.embedding_model(query).embedding
+        d_representation = self.embedding_model(document).embedding
 
         if not self.training:
             scores = self.compute_similarity(q_representation, d_representation)
@@ -82,9 +82,11 @@ class DualModel(nn.Module):
     
     def save_model(self, output_dir: str):
         self.embedding_model.save_model(output_dir)
+        model_status_save_path = os.path.join(output_dir, 'model.pth')
+        torch.save(self.embedding_model.state_dict(), model_status_save_path)
 
 
-class DaulModel2(nn.Module):
+class DualModel2(nn.Module):
     def __init__(self, args: parse_args) -> None:
         super().__init__()
         self.args = args

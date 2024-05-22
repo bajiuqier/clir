@@ -1,29 +1,21 @@
-import logging
-import math
 import os
-import random
 import logging
 import torch
 from datetime import datetime
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
-import transformers
 from transformers import (
     AutoConfig,
     AutoModel,
     AutoModelForSequenceClassification,
     AutoTokenizer,
-    DataCollatorWithPadding,
-    PretrainedConfig,
-    SchedulerType,
-    default_data_collator,
     get_scheduler,
 )
 
 from utils import set_seed
 from argments import parse_args
 from data import CLIRMatrixDataset, CLIRMatrixCollator
-from modeling import DaulModel
+from modeling import DualModel
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +28,7 @@ def main():
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S", # 这里设置时间格式
         handlers=[
             logging.FileHandler(log_file),
             logging.StreamHandler()
@@ -50,8 +43,9 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(
         args.model_name_or_path, use_fast=not args.use_slow_tokenizer, trust_remote_code=args.trust_remote_code
     )
-
-    model = DaulModel(args)
+    
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    model = DualModel(args).to(device)
     
     train_dataset = CLIRMatrixDataset(args=args)
     data_collator = CLIRMatrixCollator(tokenizer, query_max_len=32, document_max_len=128)
@@ -85,7 +79,9 @@ def main():
     lr_scheduler = get_scheduler(
         name=args.lr_scheduler_type,
         optimizer=optimizer,
-        num_warmup_steps=args.num_warmup_steps,
+        # num_warmup_steps=args.num_warmup_steps,
+        # 迭代一个epoch所需的步数
+        num_warmup_steps=num_update_steps_per_epoch,
         num_training_steps=total_train_steps,
     )
     # ------------------------ Optimizer 优化器 ------------------------
@@ -97,21 +93,24 @@ def main():
 
 
     # Train!
+    now = datetime.now()
+    formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
+    
     logger.info("***** Running training *****")
+    logger.info(f"  当前时间: {formatted_now}")
     logger.info(f"  Num examples = {len(train_dataset)}")
     logger.info(f"  Num Epochs = {args.num_train_epochs}")
     logger.info(f"  Instantaneous batch size per device = {args.per_device_train_batch_size}")
     logger.info(f"  Total train batch size (w. parallel, distributed & accumulation) = {args.per_device_train_batch_size}")
     logger.info(f"  Total optimization steps = {total_train_steps}")
+    logger.info(f"  训练的设备: {device}, 设备编号: {torch.cuda.current_device()}")
 
     starting_epoch = 0
     completed_steps = 0
 
     for epoch in range(starting_epoch, args.num_train_epochs):
         model.train()
-        if args.with_tracking:
-            total_loss = 0
-        
+
         # 从检查点恢复训练
         # if args.resume_from_checkpoint and epoch == starting_epoch and resume_step is not None:
         #     # We skip the first `n` batches in the dataloader when resuming from a checkpoint
@@ -119,7 +118,9 @@ def main():
         # else:
         #     active_dataloader = train_dataloader
         active_dataloader = train_dataloader
+
         for batch_idx, batch in enumerate(active_dataloader):
+            batch = {k: v.to(device) for k, v in batch.items()}
             optimizer.zero_grad()
             outputs = model(**batch)
             loss = outputs.loss
@@ -141,8 +142,9 @@ def main():
                         model.save_model(output_dir)
 
             if completed_steps % 50 == 0:
-                print(f'-----------------loss: {loss}')
-                
+                # print(f'------loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}------')
+                logger.info(f"  loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}")
+
             if completed_steps >= total_train_steps:
                 break
         # 每个 epoch 保存一次模型
