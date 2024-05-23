@@ -21,7 +21,6 @@ class GetEmbedding:
     def encode(self, sentences: Union[List[str], str], convert_to_numpy: bool = True):
 
         self.model.eval()
-
         # input_was_string = False
         if isinstance(sentences, str):
             sentences = [sentences]
