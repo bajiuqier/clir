@@ -140,21 +140,27 @@ def main():
                         # model_status_save_path = os.path.join(output_dir, 'model.pth')
                         # torch.save(model.state_dict(), model_status_save_path)
                         model.save_model(output_dir)
+                        logger.info(f"  ----------------------------------------------------------")
+                        logger.info(f"  第 {completed_steps} 步已经训练完成  模型保存在 {output_dir}")
+                        logger.info(f"  ----------------------------------------------------------")
 
             if completed_steps % 50 == 0:
                 # print(f'------loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}------')
-                logger.info(f"  loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}")
+                logger.info(f"  loss: {loss},  learning_rate: {lr_scheduler.get_last_lr()[0]},  steps: {completed_steps}/{total_train_steps},  epoch: {epoch}")
 
             if completed_steps >= total_train_steps:
                 break
         # 每个 epoch 保存一次模型
-        if args.checkpointing_steps == "epoch" and epoch+1 % 2 == 0:
+        if args.checkpointing_steps == "epoch" and (epoch+1) % 2 == 0:
             output_dir_name = f"epoch_{epoch}"
             if args.output_dir is not None:
                 output_dir = os.path.join(args.output_dir, output_dir_name)
                 # 使用 os.makedirs 创建目录，如果目录不存在的话
                 os.makedirs(output_dir, exist_ok=True)
                 model.save_model(output_dir)
+                logger.info(f"  ------------------------------------------------")
+                logger.info(f"  第 {epoch} 轮已经训练完成  模型保存在 {output_dir}")
+                logger.info(f"  ------------------------------------------------")
     
     # 训练完成后保存模型        
     if args.output_dir is not None:
@@ -163,7 +169,9 @@ def main():
 
         model.save_model(args.output_dir)
         tokenizer.save_pretrained(args.output_dir)
-
+        logger.info(f"  ------------------------------------------------")
+        logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
+        logger.info(f"  ------------------------------------------------")
 
 if __name__ == "__main__":
     main()

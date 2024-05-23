@@ -82,6 +82,7 @@ class DualModel(nn.Module):
     
     def save_model(self, output_dir: str):
         self.embedding_model.save_model(output_dir)
+        # 使用 pytorch 保存 模型的静态参数字典
         model_status_save_path = os.path.join(output_dir, 'model.pth')
         torch.save(self.embedding_model.state_dict(), model_status_save_path)
 
