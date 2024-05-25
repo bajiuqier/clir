@@ -96,7 +96,7 @@ def main():
     now = datetime.now()
     formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
     
-    logger.info("***** Running training *****")
+    logger.info("  ***** Running training *****")
     logger.info(f"  当前时间: {formatted_now}")
     logger.info(f"  Num examples = {len(train_dataset)}")
     logger.info(f"  Num Epochs = {args.num_train_epochs}")
