@@ -48,7 +48,7 @@ def main():
     model = DualModel(args).to(device)
     
     train_dataset = CLIRMatrixDataset(args=args)
-    data_collator = CLIRMatrixCollator(tokenizer, query_max_len=32, document_max_len=128)
+    data_collator = CLIRMatrixCollator(tokenizer, query_max_len=32, document_max_len=256)
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, collate_fn=data_collator, batch_size=args.per_device_train_batch_size
@@ -105,6 +105,7 @@ def main():
     logger.info(f"  Total optimization steps = {total_train_steps}")
     logger.info(f"  训练的设备: {device}, 设备编号: {torch.cuda.current_device()}")
 
+
     starting_epoch = 0
     completed_steps = 0
 
@@ -144,10 +145,10 @@ def main():
                         logger.info(f"  第 {completed_steps} 步已经训练完成  模型保存在 {output_dir}")
                         logger.info(f"  ----------------------------------------------------------")
 
-            if completed_steps % 50 == 0:
+            if completed_steps % 100 == 0:
                 # print(f'------loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}------')
-                logger.info(f"  loss: {loss},  learning_rate: {lr_scheduler.get_last_lr()[0]},  steps: {completed_steps}/{total_train_steps},  epoch: {epoch}")
-
+                logger.info(f"  loss: {loss},\tlearning_rate: {lr_scheduler.get_last_lr()[0]},\tsteps: {completed_steps}/{total_train_steps},\tepoch: {epoch}")
+                
             if completed_steps >= total_train_steps:
                 break
         # 每个 epoch 保存一次模型
@@ -167,11 +168,12 @@ def main():
         output_dir = os.path.join(args.output_dir, 'training_ended')
         os.makedirs(output_dir, exist_ok=True)
 
-        model.save_model(args.output_dir)
-        tokenizer.save_pretrained(args.output_dir)
+        model.save_model(output_dir)
+        tokenizer.save_pretrained(output_dir)
         logger.info(f"  ------------------------------------------------")
         logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
         logger.info(f"  ------------------------------------------------")
+
 
 if __name__ == "__main__":
     main()

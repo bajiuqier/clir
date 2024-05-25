@@ -16,7 +16,6 @@ from ir_measures import *
 import pandas as pd
 import numpy as np
 
-from get_embedding import GetEmbedding
 from modeling import EmbeddingModel
 from argments import parse_args
 
@@ -24,7 +23,7 @@ from argments import parse_args
 
 
 # ----------------------------- searching -----------------------------
-class searching():
+class Searching():
     def __init__(self, tokenizer, model: EmbeddingModel, batch_size: int = 256) -> None:
         self.model = model
         self.tokenizer = tokenizer
@@ -32,7 +31,8 @@ class searching():
         self.model.to(self.device)
         self.batch_size = batch_size
 
-    def get_embedding(self, text: Union[List[str], str], tokenize_max_len: int = 512, convert_to_numpy: bool = True):
+    @torch.no_grad()
+    def get_embedding(self, text: Union[List[str], str], tokenize_max_len: int = 128, convert_to_numpy: bool = True):
         self.model.eval()
         # input_was_string = False
         if isinstance(text, str):
@@ -51,7 +51,8 @@ class searching():
                 max_length=tokenize_max_len,
             ).to(self.device)
 
-            embeddings = self.model(**inputs).embedding
+            embeddings = self.model(inputs).embedding
+            # embeddings = self.model(**inputs).embedding
             # 将 embeddings 转成 troch.Tensor 类型
             # embeddings = cast(torch.Tensor, embeddings)
 
@@ -72,14 +73,14 @@ class searching():
     def index(
             self,
             documents: List[str],
-            corpus_ids: List[int],
+            docs_ids: List[int],
             index_factory: str = "Flat",
             # save_path: str = None,
             # save_embedding: bool = False,
             # load_embedding: bool = False,
     ): 
         assert type(documents) == list, 'corpus 的类型应该为 Union[List[str], str]'
-        assert len(documents) == len(set(corpus_ids)), 'passage/document的数量和其对应的id的数量不相等 请进行检查'
+        assert len(documents) == len(set(docs_ids)), 'passage/document的数量和其对应的id的数量不相等 请进行检查'
 
         corpus_embeddings = self.get_embedding(text=documents, convert_to_numpy=True)
         dim = corpus_embeddings.shape[-1]
@@ -100,7 +101,7 @@ class searching():
         corpus_embeddings = corpus_embeddings.astype(np.float32)
         faiss_index_map.train(corpus_embeddings)
         # 然faiss 生成的 index 的 id 和我们的文档 id 相同
-        faiss_index_map.add_with_ids(corpus_embeddings, np.array(corpus_ids))
+        faiss_index_map.add_with_ids(corpus_embeddings, np.array(docs_ids))
         return faiss_index
     
     def search(
@@ -133,11 +134,11 @@ class searching():
 
 
 # ----------------------------- evaluates by ir_measures -----------------------------
-class evaluate():
+class Evaluating():
     def __init__(self, queries: pd.DataFrame, qrels: pd.DataFrame, metrics: List) -> None:
         self.queries = queries
         self.qrels = qrels
-        self.metrics = measures
+        self.metrics = metrics
         pass
     def generate_run(self, scores: np.array, indices: np.array) -> pd.DataFrame:
         '''
@@ -149,9 +150,11 @@ class evaluate():
         rows = []
         
         for i, query_row in self.queries.iterrows():
+            # 使用 ir_measures 进行评测的时候 query_id doc_id 是 str 类型 score 是数值类型
             query_id = str(query_row['query_id'])
             for j in range(len(scores[i])):
-                if indices[i][j] != -1: # 排除indice值为-1的情况
+                # 排除indice值为-1的情况 检索不到话就有可能有 -1 值
+                if indices[i][j] != -1:
                     score = scores[i][j]
                     doc_id = str(indices[i][j])
                     rows.append([query_id, doc_id, score])
@@ -185,33 +188,43 @@ class evaluate():
 
 if __name__ == '__main__':
     args = parse_args() 
-    METRICS_LIST = [R@5, R@10, nDCG@5, nDCG@10]
+    METRICS_LIST = [R@5, R@10, RR@5, RR@10, nDCG@5, nDCG@10]
     path_home = Path.home().parent / 'mnt' / 'workspace'
 
     model_path = str(path_home / 'clir' / 'myself' / 'out_put' / 'embedding_model')
     tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
-    model = AutoModel.from_pretrained(model_path)
+    # model = AutoModel.from_pretrained(model_path)
+    model = EmbeddingModel.from_pretrained(model_path=model_path, args=args)
 
     dataset = ir_datasets.load('clirmatrix/kk/bi139-full/zh/test1')
 
     # 加载 目标语言 document 数据
     kk_document_path = str(path_home / 'Datasets' / 'mmarco' / 'english_collection_fragment.tsv')
-    collections_df = pd.read_csv(kk_document_path, sep='\t', encoding='utf-8', names=['doc_id', 'text'])
-    corpus_list = collections_df.loc[:]['text'].to_list()
-    corpus_ids_list = collections_df.loc[:]['doc_id'].to_list()
+    # 提取文档信息
+    docs = []
+    for doc in dataset.docs_iter():
+        docs.append({'doc_id': doc.doc_id, 'text': doc.text})
+    # 转换为 DataFrame
+    docs_df = pd.DataFrame(docs)
+    docs_list = docs_df.loc[:]['text'].to_list()
+    docs_ids_list = docs_df.loc[:]['doc_id'].to_list()
     # 将 passage/document 对应的 id 转成 int 类型
-    corpus_ids_list = list(map(int, corpus_ids_list))
+    # 因为要使用 我们自己的 doc_id 来构建 docs 的的索引
+    docs_ids_list = list(map(int, docs_ids_list))
 
     # 加载 源语言 queries 数据
     queries_df = pd.DataFrame(dataset.queries_iter())
     queries_list = queries_df.loc[:]['text'].to_list()
+    # 将 query_id 转成 str 类型，具体意图，待补充
     queries_df['query_id'] = queries_df['query_id'].astype(str)
     queries_ids_list = queries_df.loc[:]['query_id'].to_list()
+    # 转成 int 来判断与 qrels 的查询是否是一样的，如果不一样会影响评测结果。
     queries_ids_list = list(map(int, queries_ids_list))
 
     # 加载 qrels 数据
     qrels_df = pd.DataFrame(dataset.qrels_iter())
     qrels_df = qrels_df.drop(columns=['iteration'])
+    # 将 query_id doc_id 都转成 str 类型 同样是为了符合 ir_measures 评测数据规则
     qrels_df['query_id'] = qrels_df['query_id'].astype(str)
     qrels_df['doc_id'] = qrels_df['doc_id'].astype(str)
     qrels_query_ids_list = qrels_df.loc[:]['query_id'].to_list()
@@ -219,42 +232,19 @@ if __name__ == '__main__':
 
     assert set(queries_ids_list) == set(qrels_query_ids_list), 'qrels中的query和queries中的query 数量/内容存在差异 请检查 避免评测结果出现误差'
 
+    searching = Searching(tokenizer=tokenizer, model=model, batch_size=128)
+    evaluating = Evaluating(queries=queries_df, qrels=qrels_df, metrics=METRICS_LIST)
 
-    # 构建索引
-    faiss_index = index(
-        encoder=get_embedding,
-        corpus=corpus_list,
-        corpus_ids=corpus_ids_list,
-        load_embedding=False,
-        embedding_path=english_collection_embedding_path
-        )
-    
-    assert faiss_index.ntotal == len(corpus_ids_list), '构建的索引和passage/document库中的数据量不对等 请检查'
-    
-    # 检索
-    scores, indices = search(
-        encoder=get_embedding,
-        queries=queries_list,
-        faiss_index=faiss_index,
-        k=20,
-        query_batch_size=256
-    )
+    doc_index = searching.index(documents=docs_list, docs_ids=docs_ids_list)
+    scores, indices = searching.search(queries=queries_list, faiss_index=doc_index, k=20)
 
-    # 构建通过 ir-measures 评估所需的 run 数据
-    run_df = generate_run(
-        queries=queries_df,
-        scores=scores,
-        indices=indices
-    )
-
-    # 评估
-    results = get_evaluates(
-        qrels=qrels_df,
-        run=run_df,
-        metrics=METRICS_LIST
-    )
+    run_df = evaluating.generate_run(scores=scores, indices=indices)
+    results = evaluating.get_evaluates(run=run_df)
 
     print(results)
+
+
+
 
 
 
