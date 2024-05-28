@@ -1,8 +1,10 @@
 import os
 import logging
+import math
 import torch
 from datetime import datetime
 from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
 from tqdm.auto import tqdm
 from transformers import (
     AutoConfig,
@@ -21,6 +23,8 @@ logger = logging.getLogger(__name__)
 
 def main():
     args = parse_args()
+    # 创建 SummaryWriter,指定日志文件保存路径
+    writer = SummaryWriter(os.path.join(args.log_path, 'tensorboard_logs'))
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -48,7 +52,7 @@ def main():
     model = DualModel(args).to(device)
     
     train_dataset = CLIRMatrixDataset(args=args)
-    data_collator = CLIRMatrixCollator(tokenizer, query_max_len=32, document_max_len=256)
+    data_collator = CLIRMatrixCollator(tokenizer, query_max_len=8, document_max_len=128)
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, collate_fn=data_collator, batch_size=args.per_device_train_batch_size
@@ -70,7 +74,8 @@ def main():
     #     },
     # ]
     # optimizer = torch.optim.AdamW(optimizer_grouped_parameters, lr=args.learning_rate)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.0001)
+    # optimizer = torch.optim.Adam()
 
     # Scheduler and math around the number of training steps.
     num_update_steps_per_epoch = len(train_dataloader)
@@ -81,7 +86,7 @@ def main():
         optimizer=optimizer,
         # num_warmup_steps=args.num_warmup_steps,
         # 迭代一个epoch所需的步数
-        num_warmup_steps=num_update_steps_per_epoch,
+        num_warmup_steps=math.ceil(num_update_steps_per_epoch / 2),
         num_training_steps=total_train_steps,
     )
     # ------------------------ Optimizer 优化器 ------------------------
@@ -125,6 +130,7 @@ def main():
             optimizer.zero_grad()
             outputs = model(**batch)
             loss = outputs.loss
+            writer.add_scalar('Loss/train', loss.item(), completed_steps)
             loss.backward()
             optimizer.step()
             lr_scheduler.step()
@@ -147,7 +153,7 @@ def main():
 
             if completed_steps % 100 == 0:
                 # print(f'------loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}------')
-                logger.info(f"  loss: {loss},\tlearning_rate: {lr_scheduler.get_last_lr()[0]},\tsteps: {completed_steps}/{total_train_steps},\tepoch: {epoch}")
+                logger.info(f"  loss: {loss:.4f},\tsteps: {completed_steps}/{total_train_steps},\tepoch: {epoch},\tlearning_rate: {lr_scheduler.get_last_lr()[0]}")
                 
             if completed_steps >= total_train_steps:
                 break
@@ -173,6 +179,8 @@ def main():
         logger.info(f"  ------------------------------------------------")
         logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
         logger.info(f"  ------------------------------------------------")
+    
+    writer.close()
 
 
 if __name__ == "__main__":

@@ -199,7 +199,7 @@ if __name__ == '__main__':
     dataset = ir_datasets.load('clirmatrix/kk/bi139-full/zh/test1')
 
     # 加载 目标语言 document 数据
-    kk_document_path = str(path_home / 'Datasets' / 'mmarco' / 'english_collection_fragment.tsv')
+    # kk_document_path = str(path_home / 'Datasets' / 'mmarco' / 'english_collection_fragment.tsv')
     # 提取文档信息
     docs = []
     for doc in dataset.docs_iter():

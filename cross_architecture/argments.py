@@ -82,6 +82,12 @@ def parse_args():
         default=True,
         help="对模型输出的文本向量 进行 normlized 操作",
     )
+    parser.add_argument(
+        "--similarity_method",
+        type=str,
+        default='l2',
+        help="相似度计算方式 cos、l2",
+    )
 
     parser.add_argument(
         "--per_device_train_batch_size",
@@ -143,7 +149,7 @@ def parse_args():
     parser.add_argument(
         "--output_dir",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'myself' / 'out_put'),
+        default=str(HOME_DIR / 'clir' / 'myself' / 'output'),
         help="Where to store the final model."
     )
     parser.add_argument("--seed", type=int, default=42, help="A seed for reproducible training.")

@@ -1,5 +1,9 @@
 import torch
 
+from utils import set_seed
+
+set_seed(42)
+
 '''
 ContrastLoss继承torch.nn.Module的原因
 可组合性 继承 torch.nn.Module 使得 ContrastLoss 可以像其他 PyTorch 模块一样,轻松地集成到神经网络模型中。
@@ -29,14 +33,6 @@ class PairInBatchNegCoSentLoss(ContrastLoss):
         sim_matrix_diff = sim_matrix - sim_matrix_diag.unsqueeze(1)
         loss = torch.logsumexp(sim_matrix_diff, dim=1).mean()
         return loss
-
-
-a = torch.randn(4, 16)
-b = torch.randn(4, 16)
-loss_f = PairInBatchNegCoSentLoss()
-loss = loss_f.forward(a, b)
-
-print(loss)
 
 class TripletInBatchNegCoSentLoss(ContrastLoss):
     def __init__(self, temperature: float = 0.05, add_swap_loss: bool = False):
