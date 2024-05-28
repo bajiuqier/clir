@@ -16,8 +16,8 @@ from transformers import (
 
 from utils import set_seed
 from argments import parse_args
-from data import CLIRMatrixDataset, CLIRMatrixCollator
-from modeling import DualModel
+from data import CLIRMatrixDataset, DataCollatorForCrossEncoder
+from modeling import CrossModel
 
 logger = logging.getLogger(__name__)
 
@@ -49,10 +49,10 @@ def main():
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = DualModel(args).to(device)
+    model = CrossModel(args).to(device)
     
     train_dataset = CLIRMatrixDataset(args=args)
-    data_collator = CLIRMatrixCollator(tokenizer, query_max_len=8, document_max_len=128)
+    data_collator = DataCollatorForCrossEncoder(tokenizer, max_len=256)
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, collate_fn=data_collator, batch_size=args.per_device_train_batch_size
@@ -74,7 +74,7 @@ def main():
     #     },
     # ]
     # optimizer = torch.optim.AdamW(optimizer_grouped_parameters, lr=args.learning_rate)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.0001)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate)
     # optimizer = torch.optim.Adam()
 
     # Scheduler and math around the number of training steps.
@@ -106,7 +106,7 @@ def main():
     logger.info(f"  Num examples = {len(train_dataset)}")
     logger.info(f"  Num Epochs = {args.num_train_epochs}")
     logger.info(f"  Instantaneous batch size per device = {args.per_device_train_batch_size}")
-    logger.info(f"  Total train batch size (w. parallel, distributed & accumulation) = {args.per_device_train_batch_size}")
+    logger.info(f"  Total train batch size (w. parallel, distributed & accumulation) = {args.per_device_train_batch_size * 2}")
     logger.info(f"  Total optimization steps = {total_train_steps}")
     logger.info(f"  训练的设备: {device}, 设备编号: {torch.cuda.current_device()}")
 

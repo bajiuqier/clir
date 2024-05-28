@@ -27,36 +27,32 @@ class CLIRMatrixDataset(Dataset):
     
 
 @dataclass
-class CLIRMatrixCollator(DataCollatorWithPadding):
+class DataCollatorForCrossEncoder(DataCollatorWithPadding):
 
-    query_max_len: int = 32
-    document_max_len: int = 128
+    max_len: int = 256
     
     def __call__(self, features: List[Tuple[str, list[str]]]) -> Dict[str, Any]:
 
         query = [f[0] for f in features]
         document = [f[1] for f in features]
-        
+
         if isinstance(query[0], list):
             query = sum(query, [])
         if isinstance(document[0], list):
             document = sum(document, [])
+        # 将 query 中的内容 重复两份
+        query = sum([[element]*2 for element in query], [])
         
-        q_collated = self.tokenizer(
-            query,
-            padding=True,
-            truncation=True,
-            max_length=self.query_max_len,
-            return_tensors="pt",
-        )
-        d_collated = self.tokenizer(
-            document,
-            padding=True,
-            truncation=True,
-            max_length=self.document_max_len,
-            return_tensors="pt",
-        )
-        return {"query": q_collated, "document": d_collated}
+        batch = self.tokenizer(
+                query,
+                document,
+                padding=True,
+                truncation=True,
+                max_length=self.max_len,
+                return_tensors="pt",
+            )
+
+        return batch
 
 
 
