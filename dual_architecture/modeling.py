@@ -2,11 +2,11 @@ import os
 import torch
 from torch import Tensor
 from torch import nn
-from transformers import AutoModel
+from transformers import AutoModel, AutoModelForSequenceClassification
 from typing import Dict, List, Tuple, Any, Optional, NamedTuple
 
 from argments import parse_args
-# from criteria import CustomCosineEmbeddingLoss
+from criteria import CustomCosineEmbeddingLoss
 
 class OutputTuple(NamedTuple):
     loss: Optional[torch.Tensor] = None
@@ -58,26 +58,21 @@ class DualModel(nn.Module):
         super().__init__()
         self.pooling_method = args.pooling_method
         self.normalized = args.normalized
-        self.similarity_method = args.similarity_method
         self.embedding_model = EmbeddingModel(args=args)
 
         if self.training:
-            self.loss_function = nn.CrossEntropyLoss()
+            # self.loss_function = nn.CrossEntropyLoss()
+            self.loss_function = CustomCosineEmbeddingLoss()
         
     def compute_similarity(self, q_representation: Tensor, d_representation: Tensor):
-        if self.similarity_method == 'cos':
-            if self.normalized:
-                if len(d_representation.size()) == 2:
-                    return torch.matmul(q_representation, d_representation.transpose(0, 1))
-                return torch.matmul(q_representation, d_representation.transpose(-2, -1))
-            else:
-                return torch.cosine_similarity(q_representation.unsqueeze(1),
-                                            d_representation.unsqueeze(0),
-                                            dim=-1)
-        elif self.similarity_method == 'l2':
-            pass
+        if self.normalized:
+            if len(d_representation.size()) == 2:
+                return torch.matmul(q_representation, d_representation.transpose(0, 1))
+            return torch.matmul(q_representation, d_representation.transpose(-2, -1))
         else:
-            return ValueError('请提供正确的 similarity_method 值 cos or l2')
+            return torch.cosine_similarity(q_representation.unsqueeze(1),
+                                           d_representation.unsqueeze(0),
+                                           dim=-1)
 
     def forward(self, query: Dict[str, Tensor] = None, document: Dict[str, Tensor] = None):
         q_representation = self.embedding_model(query).embedding
@@ -91,7 +86,9 @@ class DualModel(nn.Module):
             scores = self.compute_similarity(q_representation.unsqueeze(1), d_representation.view(q_representation.size(0), 2, -1)).squeeze(1)
             # 将 scores 重构为一个大小为 [batch内query的数量, 自动求出列的大小] 其实列的大小就是 一个query对应的正负样本的总和
             scores = scores.view(q_representation.size(0), -1)
-            target = torch.zeros(scores.size(0), device=scores.device, dtype=torch.long)
+            # target = torch.zeros(scores.size(0), device=scores.device, dtype=torch.long)
+            target = torch.ones(scores.size(0), scores.size(1), device=scores.device, dtype=torch.int)
+            target[:, 1] = -1
             loss = self.loss_function(scores, target)
 
         return OutputTuple(

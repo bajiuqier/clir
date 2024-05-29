@@ -5,14 +5,7 @@ import torch
 from datetime import datetime
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-from tqdm.auto import tqdm
-from transformers import (
-    AutoConfig,
-    AutoModel,
-    AutoModelForSequenceClassification,
-    AutoTokenizer,
-    get_scheduler,
-)
+from transformers import AutoConfig, AutoTokenizer, get_scheduler
 
 from utils import set_seed
 from argments import parse_args
@@ -52,7 +45,7 @@ def main():
     model = CrossModel(args).to(device)
     
     train_dataset = CLIRMatrixDataset(args=args)
-    data_collator = DataCollatorForCrossEncoder(tokenizer, max_len=256)
+    data_collator = DataCollatorForCrossEncoder(tokenizer, max_len=128)
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, collate_fn=data_collator, batch_size=args.per_device_train_batch_size
@@ -128,7 +121,7 @@ def main():
         for batch_idx, batch in enumerate(active_dataloader):
             batch = {k: v.to(device) for k, v in batch.items()}
             optimizer.zero_grad()
-            outputs = model(**batch)
+            outputs = model(batch)
             loss = outputs.loss
             writer.add_scalar('Loss/train', loss.item(), completed_steps)
             loss.backward()
@@ -181,6 +174,7 @@ def main():
         logger.info(f"  ------------------------------------------------")
     
     writer.close()
+
 
 
 if __name__ == "__main__":

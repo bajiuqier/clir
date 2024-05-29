@@ -66,7 +66,7 @@ def parse_args():
     parser.add_argument(
         "--model_name_or_path",
         type=str,
-        default=str(HOME_DIR / 'models' / 'xlm-roberta-base'),
+        default=str(HOME_DIR / 'clir' / 'models' / 'models--xlm-roberta-base'),
         help="Path to pretrained model or model identifier from huggingface.co/models.",
         # required=True,
     )

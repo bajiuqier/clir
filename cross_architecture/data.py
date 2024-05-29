@@ -42,7 +42,7 @@ class DataCollatorForCrossEncoder(DataCollatorWithPadding):
             document = sum(document, [])
         # 将 query 中的内容 重复两份
         query = sum([[element]*2 for element in query], [])
-        
+
         batch = self.tokenizer(
                 query,
                 document,
@@ -53,6 +53,4 @@ class DataCollatorForCrossEncoder(DataCollatorWithPadding):
             )
 
         return batch
-
-
 

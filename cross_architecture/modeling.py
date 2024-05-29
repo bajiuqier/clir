@@ -2,8 +2,8 @@ import os
 import torch
 from torch import Tensor
 from torch import nn
-from transformers import AutoModel, AutoModelForSequenceClassification
-from typing import Dict, List, Tuple, Any, Optional, NamedTuple
+from transformers import AutoModelForSequenceClassification
+from typing import Optional, NamedTuple
 
 from argments import parse_args
 # from criteria import CustomCosineEmbeddingLoss
@@ -30,10 +30,10 @@ class CrossModel(nn.Module):
     def forward(self, batch):
 
         if not self.training:
-            scores = self.self.get_scores(batch)
+            scores = self.get_scores(batch)
             loss = None
         else:
-            scores = self.self.get_scores(batch)
+            scores = self.get_scores(batch)
             target = torch.zeros(scores.size(0), device=scores.device, dtype=torch.long)
             loss = self.loss_function(scores, target)
 
