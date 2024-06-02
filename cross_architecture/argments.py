@@ -92,13 +92,19 @@ def parse_args():
     parser.add_argument(
         "--per_device_train_batch_size",
         type=int,
-        default=8,
+        default=32,
         help="Batch size (per device) for the training dataloader.",
     )
     parser.add_argument(
         "--per_device_eval_batch_size",
         type=int,
         default=8,
+        help="Batch size (per device) for the evaluation dataloader.",
+    )
+    parser.add_argument(
+        "--per_device_test_batch_size",
+        type=int,
+        default=32,
         help="Batch size (per device) for the evaluation dataloader.",
     )
     # ------------------------------------- 学习率/优化器相关参数 -------------------------------------

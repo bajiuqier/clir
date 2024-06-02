@@ -8,6 +8,13 @@ import jsonlines
 
 from event_reminder import SendEmail
 
+'''
+CLIRMatrix zk kk BI-139 full 数据
+为 zh-query 构建一个相关性最高的正样本 kk文档 随机构建一个 负样本
+导出为 jsonl 数据 存储的是 query 和 document 的文本形式
+query pos neg
+'''
+
 def reformatted_qrels(dataset, data_dir: str, batch_size: int=500000, pos_doc_num: int=1, neg_doc_num: int=1) -> None:
     qrels_df = pd.DataFrame(dataset.qrels_iter())
     grouped_qid = qrels_df.groupby('query_id')
