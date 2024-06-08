@@ -19,3 +19,4 @@ cython_debug/
 /data_processing/data_file/*
 /myself/output/*
 /models/*
+/data_processing/wikidata/*.csv

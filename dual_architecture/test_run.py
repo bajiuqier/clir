@@ -177,11 +177,11 @@ class Evaluating():
         '''
         results = ir_measures.calc_aggregate(self.metrics, self.qrels, run)
 
-        metric_results = {}
+        test_results = {}
         for metric in METRICS_LIST:
-            metric_results[str(metric)] = results[metric]
+            test_results[str(metric)] = results[metric]
 
-        return metric_results
+        return test_results
 
 # ----------------------------- evaluates by ir_measures -----------------------------
 
