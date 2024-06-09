@@ -16,7 +16,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/data_processing/data_file/*
+/data/data_file/*
 /myself/output/*
 /models/*
-/data_processing/wikidata/*.csv
+/data/wikidata/*.csv
