@@ -5,7 +5,7 @@ from pathlib import Path
 from tqdm import tqdm
 
 HOME_DIR = Path(__file__).parent
-test1_QID_search_results = str(HOME_DIR / 'test1_QID_search_results.csv')
+test1_QID_search_results_file = str(HOME_DIR / 'test1_QID_search_results.csv')
 
 test1_dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test1')
 test1_queries_df = pd.DataFrame(test1_dataset_obj.queries_iter())
@@ -45,6 +45,6 @@ for query in tqdm(test1_queries_list, total=len(test1_queries_list)):
 
 # 将数据存储为 DataFrame 格式
 df = pd.DataFrame(data)
-df.to_csv(test1_QID_search_results, index=False, encoding='utf-8')
+df.to_csv(test1_QID_search_results_file, index=False, encoding='utf-8')
 # 打印 DataFrame
 print(df)

@@ -1,52 +1,71 @@
 import requests
 import pandas as pd
+from pathlib import Path
+from tqdm import tqdm
 
-# 查询语句
-query = """
-SELECT ?item ?p ?adjItem
-WHERE {
-  VALUES (?item) {(wd:Q8739)}
-  {
-    ?item ?p ?adjItem .
-    FILTER(isIRI(?adjItem))
-    FILTER(STRSTARTS(STR(?p), 'http://www.wikidata.org/prop/direct/'))
-  } UNION {
-    ?adjItem ?p ?item .
-    FILTER(isIRI(?adjItem))
-    FILTER(STRSTARTS(STR(?p), 'http://www.wikidata.org/prop/direct/'))
-  }
-}
-"""
+HOME_DIR = Path(__file__).parent
+test1_QID_filtered_search_results_file = str(HOME_DIR / 'test1_QID_filtered_search_results.csv')
+test1_QID_filtered_df = pd.read_csv(test1_QID_filtered_search_results_file, encoding='utf-8')
+test1_triplet_id_search_results_file = str(HOME_DIR / 'test1_triplet_id_search_results.csv')
+QID = test1_QID_filtered_df.loc[:]['id'].to_list()
 
+def get_triplet_id(entity_id):
+    # 查询语句，使用格式化字符串将 entity_id 插入到查询中
+    query = f"""
+    SELECT ?item ?p ?adjItem
+    WHERE {{
+        VALUES (?item) {{(wd:{entity_id})}}
+        {{
+            ?item ?p ?adjItem .
+            FILTER(isIRI(?adjItem))
+            FILTER(STRSTARTS(STR(?p), 'http://www.wikidata.org/prop/direct/'))
+        }} UNION {{
+            ?adjItem ?p ?item .
+            FILTER(isIRI(?adjItem))
+            FILTER(STRSTARTS(STR(?p), 'http://www.wikidata.org/prop/direct/'))
+        }}
+    }}
+    """
 
-url = 'https://query.wikidata.org/sparql'
-params = {'query': query, 'format': 'json'}
-data = []
-# 发送请求
-response = requests.get(url, params=params)
+    url = 'https://query.wikidata.org/sparql'
+    params = {'query': query, 'format': 'json'}
 
-# 检查请求是否成功
-if response.status_code == 200:
-    # 获取JSON响应
-    search_results = response.json()
-    # print(search_results)
+    # 发送请求
+    response = requests.get(url, params=params)
+
+    # 检查请求是否成功
+    if response.status_code == 200:
+        return response.json()
+    else:
+        # raise Exception(f"Query failed with status code {response.status_code}")
+        return response.status_code
     
-    # 处理响应数据
-    for result in search_results['results']['bindings']:
-        item = result['item']['value'].split('/')[-1]
-        prop = result['p']['value'].split('/')[-1]
-        adjItem = result['adjItem']['value'].split('/')[-1]
-        data.append([item, prop, adjItem])
 
-else:
-    print(f'Request failed with status code: {response.status_code}')
+triplet_data = []
+for qid in tqdm(QID, total=len(QID)):
 
-print(data)
-df = pd.DataFrame(data, columns=['Item', 'Property', 'AdjItem'])
-print(df)
+    triplet_data_item = {'item': qid}
+
+    search_results = get_triplet_id(entity_id=qid)
+    
+    if isinstance(search_results, int):
+        triplet_data.append(triplet_data_item)
+    else:
+        # 处理响应数据
+        for result in search_results['results']['bindings']:
+                item = result['item']['value'].split('/')[-1]
+                prop = result['p']['value'].split('/')[-1]
+                adjItem = result['adjItem']['value'].split('/')[-1]
+
+                triplet_data_item['item'] = item
+                triplet_data_item['property'] = prop
+                triplet_data_item['adjItem'] = adjItem
+                triplet_data.append(triplet_data_item)
+
+# 存储数据
+test1_triplet_id_df = pd.DataFrame(triplet_data)
+test1_triplet_id_df.to_csv(test1_triplet_id_search_results_file, index=False, encoding='utf-8')
 
 
-# 使用正则表达式过滤符合条件的行 匹配以 "Q" 开头后跟数字的字符串
-# 前提是 AdjItem 列 的值是 str 类型的
-df_filtered = df[df['AdjItem'].str.match(r'^Q\d+$')]
-print(df_filtered)
+
+
