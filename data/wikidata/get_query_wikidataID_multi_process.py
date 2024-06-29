@@ -4,30 +4,23 @@ import ir_datasets
 from pathlib import Path
 from tqdm import tqdm
 import multiprocessing
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import threading
 
-HOME_DIR = Path(__file__).parent / 'data_file'
-test1_QID_search_results_file = str(HOME_DIR / 'full_train_QID_search_results1.csv')
+HOME_DIR = Path(__file__).parent
+test1_QID_search_results_file = str(HOME_DIR / 'base_train_QID_search_results.csv')
 
-test1_dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-full/zh/train')
+test1_dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-base/zh/train')
 test1_queries_df = pd.DataFrame(test1_dataset_obj.queries_iter())
 test1_queries_list = test1_queries_df['text'].to_list()
 
 def fetch_data(query):
     url = f"https://www.wikidata.org/w/api.php?action=wbsearchentities&search={query}&format=json&errorformat=plaintext&language=zh&uselang=zh&type=item"
     response = requests.get(url)
+    search_results = response.json()
 
-    if response.status_code == 200:
-        search_results = response.json()
-    else:
-        data_item = {'query': query, 'search_term': 'network error'}
-        return data_item
-
-    search_term = search_results.get('searchinfo', {}).get('search')
+    search_term = search_results['searchinfo'].get('search')
     data_item = {'query': query, 'search_term': search_term}
 
-    if search_results.get('search') is not None:
+    if search_results['search']:
         for item_idx, item in enumerate(search_results['search']):
             if item_idx == 0:
                 data_item['id'] = item.get('id')
@@ -41,18 +34,24 @@ def fetch_data(query):
     
     return data_item
 
-def process_query(query):
-    result = fetch_data(query)
-    return result
+def update_progress(result):
+    global pbar
+    pbar.update()
 
 if __name__ == "__main__":
-    results = []
-    # with tqdm(total=len(test1_queries_list)) as pbar:
-    with ThreadPoolExecutor(max_workers=12) as executor:
-        future_to_query = {executor.submit(process_query, query): query for query in test1_queries_list[0:100000]}
-        for future in tqdm(as_completed(future_to_query), total=len(test1_queries_list[0:100000])):
-            results.append(future.result())
+    with multiprocessing.Pool(processes=multiprocessing.cpu_count()) as pool:
+        with tqdm(total=len(test1_queries_list)) as pbar:
+            results = []
+            for query in test1_queries_list:
+                result = pool.apply_async(fetch_data, args=(query,), callback=update_progress)
+                results.append(result)
+            
+            pool.close()
+            pool.join()
+
+            results = [result.get() for result in results]
 
     df = pd.DataFrame(results)
     df.to_csv(test1_QID_search_results_file, index=False, encoding='utf-8')
-    # print(df)
+
+    print(df)
