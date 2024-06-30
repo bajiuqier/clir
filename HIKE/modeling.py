@@ -4,6 +4,11 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizer, BertModel
 import numpy as np
+import pandas as pd
+import ir_datasets
+
+from pathlib import Path
+
 
 class CLIRDataset(Dataset):
     def __init__(self, queries, documents, labels, kg_data, tokenizer, max_len=512):
@@ -48,21 +53,61 @@ class CLIRDataset(Dataset):
             'labels': torch.tensor(label, dtype=torch.long)
         }
     
+    # @staticmethod
+    # def 
+    
+class KnowledgeLevelFusion(nn.Module):
+    def __init__(self, hidden_size: int=768, num_heads: int=8, dropout=0.1) -> None:
+        super().__init__()
+        self.multihead_attn = nn.MultiheadAttention(hidden_size, num_heads, dropout=dropout)
+        self.fc = nn.Linear(hidden_size, hidden_size)
+        self.tanh = nn.Tanh()
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, Q, K, V):
+        output = self.multihead_attn(Q, K, V)
+        E_KG = self.fc(output)
+        E_KG = self.tanh(E_KG)
+        E_KG = self.dropout(E_KG)
+
+        return E_KG
+
+class LanguageLevelFusion(nn.Module):
+    def __init__(self, hidden_size=768) -> None:
+        super().__init__()
+        self.fc = nn.Linear(hidden_size, hidden_size)
+        self.tanh = nn.Tanh()
+
+    def forward(self, V_qd, E_s_KG, E_t_KG):
+        Vector = torch.cat([V_qd, E_s_KG, E_t_KG], dim=0)
+        output = self.fc(Vector)
+        output = self.tanh(output)
+
+        return output
+
 class HIKE(nn.Module):
-    def __init__(self, bert_model, hidden_size=768, num_heads=6):
-        super(HIKE, self).__init__()
-        self.bert = bert_model
-        self.multi_head_attention = nn.MultiheadAttention(hidden_size, num_heads)
+    def __init__(self, mbert_model_name, hidden_size=768, num_heads=8, dropout=0.1):
+        super().__init__()
         self.knowledge_level_fusion = nn.Linear(hidden_size * 2, hidden_size)
         self.language_level_fusion = nn.Linear(hidden_size * 3, hidden_size)
         self.classifier = nn.Linear(hidden_size, 2)
 
-    def forward(self, input_ids, attention_mask, kg_input_ids, kg_attention_mask):
-        query_doc_output = self.bert(input_ids=input_ids, attention_mask=attention_mask)
-        kg_output = self.bert(input_ids=kg_input_ids, attention_mask=kg_attention_mask)
+        self.mbert = BertModel.from_pretrained(mbert_model_name)
+        self.multihead_attn = nn.MultiheadAttention(self.mbert.config.hidden_size, num_heads, dropout=dropout)
+        self.fc = nn.Linear(self.mbert.config.hidden_size, 2)
+        self.dropout = nn.Dropout(dropout)
+        self.tanh = nn.Tanh()
+        self.softmax = nn.Softmax(dim=1)
 
-        query_doc_embedding = query_doc_output.last_hidden_state[:, 0, :]
-        kg_embedding = kg_output.last_hidden_state[:, 0, :]
+    def forward(self, qd_batch, s_kg_batch, t_kg_batch):
+        query_doc_output = self.mbert(**qd_batch)
+        s_kg_output = self.mbert(**s_kg_batch)
+        t_kg_output = self.mbert(**t_kg_batch)
+
+        V_qd = query_doc_output.last_hidden_state[:, 0, :]
+        E_s_KG = s_kg_output.last_hidden_state[:, 0, :]
+        E_t_kg = t_kg_output.last_hidden_state[:, 0, :]
+
 
         # Knowledge-level fusion
         attn_output, _ = self.multi_head_attention(query_doc_embedding.unsqueeze(0),
@@ -97,3 +142,38 @@ def train(model, train_loader, optimizer, criterion, device):
         total_loss += loss.item()
 
     return total_loss / len(train_loader)
+
+def main():
+    # 设置参数
+    batch_size = 32
+    num_epochs = 10
+    learning_rate = 2e-5
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # 加载数据
+    # 这里需要根据实际情况加载您的数据
+    train_dataset = CLIRDataset(train_queries, train_documents, train_labels, train_kg_data, tokenizer)
+    # eval_dataset = CLIRDataset(eval_queries, eval_documents, eval_labels, eval_kg_data, tokenizer)
+
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    # eval_loader = DataLoader(eval_dataset, batch_size=batch_size)
+
+    # 初始化模型
+    bert_model = BertModel.from_pretrained('bert-base-multilingual-cased')
+    model = HIKE(bert_model).to(device)
+
+    # 定义优化器和损失函数
+    optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
+    criterion = nn.CrossEntropyLoss()
+
+    # 训练循环
+    for epoch in range(num_epochs):
+        train_loss = train(model, train_loader, optimizer, criterion, device)
+        # eval_loss, eval_accuracy = evaluate(model, eval_loader, criterion, device)
+        
+        print(f'Epoch {epoch+1}/{num_epochs}')
+        print(f'Train Loss: {train_loss:.4f}')
+        # print(f'Eval Loss: {eval_loss:.4f}, Eval Accuracy: {eval_accuracy:.4f}')
+
+if __name__ == '__main__':
+    main()
