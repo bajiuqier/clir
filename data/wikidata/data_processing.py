@@ -112,6 +112,8 @@ triplet_id_file = str(HOME_DIR / 'triplet_id.csv')
 # triplet_info_df = pd.merge(full_triplet_id_10_df, adjitem_info_df, how='left', left_on='adjItem', right_on='item')
 # triplet_info_df.dropna(subset=['label_kk', 'description_kk'], how='any', inplace=True)
 # triplet_info_df.to_csv(triplet_info_file, index=False, encoding='utf-8')
-triplet_info_df = pd.read_csv(triplet_info_file, encoding='utf-8')
-triplet_id_df = triplet_info_df[['item_x', 'property', 'adjItem']]
-triplet_id_df.to_csv(triplet_id_file, index=False, encoding='utf-8')
+# triplet_info_df = pd.read_csv(triplet_info_file, encoding='utf-8')
+# triplet_id_df = triplet_info_df[['item_x', 'property', 'adjItem']]
+# triplet_id_df.to_csv(triplet_id_file, index=False, encoding='utf-8')
+
+

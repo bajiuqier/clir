@@ -5,6 +5,10 @@ from pathlib import Path
 from tqdm import tqdm
 import multiprocessing
 
+'''
+多进程处理
+'''
+
 HOME_DIR = Path(__file__).parent
 test1_QID_search_results_file = str(HOME_DIR / 'base_train_QID_search_results.csv')
 

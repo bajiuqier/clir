@@ -6,12 +6,12 @@ import re
 
 
 
-def merge_csv_files(folder_path, output_file):
-    # 定义文件模式
-    pattern = r'adjitem_info_kk\d+\.csv'
+def merge_csv_files(folder_path, output_file, pattern):
     
     # 获取所有匹配的文件
-    all_files = glob.glob(os.path.join(folder_path, 'adjitem_info_kk*.csv'))
+    # all_files = glob.glob(os.path.join(folder_path, 'full_train_QID_filtered_search_results*.csv'))
+    all_files = glob.glob(os.path.join(folder_path, '*.csv'))
+
     
     # 筛选符合模式的文件
     matched_files = [f for f in all_files if re.match(pattern, os.path.basename(f))]
@@ -28,10 +28,15 @@ def merge_csv_files(folder_path, output_file):
     
     print(f"合并完成，输出文件: {output_file}")
 
-HOME_DIR = Path(__file__).parent / 'data_file_2'
+if __name__ == "__main__":
+    
+    HOME_DIR = Path(__file__).parent / 'query_entity_info'
 
-# 使用示例
-folder_path = str(HOME_DIR)  # 替换为您的文件夹路径
-output_file =str(HOME_DIR / 'merged_kk_adjitem_info.csv')   # 输出文件名
+    folder_path = str(HOME_DIR)  # 替换为您的文件夹路径
+    output_file =str(HOME_DIR / 'full_train_QID_filtered_search_results.csv')   # 输出文件名
 
-merge_csv_files(folder_path, output_file)
+    # 定义文件模式
+    pattern = r'full_train_QID_filtered_search_results\d+\.csv'
+
+    merge_csv_files(folder_path, output_file, pattern=pattern)
+

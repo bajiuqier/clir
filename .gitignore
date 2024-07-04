@@ -22,5 +22,9 @@ cython_debug/
 /models/*
 /data/wikidata/*.csv
 /data/wikidata/data_file/*
-/data/wikidata/data_file_1/*
-/data/wikidata/data_file_2/*
+/data/wikidata/data_file_old/*
+/data/wikidata/query_entity_info/*
+/data/wikidata/adjitem_info/*
+/data/wikidata/property_info/*
+/data/wikidata/triplet_id_info/*
+

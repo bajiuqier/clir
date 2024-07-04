@@ -100,12 +100,12 @@ class HIKE(nn.Module):
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, qd_batch, s_kg_batch, t_kg_batch):
-        query_doc_output = self.mbert(**qd_batch)
+        qd_output = self.mbert(**qd_batch)
         s_kg_output = self.mbert(**s_kg_batch)
         t_kg_output = self.mbert(**t_kg_batch)
 
-        V_qd = query_doc_output.last_hidden_state[:, 0, :]
-        E_s_KG = s_kg_output.last_hidden_state[:, 0, :]
+        V_qd = qd_output.last_hidden_state[:, 0, :]
+        E_s_kg = s_kg_output.last_hidden_state[:, 0, :]
         E_t_kg = t_kg_output.last_hidden_state[:, 0, :]
 
 
