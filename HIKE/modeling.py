@@ -3,177 +3,116 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizer, BertModel
-import numpy as np
-import pandas as pd
-import ir_datasets
-
+from typing import Dict, List, Tuple, Any, Optional, NamedTuple
+from data import MyDataset, DataCollatorForMe
+from utils import set_seed
 from pathlib import Path
 
+model_path = str(Path(__file__).parent.parent / 'models' / 'models--bert-base-multilingual-uncased')
 
-class CLIRDataset(Dataset):
-    def __init__(self, queries, documents, labels, kg_data, tokenizer, max_len=512):
-        self.queries = queries
-        self.documents = documents
-        self.labels = labels
-        self.kg_data = kg_data
-        self.tokenizer = tokenizer
-        self.max_len = max_len
-
-    def __len__(self):
-        return len(self.queries)
-
-    def __getitem__(self, idx):
-        query = self.queries[idx]
-        document = self.documents[idx]
-        label = self.labels[idx]
-        kg_info = self.kg_data[idx]
-
-        encoded_pair = self.tokenizer.encode_plus(
-            query,
-            document,
-            max_length=self.max_len,
-            padding='max_length',
-            truncation=True,
-            return_tensors='pt'
-        )
-
-        encoded_kg = self.tokenizer.encode_plus(
-            kg_info,
-            max_length=self.max_len,
-            padding='max_length',
-            truncation=True,
-            return_tensors='pt'
-        )
-
-        return {
-            'input_ids': encoded_pair['input_ids'].flatten(),
-            'attention_mask': encoded_pair['attention_mask'].flatten(),
-            'kg_input_ids': encoded_kg['input_ids'].flatten(),
-            'kg_attention_mask': encoded_kg['attention_mask'].flatten(),
-            'labels': torch.tensor(label, dtype=torch.long)
-        }
-    
-    # @staticmethod
-    # def 
-    
-class KnowledgeLevelFusion(nn.Module):
-    def __init__(self, hidden_size: int=768, num_heads: int=8, dropout=0.1) -> None:
+class PairwiseHingeLoss(torch.nn.Module):
+    def __init__(self, margin=0, reduction='mean'):
         super().__init__()
-        self.multihead_attn = nn.MultiheadAttention(hidden_size, num_heads, dropout=dropout)
-        self.fc = nn.Linear(hidden_size, hidden_size)
-        self.tanh = nn.Tanh()
-        self.dropout = nn.Dropout(dropout)
+        self.margin = margin
+        self.reduction = reduction
 
-    def forward(self, Q, K, V):
-        output = self.multihead_attn(Q, K, V)
-        E_KG = self.fc(output)
-        E_KG = self.tanh(E_KG)
-        E_KG = self.dropout(E_KG)
+    def forward(self, score, target):
+        # Compute the loss based on the target labels
+        loss = torch.where(target == 1, 1 - score, 
+                           torch.clamp(score - self.margin, min=0))
+        
+        # Apply the reduction method
+        if self.reduction == 'none':
+            return loss
+        elif self.reduction == 'mean':
+            return loss.mean()
+        elif self.reduction == 'sum':
+            return loss.sum()
+        else:
+            raise ValueError(f"Invalid reduction mode: {self.reduction}")
 
-        return E_KG
-
-class LanguageLevelFusion(nn.Module):
-    def __init__(self, hidden_size=768) -> None:
-        super().__init__()
-        self.fc = nn.Linear(hidden_size, hidden_size)
-        self.tanh = nn.Tanh()
-
-    def forward(self, V_qd, E_s_KG, E_t_KG):
-        Vector = torch.cat([V_qd, E_s_KG, E_t_KG], dim=0)
-        output = self.fc(Vector)
-        output = self.tanh(output)
-
-        return output
+class OutputTuple(NamedTuple):
+    loss: Optional[torch.Tensor] = None
+    scores: Optional[torch.Tensor] = None
+    # query_vector: Optional[torch.Tensor] = None
+    # doc_vector: Optional[torch.Tensor] = None
+    # embedding: Optional[torch.Tensor] = None
 
 class HIKE(nn.Module):
-    def __init__(self, mbert_model_name, hidden_size=768, num_heads=8, dropout=0.1):
+    def __init__(self, model_name_or_path):
         super().__init__()
-        self.knowledge_level_fusion = nn.Linear(hidden_size * 2, hidden_size)
-        self.language_level_fusion = nn.Linear(hidden_size * 3, hidden_size)
-        self.classifier = nn.Linear(hidden_size, 2)
+        self.batch_size = 8
+        self.encoder = BertModel.from_pretrained(model_name_or_path)
+        self.hidden_size = self.encoder.config.hidden_size
+        self.num_heads = 8
+        self.multihead_attn = nn.MultiheadAttention(self.hidden_size, self.num_heads, dropout=0.1, batch_first=True)
 
-        self.mbert = BertModel.from_pretrained(mbert_model_name)
-        self.multihead_attn = nn.MultiheadAttention(self.mbert.config.hidden_size, num_heads, dropout=dropout)
-        self.fc = nn.Linear(self.mbert.config.hidden_size, 2)
-        self.dropout = nn.Dropout(dropout)
+        self.num_entities = 3
+        self.knowledge_level_fusion = nn.Linear(self.hidden_size * (2 + self.num_entities), self.hidden_size)
+        self.language_level_fusion = nn.Linear(self.hidden_size * 3, self.hidden_size)
+        self.classifier = nn.Linear(self.hidden_size * 2, 1)
         self.tanh = nn.Tanh()
         self.softmax = nn.Softmax(dim=1)
 
-    def forward(self, qd_batch, s_kg_batch, t_kg_batch):
-        qd_output = self.mbert(**qd_batch)
-        s_kg_output = self.mbert(**s_kg_batch)
-        t_kg_output = self.mbert(**t_kg_batch)
+        self.loss_function = PairwiseHingeLoss()
 
-        V_qd = qd_output.last_hidden_state[:, 0, :]
-        E_s_kg = s_kg_output.last_hidden_state[:, 0, :]
-        E_t_kg = t_kg_output.last_hidden_state[:, 0, :]
+    def forward(self, qd_batch, ed_s_batch, ed_t_batch):
 
+        query_doc_output = self.encoder(**qd_batch)
+        entity_desc_s_output = self.encoder(**ed_s_batch)
+        entity_desc_t_output = self.encoder(**ed_t_batch)
+
+        # [2 * self.batch_size, self.hidden_size] -> [16, 768]
+        query_doc_embedding = query_doc_output.last_hidden_state[:, 0, :]
+        # [(1 + self.num_entities) * self.batch_size, self.hidden_size] -> [32, 768]
+        entity_desc_s_embedding = entity_desc_s_output.last_hidden_state[:, 0, :]
+        # [(1 + self.num_entities) * self.batch_size, self.hidden_size] -> [32, 768]
+        entity_desc_t_embedding = entity_desc_t_output.last_hidden_state[:, 0, :]
+
+        # 变换 query_doc_embedding entity_desc_s_embedding entity_desc_t_embedding 的维度
+        # [16, 1, 768]
+        query_doc_embedding_dim_trans = query_doc_embedding.unsqueeze(1)
+        # [16, 4, 768]
+        entity_desc_s_embedding_dim_trans = entity_desc_s_embedding.view(self.batch_size, (1 + self.num_entities), self.hidden_size).repeat_interleave(2, dim=0)
+        # [16, 4, 768]
+        entity_desc_t_embedding_dim_trans = entity_desc_t_embedding.view(self.batch_size, (1 + self.num_entities), self.hidden_size).repeat_interleave(2, dim=0)
+
+        # [16, 5, 768]
+        knowledge_input_s = torch.cat((query_doc_embedding_dim_trans, entity_desc_s_embedding_dim_trans), dim=1)
+        knowledge_input_s = torch.cat((query_doc_embedding_dim_trans, entity_desc_t_embedding_dim_trans), dim=1)
 
         # Knowledge-level fusion
-        attn_output, _ = self.multi_head_attention(query_doc_embedding.unsqueeze(0),
-                                                   kg_embedding.unsqueeze(0),
-                                                   kg_embedding.unsqueeze(0))
-        knowledge_fused = self.knowledge_level_fusion(torch.cat([query_doc_embedding, attn_output.squeeze(0)], dim=-1))
+        # [16, 5, 768]
+        attn_output_s, _ = self.multihead_attn(knowledge_input_s, knowledge_input_s, knowledge_input_s)
+        attn_output_t, _ = self.multihead_attn(knowledge_input_s, knowledge_input_s, knowledge_input_s)
+
+        # self.knowledge_level_fusion 的输入维度是 [16, (2+3)*768]
+        # knowledge_fused_ -> [16, 768]
+        knowledge_fused_s = self.tanh(self.knowledge_level_fusion(attn_output_s.reshape(2 * self.batch_size, (2 + self.num_entities) * self.hidden_size)))
+        knowledge_fused_t = self.tanh(self.knowledge_level_fusion(attn_output_s.reshape(2 * self.batch_size, (2 + self.num_entities) * self.hidden_size)))
 
         # Language-level fusion
-        language_fused = self.language_level_fusion(torch.cat([query_doc_embedding, kg_embedding, knowledge_fused], dim=-1))
+        # self.language_level_fusion 的输入维度是 [16, 3*768]
+        # language_fused -> [16, 768]
+        language_fused = self.tanh(self.language_level_fusion(torch.cat((query_doc_embedding, knowledge_fused_s, knowledge_fused_t), dim=-1)))
 
-        # Classification
-        logits = self.classifier(language_fused)
-        return logits
+        # Classificatiot
+        # self.classifier 的输入维度是 [16, 2*768]
+        # scores -> [16]
+        scores = self.classifier(torch.cat((query_doc_embedding, language_fused), dim=-1))
+        # scores -> [8, 2]
+        scores = scores.view(-1, 2)
+        # scores -> [8, 2]
+        scores = self.softmax(scores)
 
-def train(model, train_loader, optimizer, criterion, device):
-    model.train()
-    total_loss = 0
+        target = torch.tensor([1, 0], device=scores.device, dtype=torch.long).repeat(score.size()[0], 1)
+        loss = self.loss_function(scores, target)
 
-    for batch in train_loader:
-        input_ids = batch['input_ids'].to(device)
-        attention_mask = batch['attention_mask'].to(device)
-        kg_input_ids = batch['kg_input_ids'].to(device)
-        kg_attention_mask = batch['kg_attention_mask'].to(device)
-        labels = batch['labels'].to(device)
-
-        optimizer.zero_grad()
-        outputs = model(input_ids, attention_mask, kg_input_ids, kg_attention_mask)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-
-        total_loss += loss.item()
-
-    return total_loss / len(train_loader)
-
-def main():
-    # 设置参数
-    batch_size = 32
-    num_epochs = 10
-    learning_rate = 2e-5
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    # 加载数据
-    # 这里需要根据实际情况加载您的数据
-    train_dataset = CLIRDataset(train_queries, train_documents, train_labels, train_kg_data, tokenizer)
-    # eval_dataset = CLIRDataset(eval_queries, eval_documents, eval_labels, eval_kg_data, tokenizer)
-
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    # eval_loader = DataLoader(eval_dataset, batch_size=batch_size)
-
-    # 初始化模型
-    bert_model = BertModel.from_pretrained('bert-base-multilingual-cased')
-    model = HIKE(bert_model).to(device)
-
-    # 定义优化器和损失函数
-    optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
-    criterion = nn.CrossEntropyLoss()
-
-    # 训练循环
-    for epoch in range(num_epochs):
-        train_loss = train(model, train_loader, optimizer, criterion, device)
-        # eval_loss, eval_accuracy = evaluate(model, eval_loader, criterion, device)
-        
-        print(f'Epoch {epoch+1}/{num_epochs}')
-        print(f'Train Loss: {train_loss:.4f}')
-        # print(f'Eval Loss: {eval_loss:.4f}, Eval Accuracy: {eval_accuracy:.4f}')
+        return OutputTuple(
+            loss=loss,
+            scores=scores
+        )
 
 if __name__ == '__main__':
-    main()
+    pass
+    # main()
