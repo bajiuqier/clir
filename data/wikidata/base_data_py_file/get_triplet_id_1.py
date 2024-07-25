@@ -9,7 +9,7 @@ QID_file = str(HOME_DIR / 'merged_kk_item_info.csv')
 triplet_id_search_results_file = str(HOME_DIR / 'triplet_id_search_results.csv')
 
 
-def get_triplet_id(entity_id):
+def fetch_triplet_id(entity_id):
     # 查询语句，使用格式化字符串将 entity_id 插入到查询中
     query = f"""
     SELECT ?item ?p ?adjItem
