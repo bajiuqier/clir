@@ -27,5 +27,7 @@ cython_debug/
 /data/wikidata/adjitem_info/*
 /data/wikidata/property_info/*
 /data/wikidata/triplet_id_info/*
-# /data/wikidata/base_data/*
+# /data/wikidata/base_data/*/data/wikidata/triplet_id_info/*
+/data/wikidata/triplet_id_segment/*
+
 

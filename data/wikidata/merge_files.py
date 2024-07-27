@@ -30,13 +30,13 @@ def merge_csv_files(folder_path, output_file, pattern):
 
 if __name__ == "__main__":
     
-    HOME_DIR = Path(__file__).parent / 'query_entity_info'
+    HOME_DIR = Path(__file__).parent / 'base_data'
 
     folder_path = str(HOME_DIR)  # 替换为您的文件夹路径
-    output_file =str(HOME_DIR / 'full_train_QID_filtered_search_results.csv')   # 输出文件名
+    output_file =str(HOME_DIR / 'triplet_id.csv')   # 输出文件名
 
     # 定义文件模式
-    pattern = r'full_train_QID_filtered_search_results\d+\.csv'
+    pattern = r'triplet_id_\d+\.csv'
 
     merge_csv_files(folder_path, output_file, pattern=pattern)
 
