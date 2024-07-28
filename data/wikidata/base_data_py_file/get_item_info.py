@@ -75,20 +75,40 @@ def multithreading_fetch_item_info(qid_list:list) -> pd.DataFrame:
 
 if __name__ == "__main__":
 
-    HOME_DIR = Path(__file__).parent
+    HOME_DIR = Path(__file__).parent.parent / 'base_data'
 
     # 先获取 query 对应的实体的 info 因为有的 实体可能没有相关信息 就可以删掉 在接下来的 过程中可以减少一些数据
-    query_entity_qid_file = str(HOME_DIR / 'base_train_QID_filtered_search_results.csv')
-    query_entity_info_file = str(HOME_DIR / 'base_train_query_entity_info.csv')
+    # query_entity_qid_file = str(HOME_DIR / 'base_train_QID_filtered_search_results.csv')
+    # query_entity_info_file = str(HOME_DIR / 'base_train_query_entity_info.csv')
 
-    query_entity_qid_df = pd.read_csv(query_entity_qid_file, encoding='utf-8')
-    query_entity_qid_df['qid'] = query_entity_qid_df['qid'].astype(str)
-    query_entity_qid_list = query_entity_qid_df.loc[:]['qid'].to_list()
+    # query_entity_qid_df = pd.read_csv(query_entity_qid_file, encoding='utf-8')
+    # query_entity_qid_df['qid'] = query_entity_qid_df['qid'].astype(str)
+    # query_entity_qid_list = query_entity_qid_df.loc[:]['qid'].to_list()
 
-    if isinstance(query_entity_qid_list[0], str):
-        query_entity_info_df = multithreading_fetch_item_info(qid_list=query_entity_qid_list)
-        query_entity_info_df.to_csv(query_entity_info_file, index=False, encoding='utf-8')
+    # if isinstance(query_entity_qid_list[0], str):
+    #     query_entity_info_df = multithreading_fetch_item_info(qid_list=query_entity_qid_list)
+    #     query_entity_info_df.to_csv(query_entity_info_file, index=False, encoding='utf-8')
+    # else:
+    #     ValueError('qid_list 里面的 qid 需要是 str 类型')
+
+    
+    # 获取属性信息 property_info
+    triplet_id_file = str(HOME_DIR / 'triplet_id_filtered.csv')
+    property_info_file = str(HOME_DIR / 'property_info.csv')
+
+    triplet_id_df = pd.read_csv(triplet_id_file, encoding='utf-8')
+    triplet_id_df = triplet_id_df.astype(str)
+
+    property_qid_list = triplet_id_df.loc[:]['property_qid'].to_list()
+    # 去除 列表中的重复值
+    property_qid_list = list(set(property_qid_list))
+
+    if isinstance(property_qid_list[0], str):
+        property_info_df = multithreading_fetch_item_info(qid_list=property_qid_list)
+        property_info_df.to_csv(property_info_file, index=False, encoding='utf-8')
+
     else:
         ValueError('qid_list 里面的 qid 需要是 str 类型')
+
 
 

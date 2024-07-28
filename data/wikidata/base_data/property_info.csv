@@ -1,0 +1,928 @@
+item_qid,label_zh,label_kk,label_en,description_zh,description_kk,description_en
+P522,轨道类型,,type of orbit,,,orbit a satellite has around its central body
+P2321,總積分排名,,general classification of race participants,,,classification of race participants
+P400,平台,платформа,platform,開發和運行作品的平台，作品可能不同版本運行在不同平台,,"platform for which a work was developed or released, or the specific platform version of a software product"
+P822,吉祥物,,mascot,组织的吉祥物，例如 运动队或大学,,"mascot of an organization, e.g. a sports team or university"
+P12687,,,category for deaths in this time period,,,category item for people who died in this time period
+P10602,,,applicant,,,"applicant to a grant, program, or other funding agency or rating organization"
+P880,中央处理器,,CPU,在主题项目中找到中央处理单元,,central processing unit found within the subject item
+P8307,排序,,has sorting,,,"entries are sorted by this in the appendix, list or table"
+P1346,獲勝者,жеңімпаз,winner,在某項活動中取得勝利的一方,,"winner of a competition or similar event, not to be used for awards (instead use ""award received"" (P166) on awardee's item, possibly qualified with ""for work"" (P1686)) or for wars or battles"
+P749,母組織,,parent organization,一個組織的母方組織，是子組織（P355）的逆屬性,,"parent organization of an organization, opposite of subsidiaries (P355)"
+P1640,館長,,curator,負責此收藏的內容專家,,content specialist responsible for this collection or exhibition
+P58,編劇,сценарист,screenwriter,为主体项目编写剧本的人,,person(s) who wrote the script for subject item
+P1079,,,launch contractor,,,organization contracted to launch the rocket
+P5995,体育用品供应商,,kit supplier,,,"official supplier of sports goods to a given sports club, sportsperson or a national sports team"
+P1290,,,godparent,,,person who is the godparent of a given person
+P3448,繼父母,,stepparent,主體具有的作為其繼父母的對象,,subject has the object as their stepparent
+P8646,资料片原作,,expansion of,本项目作为资料片对应的原作游戏（电子游戏、桌上游戏或棋盘游戏）,,"expansion pack of a game (video game, tabletop or board game)"
+P7936,商业模式,,business model,,,business model a business enterprise or creative work operates under
+P3095,从业者,,practiced by,研究該主題或從事該專業的代理人類型,,type of agents that study this subject or work in this field
+P4006,,,overrules,,,case that supersedes another case
+P2354,相关列表,сәйкес тізім,has list,该主题相关的维基媒体列表条目,,Wikimedia list related to this subject
+P2922,月份,,month of the year,,,"month of the year during which this item occurs, applies to or is valid in"
+P287,设计者,,designed by,負責設計這個項目的人,,person(s) or organization which designed the object
+P291,出版地,жарияланған жері,place of publication,項目第一版的出版地,,geographical place of publication of the edition (use 1st edition when referring to works)
+P1304,中央銀行,,central bank,此地區的中央銀行,,country's central bank
+P159,总部位置,,headquarters location,组织机构总部所在或曾经所在的城市。 对特定建筑物使用 P276 修饰符,,"city or town, where an organization's headquarters is or has been situated. Use P276 qualifier for specific building"
+P2634,模特,,model,在作品创作期间摆姿势的人，无论该人最终是否被描绘成当事人,,"person who appears in an artwork or photograph, in the role of an artist's model, rather than subject"
+P66,籍貫,,ancestral home,主体祖先的起源地,,place of origin for ancestors of subject
+P5056,此人名字中的父名或母名,,patronym or matronym for this person,採用父母子女連名傳統的人名中，包含父親個人名或母親個人名的部份，一般上和姓氏不同，或者沒有姓氏,,"part of a person's name that comes from the given name of a parent, in naming traditions that require it"
+P1318,证明者,,proved by,,,person who proved something
+P1557,表现概念,,manifestation of,给定概念的物理体现,,inherent and characteristic embodiment of a given concept
+P408,软件引擎,,software engine,开发此项目时使用的软件引擎,,software engine employed by the subject item
+P840,敘事發生地,баяндау орны,narrative location,此作品所述内容发生的地方,,the narrative of the work is set in this location
+P3279,,,statistical leader,,,"leader of a sports tournament in one of statistical qualities (points, assists, rebounds etc.). Don't use for overall winner. Use a qualifier to link to the item about the quality."
+P5304,模式产地（生物）,,type locality (biology),,,"geographical place of capture, collection or observation of the name-bearing type"
+P3716,社會階層,,social classification,傳統或國家法律認可的社會分組,,social class as recognized in traditional or state law
+P2360,受眾,,intended public,這項作品，產品，對象或事件是為那個人或一群人，動物，植物等設計的，或者是為這個人或一組人設計的,,"this work, product, object or event is intended for, or has been designed to that person or group of people, animals, plants, etc"
+P1199,遺傳模式,,mode of inheritance,特定遺傳特徵或疾病代間遺傳的方式,,manner in which a particular genetic trait or disorder is passed from one generation to the next
+P5059,版本修改自,,modified version of,作品或其版本，作為改編的基礎，從而衍生出作品的特定版本,,indicates the work or one of its versions which served as a basis for the adaptation or arrangement resulting in the given version of the work
+P1909,副作用,,side effect,,,"effect of a medication or procedure, that occurs next to the desired effect"
+P12686,,,category for births in this time period,,,category item for people who born in this time period
+P3022,持旗手,,flag bearer,,,person who carries the national flag of their country at an opening or closing ceremony
+P3501,,,Christian liturgical rite,,,Christian liturgical rite associated with this item
+P206,相接水体,,located in or next to body of water,主体相邻或所处的湖泊、河流或海域,,body of water on or next to which a place is located
+P744,,,asteroid family,,,population of asteroids that share similar proper orbital elements
+P241,军事部门,,military branch,军事单位、奖项、职位、个人等所属的军种或部队，例如英国皇家海军,,"branch to which this military unit, award, office, or person belongs, e.g. Royal Navy"
+P9883,创办目的,,created for,,,"a work, event, etc. for which the subject work was created (e.g., a presidential inauguration that a poem was written for; a competition that a play was created for; a film that a screenplay was written for)"
+P199,业务部门,,business division,本组织的组织部门（不是独立的法人实体）,,organizational divisions of this organization (which are not independent legal entities)
+P7084,相关分类,,related category,,,Wikimedia category is related to this item
+P108,雇主,,employer,主体（或曾）为其工作的个人或组织,,person or organization for which the subject works or worked
+P98,編輯者,,editor,编辑工作的编辑，如书或定期刊物 (報紙或學術期刊),,"person who checks and corrects a work (such as a book, newspaper, academic journal, etc.) to comply with a rules of certain genre. Also applies to person who establishes the text of an ancient written work or manuscript."
+P3730,上一級,,next higher rank,排名較高的等級或級別，如體育聯盟，軍銜。 如果有多種可能，列出每一個並符合“使用的標準”（P1013），請避免使用排名和日期限定符。 對於體育聯盟/分類群，請使用特定屬性。,,"higher rank or level in a ranked hierarchy like sport league, military ranks. If there are several possible, list each one and qualify with ""criterion used"" (P1013), avoid using ranks and date qualifiers. For sports leagues/taxa, use specific properties instead."
+P126,维护者,,maintained by,负责维护的人或组织,,person or organization in charge of keeping the subject (for instance an infrastructure) in functioning order
+P828,起因,,has cause,根本原因，导致某种结果的因素,,"underlying cause, thing that ultimately resulted in this effect"
+P2974,栖息地,,habitat,,,"the natural environment in which an organism lives, or the physical environment that surrounds a species population"
+P3610,收费区,,fare zone,,,fare zone that the station is in
+P8989,項目景觀的分類,,category for the view of the item,用於項目（物品、場所）景觀的分類,,"category for the view of this item (object, place)"
+P1445,處於該虛構世界之作品,,fictional universe described in,连结虚构世界至使用该世界观的作品：<世界>P1445<作品>,,"to link a fictional universe with a work that describes it: <universe> ""described in the work:"" <work>"
+P2851,接受的付款方式,,payment types accepted,,,types of payment accepted by a venue
+P137,運營者,,operator,負責運營的個人、機構或組織等,,"person, profession, or organization that operates the equipment, facility, or service"
+P3025,開放日,,open days,,,days in the week subject item is open within the opening season
+P736,封面艺术家,,cover art by,为书籍、唱片集、单曲等创作封面艺术作品的个人或团队的姓名,,"name of person or team creating cover artwork for book, record album, single record etc."
+P17,国家,мемлекет,country,此项目位于的主权国家（不可用于人类）,осы нәрсе (элемент) тиесілі мемлекет,sovereign state that this item is in (not to be used for human beings)
+P3174,艺术总监,,art director,,,"person credited as the art director/artistic director of this work; manages the process of making the visuals, which is done by concept artists, graphic designers, set designers, costume designers, lighting designers; See also P8938 for organizations"
+P1594,法官,,judge,主审该案的法官、地方法官或同等人士,,"judge, magistrate or equivalent, presiding at a trial"
+P2358,,,Roman praenomen,,,"standard part of the name of a Roman, link to items for specific Roman praenomen only"
+P1427,行程起点,,start point,旅程、航班等的起始地点,,"starting place of this journey, flight, voyage, trek, migration etc."
+P2389,主管機構,,organization directed by the office or position,該職位或人物所管之機構組織,,organization which is directed by this office
+P2579,研究学科,,studied in,研究该主题的学科或领域,,subject is studied by this science or domain
+P5444,,,model year,,,"year a specific model of a product (such as a car) was released, likely different from the actual year of production"
+P9969,,,critical catalogue,,,"a comprehensive, annotated listing of all the known artworks by an artist either in a particular medium or all media."
+P110,插画家,,illustrator,给书做插图的人,,person drawing the pictures or taking the photographs in a book
+P2408,時代背景,,set in period,历史或未来时期的作品的設定,,"historical, contemporary, or future period, year, century or day the work or genre is set in or event featured in the story of the work"
+P193,主要承建商,,main building contractor,負責建造這種結構或建築物的主要組織,,the main organization (or person) responsible for construction of this structure or building
+P6440,维护方法,,maintenance method,,,"method or steps that maintain, clean up, or repair this item and lengthens its lifespan"
+P2438,敘事者,,narrator,解说员、画外音旁白,,"narrator, character or person that tells the story"
+P1034,主要食物來源,,main food source,,,"species, genus or family that an organism depends on for nutrition"
+P7479,,,key col,,,highest col connecting to an even higher point
+P7763,創作者著作權狀態,,copyright status as a creator,創作者全部作品版權保護期是否届滿，或者處於公有領域,,states if the body of work published during the lifetime of this creator is still copyrighted or in the public domain
+P7376,被穿著,,worn by,,,person who wears or wore a garment or object
+P1151,话题主要维基媒体主题,,topic's main Wikimedia portal,關於此主題的維基媒體入口導覽頁,,Wikimedia portal associated with this topic
+P2541,業務區,,operating area,組織或行業在其中運營，服務或負責的地理區域或管轄範圍,,"geographic area or jurisdiction an organisation or industry operates in, serves, or has responsibility for"
+P1080,所属虚构世界,,from narrative universe,主体所属的虚构世界,,subject's fictional entity is in the object narrative. See also P1441 (present in work) and P1445 (fictional universe described in)
+P853,CERO評級,,CERO rating,日本的電玩評級系統，可用值請見討論頁。,,Japanese video game rating system
+P741,,,playing hand,,,"hand used to play a racket sport, cricket, fencing, or curling"
+P1465,死亡地分类,,category for people who died here,在此地死亡者的页面分类,,category item for people who died in this location
+P4770,水合物,,hydrated form of,,,given compound is an anhydrous form of this compound
+P1753,分类相关列表,,list related to category,与某个维基媒体分类相关的维基媒体列表项,,Wikimedia list equivalent to a Wikimedia category
+P2852,緊急救助電話,,emergency phone number,聯絡緊急服務的電話號碼,,telephone number to contact emergency services
+P466,占用者,,occupant,占用某物产（建筑物或用地）的人或组织,,person or organization occupying property
+P6872,投稿于,,has written for,,,publication an author has contributed to
+P97,贵族头衔,,noble title,人物所拥有的头衔,,titles held by the person
+P765,,,surface played on,,,the surface on which a sporting event is played
+P131,所在行政领土实体,,located in the administrative territorial entity,此项所地处的，代表领土一部分的上级行政实体。指定所处非行政性地点，或有关活动的项时，请使用P276（位置）,,the item is located on the territory of the following administrative entity. Use P276 for specifying locations that are non-administrative places and for items about events. Use P1382 if the item falls only partially into the administrative entity.
+P511,勋衔前缀,,honorific prefix,,,"word or expression used before a name, in addressing or referring to a person"
+P767,创作作品或主题贡献者,,contributor to the creative work or subject,对作品创作有贡献的人或组织,,person or organization that contributed to a subject: co-creator of a creative work or subject
+P5537,韓語漢字音,,Hangul pronunciation,某漢字在韓語諺文中的讀音表記方式,,modern Korean pronunciation(s) in Hangul for this Hanja character
+P1589,最低点,,lowest point,,,"point with lowest elevation in the country, region, city or area"
+P720,,,asteroid spectral type,,,"spectral classifications of asteroids based on  spectral shape, color, and albedo"
+P1546,座右铭,,motto,,,description of the motto of the subject
+P945,效忠对象,,allegiance,一个人或群体所效忠的国家或权力,,country (or other power) that the person or group serves
+P3876,教育機構校友專用分類,,category for alumni of educational institution,包含该机构校友的分类,,category containing people who studied at this institution
+P881,,,type of variable star,,,type of star
+P1830,擁有,,owner of,該主体擁有的實體,,entities owned by the subject
+P924,疗法,,possible treatment,,,health treatment used to resolve or ameliorate a medical condition
+P2546,,,sidekick of,,,close companion of a fictional character
+P4661,所建水庫,,reservoir created,一水壩上游所建之水庫,,reservoir created upstream of a dam by this dam
+P122,政体,,basic form of government,主体的统治形式,,subject's government
+P1956,,,takeoff and landing capability,,,type of takeoff and landing the aircraft is designed to operate
+P81,线路,,connecting line,铁路线主体直接连接到,,railway line(s) subject is directly connected to
+P523,初现地质年代,,temporal range start,,,the start of a process or appearance of a life form or geological unit relative to the geologic time scale
+P841,圣人纪念日,,feast day,,,saint's principal feast day
+P641,体育运动,,sport,人物所参与的体育运动,,sport that the subject participates or participated in or is associated with
+P4195,组织员工专用分类,,category for employees of the organization,,,Wikimedia category for people who work or worked at this organization
+P805,陈述主体项目,,statement is subject of,（修饰）项目，描述在此陈述中确定的关系,,(qualifying) item that describes the relation identified in this statement
+P184,博士生导师,,doctoral advisor,指导该主体博士论文的人,,person who supervised the doctorate or PhD thesis of the subject
+P3306,電影和音像藝術學會分級,,ICAA rating,西班牙電影內容分級系統中的分級,,rating in the Spanish motion picture content rating system
+P2848,Wi-Fi访问,,Wi-Fi access,通過Wifi訪問互聯網狀況,,internet access availability through Wi-Fi
+P2012,菜系,,cuisine,食物所属的菜系,,type of food served by a restaurant or restaurant chain or national food culture
+P610,最高点,,highest point,区域内海拔的最高点,,"point with highest elevation in a region, or on the path of a race or route"
+P825,致獻對象,,dedicated to,被獻予該項目的個人或組織,,person or organization to whom the subject was dedicated
+P2978,,,wheel arrangement,,,"wheel/axle arrangement for locomotives, railcars and other rolling stock"
+P814,IUCN保护区分类,,IUCN protected areas category,世界保护区委员会划分的保护区分类。,,protected areas category by the World Commission on Protected Areas. Used with dedicated items for each category.
+P1408,廣播地區,,licensed to broadcast to,廣播電台或電視台獲得許可發送訊號的地區,,place that a radio/TV station is licensed/required to broadcast to
+P5386,日本气象厅烈度等级,,JMA Seismic Intensity Scale,,,maximum intensity scale of this earthquake given by JMA Seismic Intensity Scale
+P4934,计算方法,,calculated from,,,value of the subject item cannot be measured directly or can be calculated from the following measurands or attributes
+P3075,國教,,official religion,,,official religion in this administrative entity
+P6758,支持的运动队,,supported sports team,,,sports team for which a person or a group is a supporter
+P1789,首席运营官,,chief operating officer,,,the chief operating officer of an organization
+P7643,涵蓋時期,,covered period,,,"historical period covered, for instance by a source"
+P2098,副職,,substitute/deputy/replacement of office/officeholder,某职位的副职,,function that serves as deputy/replacement of this function/office (scope/conditions vary depending on office)
+P3780,為其中之有效成份,,active ingredient in,是生物活性成分的一部分並形成生物活性成分。,,"is part of and forms biologically active component. Inverse of ""has active ingredient"""
+P750,經銷商,дистрибьютор,distributed by,負責作品經銷一方,,distributor of a creative work; distributor for a record label; news agency; film distributor
+P3335,相关风险因子,,associated hazard,,,"hazards implicit in the subject item: that a sign warns of; that one may encounter in this place, on this thoroughfare; that are inherent properties of (or threats to) the subject; etc."
+P1158,降落地點,,location of landing,飛行物降落處,,location where the craft landed
+P1376,是何者的首府,,capital of,此項作為（按目標項來說）國家、省、州、部門、縣、郡或其他行政區劃政府所在地的實體,,"country, state, department, canton or other administrative division of which the municipality is the governmental seat"
+P6,政府首脑,,head of government,村镇、城市、直辖区、国家或其他政府机构的行政首脑,,"head of the executive power of this town, city, municipality, state, country, or other governmental body"
+P708,教區,,diocese,,,administrative division of the church to which the element belongs; use P5607 for other types of ecclesiastical territorial entities
+P5023,此地點的活動方針,,activity policy in this place,,,"policy for activities in this place, for example no photos, photos allowed, no flash, lighting fires, flying drones, etc."
+P3148,廢除,,repeals,本文件或法案廢除了其他文件或法案,,this document or act repeals that other document or act
+P364,影視作品原始語言,фильмнің немесе телешоудың түпнұсқа тілі,original language of film or TV show,電影或表演作品最初創作時的語言。對於書面作品則已棄用；請改用P407（作品或名稱語言）,,"language in which a film or a performance work was originally created. Deprecated for written works and songs; use P407 (""language of work or name"") instead."
+P826,音調,,tonality,,,key of a musical composition
+P2238,官方標記,,official symbol,行政實體的官方象徵,,official symbol of an organisation
+P459,确定方法,,determination method,如何确定一个值，或声明它的标准,,"how a value is determined, or the standard by which it is declared"
+P12363,,,clerked for,,,this person has held a clerkship with the judge
+P5196,输出方法,,output device,,,output device used to interact with a software or video game console
+P780,症状,,symptoms and signs,醫學情形下的可能症狀,,possible symptoms or signs of a medical condition
+P3490,,,muscle origin,,,the anatomic entity to which the beginning of a muscle is anchored
+P101,工作领域,жұмыс саласы,field of work,某个人或组织的专业；职业请见P106,"ұйым, не адам үшін: элементпен байланысты қызметтің негізгі саласы (мысалы, физикалық құбылыс үшін физика, адам үшін астрономия); кәсіппен (физик) шатастыруға болмайды (P106)",specialization of a person or organization; see P106 for the occupation
+P1340,瞳色,,eye color,对一个人的眼睛虹膜的颜色,,color of the irises of a person's eyes
+P277,编程语言,,programmed in,開發軟件的編程語言,,the programming language(s) in which the software is developed
+P3137,母峰,,parent peak,自本山峰下降至主鞍部（key col）但不降至更低處，可爬升到的最高峰,,"parent is the peak whose territory this peak resides in, based on the contour of the lowest col"
+P1403,原始組合,,original combination,用於動物：在這組物種的分類上學名首次發表時所使用（雙名法或三名法）的組合,,for animals: the combination (binomen or trinomen) where the species-group name used in this taxon name was first published
+P770,遭毀壞原因,,cause of destruction,,,item which caused the destruction of the subject item
+P6439,,,has lyrics,,,work whose text is used as the lyrics of this work
+P4132,语言类型学,,linguistic typology,,,classification of languages according to their linguistic trait (as opposed to historical families like romance languages)
+P7782,,,category for ship name,,,Commons category for a name of a ship
+P19,出生地,туған жері,place of birth,人、動物或虛擬角色的已知最詳細誕生地點（例如城市而不是国家，或医院而不是城市）,"нысанның нақты туған ауруханасы, қаласы, мемлекеті","most specific known birth location of a person, animal or fictional character"
+P3033,软件包管理系统,,package management system,包管理系统用于发布软件,,package management system used to publish the software
+P410,军衔,,military rank,一個人取得的軍銜（通常應該有一個“開始日期”限定符），或者與一個職位相關的軍銜,,"military rank achieved by a person (should usually have a ""start time"" qualifier), or military rank associated with a position"
+P1951,投資者,,investor,為了獲得投資回報而對該項目進行投資的個人或組織,,individual or organization which invests money in the item for the purpose of obtaining financial return on their investment
+P6875,,,motif represents,,,"object or concept from which this motif is derived, or which it represents"
+P4599,,,monomer of,,,polymer composed of this monomer subunits
+P3919,,,contributed to creative work,,,"person is cited as contributing to some creative or published work or series (qualify with ""subject has role"", P2868)"
+P6112,,,category for members of a team,,,Wikimedia category for players playing for a sports team
+P85,颂歌,,anthem,主体的官方象征性歌曲,,subject's official anthem
+P2388,機構主管職位,,office held by head of the organization,該機構項目的首長、負責人職位,,position of the head of this item
+P541,競逐之職位,,office contested,该次选举中候选人所竞争的职位,,title of office which election will determine the next holder of
+P4100,黨團,,parliamentary group,由議員在議會內組成的黨組織,,parliamentary group to which a member of a parliament belongs
+P9086,文化部影視及流行音樂產業局電影分級,,BAMID film rating,臺灣電影內容分級制度,,rating in the Taiwanese movie content rating system
+P411,冊封狀態,,canonization status,每個受試者宗教組織獲得聖徒的過程中的階段,,Formal stage in the process of attaining sainthood per the subject's religious organization
+P8031,加害人,,perpetrator,实施违法犯罪的人,,"person or organization who carried out a harmful, illegal, or immoral act"
+P2365,,,Roman cognomen,,,"standard part of the name of a Roman, link to items about specific Roman cognomen only."
+P7959,历史郡,,historic county,大不列顛及愛爾蘭的傳統、地理分區,,"traditional, geographical division of Great Britain and Ireland"
+P3450,体育赛季所属赛事,,sports season of league or competition,体育赛季所属的赛事（赛季所属俱乐部为P5138）,,"property that shows the competition of which the item is a season. Use P5138 for ""season of club or team""."
+P397,母天体,,parent astronomical body,物质及生命所依赖主要天文物体,,major astronomical body the item belongs to
+P1582,产自,,natural product of taxon,该自然产物的原料（动物、植物、真菌、藻类等）,,"links a natural product with its source (animal, plant, fungal, algal, etc.)"
+P306,作業系統,операциялық жүйе,operating system,操作系统，软件运行或操作系统安装在硬件上。,,operating system (OS) on which a software works or the OS installed on hardware
+P1703,,,is pollinated by,,,how pollen from the male anthers is transferred to the female stigma of a flower
+P1433,刊载处,,published in,刊载该作品的期刊、书籍等,,"larger work that a given work was published in, like a book, journal or music album"
+P5353,學區,,school district,定居點或其他項目所屬的學區,,school district to which a settlement or other item belongs
+P375,发射载具,,space launch vehicle,,,type of rocket or other vehicle for launching subject payload into outer space
+P301,该分类的主话题,,category's main topic,维基媒体分类所对应的主要话题,,primary topic of the subject Wikimedia category
+P3275,分镜师,,storyboard artist,个人认为这项工作的故事板艺术家,,person credited as the storyboard artist of this work
+P7719,推出,,generalization of,主體命題尤其可以推出客體命題，即客體是主體的推論或特例,,"the subject statement in particular gives this object statement, or the truth of this object statement is implied by the truth of the subject statement"
+P7153,重要地点,,significant place,和主體相關的重要地點,,significant or notable places associated with the subject
+P208,行政机构,,executive body,该地的行政机关,,branch of government for the daily administration of the territorial entity
+P2293,遗传关联,,genetic association,,,"general link between a disease and the causal genetic entity, if the detailed mechanism is unknown/unavailable"
+P8402,開放資料網站,,open data portal,能找到更多資料的開放資料入口網站,,the item for the open data portal belonging to this entity
+P7888,合併至,,merged into,主題解散並合併至先前存在的物件中,,"the subject was dissolved and merged into the object, that existed previously"
+P4952,,,safety classification and labelling,,,classification data for the identification and labelling of chemical risks associated with a product
+P1049,受其崇拜,,worshipped by,崇拜某個神靈的宗教或團體/文明,,religion or group/civilization that worships a given deity
+P1454,法律形式,,legal form,组织的法律形式,,legal form of an entity
+P9901,,,issuing agent of work,,,"organization, agency, or other entity responsible for issuing a serial or other continuing resource, such as the official publication of the entity; distinct from commercial publisher of the resource"
+P1620,原告人,,plaintiff,訴訟當事人,,party who initiates a lawsuit
+P102,黨籍,,member of political party,某人所參加（或曾參加）/附屬（或曾附屬）的政黨,,the political party of which a person is or has been a member or otherwise affiliated
+P7561,項目內部專用共享資源分類,,category for the interior of the item,用於描述項目（物品、場所）內部景觀的媒體檔案之共享資源分類,,"Commons category for media files depicting interior views of this item (object, place)"
+P3764,,,pole position,,,"person, who starts race at first row (leader in the starting grid)"
+P1441,登场作品,,present in work,虚构角色或事物出场的作品,,"this (fictional or fictionalized) entity, place, or person appears in that work as part of the narration (use P2860 for works citing other works, P361/P1433 for works being part of other works, P1343 for entities described in non-fictional accounts)"
+P437,发行方式,тарату форматы,distribution format,作品发行的方法（或类型）,,method (or type) of distribution for the subject
+P127,所有者,,owned by,主体的所有者,,owner of the subject
+P3975,总书记,,general secretary,,,"leader of a political or international organization, sometimes below the chairperson (P488)"
+P4510,描述一个项目使用实体,,describes a project that uses,此輸出中描述的項目中使用的基本組件或工具,,essential component or tool that was used in this project
+P172,族群,этностық тобы,ethnic group,主体的种族（共识是要使用此字段，需要非常高质量的证据。这通常意味着1.主体自行主张、或2.学者对此广泛认可、或3.是如此虚构并描写的）,"субъектінің ӨЗІ мақұлдауы керек, не ғалымдардың консенсусымен расталуы керек (кейіпкер жағдайында этносы жұмыс мәтінімен расталуы керек)","subject's ethnicity (consensus is that a VERY high standard of proof is needed for this field to be used. In general this means 1) the subject claims it themselves, or 2) it is widely agreed on by scholars, or 3) is fictional and portrayed as such)"
+P930,电气化方式,,type of electrification,,,electrification system scheme and/or voltage
+P3156,ACB评级,,Australian Classification,,,content rating of an audiovisual work or video game in the Australian Classification system
+P495,原產地,туған елі,country of origin,出产地（作品、食物、产品等）,,"country of origin of this item (creative work, food, phrase, product, etc.)"
+P1434,所處虛構世界,,takes place in fictional universe,某虛構作品中一切事物所處的世界,,"the subject is a work describing a fictional universe, i.e. whose plot occurs in this universe"
+P944,命名法规,,code of nomenclature,生物分類學名的命名法規,,the code that governs the scientific name of this taxon
+P1891,签署方,,signatory,签署了正式文件的人、国家或组织（作者请改用P50）,,"person, country, or organization that has signed an official document (use P50 for author)"
+P7137,致谢,,acknowledged,,,persons or institutions acknowledged on a creative work
+P6241,建立者,,collection creator,,,"entity (person, organization, etc.) that caused a record or collection to be produced or gathered"
+P7374,教育阶段,,educational stage,,,"educational stage of a specific school; qualifier of ""educated at"" (P69): the education stage of someone's attendance of school"
+P2061,长宽比,,aspect ratio (W:H),电影、照片等图像的长和宽的比例,,"image width to height ratio of films, photographs, and other images"
+P1657,美國電影協會電影評級,,MPA film rating,美國電影協會管理的美國電影分類,,US film classification administered by the Motion Picture Association
+P463,成员属于,мүшесі,member of,主题所归属的组织、俱乐部或音乐组合。不要用于种族或社会团体的成员，也不要用于政治职务，例如某个议会的议员（请改用P39）,"көрсетілген ұйым, клуб, не топтың мүшесі; этностық/әлеуметтік, не партиялар/парламенттік топтар үшін басқаны көріңіз (P39)","organization, club or musical group to which the subject belongs. Do not use for membership in ethnic or social groups, nor for holding a political position, such as a member of parliament (use P39 for that)"
+P4320,,,mountains classification,,,person ranked for this cycling stage or race
+P1533,相关姓氏,,family name identical to this given name,姓氏與給定的名字相同。 用於給定名稱的項目,,last name that is the same as a given first name. Use on items for given names
+P38,货币,,currency,项目使用的货币,,currency used by item
+P10588,,,academic calendar type,,,academic calendar system used by an educational institution
+P5460,,,grants,,,"confers degree, honor, award, prize, title, certificate or medal denoting achievement to a person or organization"
+P5052,監事會成員,,supervisory board member,組織的監督委員會成員,,member(s) of the supervisory board for the organization
+P927,解剖位置,,anatomical location,,,where in the body or cell does this feature lie or happen
+P1420,同物異名,,taxon synonym,分類單元的其他拉丁名稱,,name listed as synonym of a taxon name
+P9566,,,diel cycle,,,"pattern of diel activity in animals, such as ""nocturnal"" (Q101029366), ""diurnal"" (Q4284186)"
+P2575,,,measures,,,physical quantity that this device measures
+P737,受影响自,,influenced by,該人物/想法受到某人事時地物啟發,,"this person, idea, etc. is informed by that other person, idea, etc., e.g. “Heidegger was influenced by Aristotle”"
+P1876,载具,,vessel,事件涉及的船只、航天器等载具,,"vessel involved in this mission, navigation or event"
+P5150,IGAC等级,,IGAC rating,,,rating of a film or theatrical production in the Portuguese classification system
+P157,殺害者,өлтірген адам,killed by,杀死主体的人,кім өлтіргенін белгілеуге арналған,person who killed the subject
+P2210,相对于,,relative to,,,qualifier: what a statement value is relative to
+P1336,领土主张,,territory claimed by,主張其對某一地區控制的行政實體,,administrative divisions that claim control of a given area
+P6978,中间姓,,Scandinavian middle family name,,,"middle name of some people from Denmark or Norway where a family name, usually the mother's, is taken on as a ""middle name"". For given names based on family names, use ""given name"" (P735). For Spanish names, use P734/P1950."
+P1672,产物,,this taxon is source of,该生物分类单元的自然产物。注意这里的产物可能产自一种或多种分类单元。,,"links a taxon to natural products it produces. Note that it does not say ""this taxon is the source of"" or ""this taxon is a source of"" as this may vary. Some products may be yielded by more than one taxon."
+P6166,引用原文出处,,quotes work,本作品所引用原文的出处,,"other creative work which this work quotes from textually, verbally or lyrically"
+P10280,该实体的荣誉公民类别,,category for honorary citizens of entity,,,"category containing the honorary citizens of a settlement (administrative unit, country). Honorary citizens may or may not be citizens of the country"
+P3823,《民族語》語言狀態,,Ethnologue language status,Ethnologue.com 所使用評量語言狀態的 EGIDS 指標。,,language status identifier by Ethnologue.com using EGIDS scale
+P138,名称由来,құрметіне аталған,named after,激发主体名称或同名的实体或事件（至少用一种语言）。 修饰符“适用于名称”(P5168) 可用于指示哪一个,"бұл нәрсенің осылай аталуына себепкер болған адам, оқиға немесе бір нәрсе","entity or event that inspired the subject's name, or namesake (in at least one language). Qualifier ""applies to name"" (P5168) can be used to indicate which one"
+P5004,反對,,in opposition to,社會行動所反對的對象,,object of a social action
+P6087,教练所属体育队,,coach of sports team,,,sports club or team for which this person is or was on-field manager or coach
+P1000,纪录,,record held,某实体所取得的纪录,,"notable record achieved by a person or entity, include qualifiers for dates held"
+P360,列表所属项目,бұл тізімде келесі нәрселер тізілген,is a list of,列表所描述的主題,,common element between all listed items
+P504,母港,,shipping port,船只作为基地的港口,,"shipping port of the vessel (if different from ""ship registry""): For civilian ships, the primary port from which the ship operates. Port of registry →P532 should be listed in ""Ship registry"". For warships, this will be the ship's assigned naval base"
+P275,许可协议,,copyright license,这个版权作品释出时使用的协议,,license under which this copyrighted work is released
+P9235,,,seismic classification,,,seismic risk zone which the administrative entity that receives the seismic classification is in
+P1654,,,wing configuration,,,configuration of wing(s) used by an aircraft
+P5607,,,located in the religious territorial entity,,,the item is located on the territory of the following religious entity. Use P708 (diocese) for dioceses
+P1990,饲养品种,,species kept,分类群，最好是物种，存在于动物园、植物园、收藏馆或其他机构。不是特定的动物，不是任何地理位置的动物。,,"taxa, preferably species, present at a zoo, botanical garden, collection, or other institution. NOT specific animals, not for any geographic location"
+P3602,競選,,candidacy in election,参与的选举,,election where the subject is a candidate
+P4552,所属山脉,,mountain range,,,range or subrange to which the geographical item belongs
+P5278,,,surname for other gender,,,"gender inflection of surname, patronymic or matronymic"
+P2318,,,debut participant,,,participant for whom this is their debut appearance in a series of events
+P3815,,,volcano observatory,,,institution that monitors this volcanic landform or phenomenon
+P5805,OSI模型层位置,,OSI Model layer location,網路協定在OSI模型層中的位置,,location of a network protocol in one of the OSI Model layers
+P31,隶属于,бірі болып табылады,instance of,此主体是其中特定示例及成员的类别；与上级分类（P279）不同；例如：富士山隶属于山，火山上级分类是山（且隶属于火山地貌）,"бұл нысан қандай да бір санаттың, класстың немесе нысандар тобының бөлігі болып табылады",that class of which this subject is a particular example and member; different from P279 (subclass of); for example: K2 is an instance of mountain; volcano is a subclass of mountain (and an instance of volcanic landform)
+P2633,主题地理,,geography of topic,牽涉到該主題之地理的項目。例如：「里約熱內盧」採用的屬性「里約熱內盧地理（Q10288853）」。對於某主題的所在地，請用「位置」 (P276),,"item that deals with the geography of the subject. Sample: ""Rio de Janeiro"" uses this property with value ""geography of Rio de Janeiro"" (Q10288853). For the location of a subject, use ""location"" (P276)."
+P2564,柯本气候分类,,Köppen climate classification,地区气候特性,,indicates the characteristic climate of a place
+P1347,軍事傷員分類,,military casualty classification,,,"allowed values:  killed in action (Q210392), missing in action (Q2344557), died of wounds (Q16861372), prisoner of war (Q179637), killed in flight accident (Q16861407), others used in military casualty classification"
+P2737,并集属于,,union of,本类的元素是至少一个所列类的元素,,"every instance of this class is an instance of at least one class in that list of classes. Use ""list item"" P11260 as qualifiers to specify the list of classes"
+P2286,动脉供应,,arterial supply,,,arterial supply of an anatomical structure
+P427,模式分类群,,taxonomic type,科（或亚科等）的模式属；属（或亚属等）的模式种,,name-bearing genus or species of this nominal family or genus (or subfamily or subgenus)
+P8371,参考作品、传统或理论,,"references work, tradition or theory",本作品参考的其他作品、传统或理论,,"creative work, tradition or theory this creative work references by allusion, quote or similar means (for citations in scholarly and legal works use P2860, for other more specific properties have a look at ""see also"" on the property page)"
+P543,宣誓者,,oath made by,在奧運會等活動中宣誓的人,,"person(s) that made the oath at an event, like the Olympic Games"
+P7167,不導致,,does not have effect,此处不存在此类成员的预期效果或通常效果,,expected effect or usual effect of members of this class absent here
+P20,死亡地,,place of death,人、动物或虚构人物最具体的已知（例如城市而不是国家，或医院而不是城市）死亡地点,,"most specific known (e.g. city instead of country, or hospital instead of city) death location of a person, animal or fictional character"
+P9215,,,set during recurring event,,,"recurring event (e.g. season, month, holiday) during which this fictional work is set"
+P423,,,shooting handedness,,,whether the hockey player passes or shoots left- or right-handed
+P2505,承载,,carries,某座桥或某条隧道承载的项（道路、铁路等）,,"item (e.g. road, railway, canal) carried by a bridge, a tunnel or a mountain pass"
+P831,附属俱乐部,,parent club,,,parent club of this team
+P2975,宿主,,host,,,an organism harboring another organism or organisms on or in itself
+P2512,有衍生作品,спин-офф,has spin-off,該項目的衍生作品,,works that are spin-offs of this item
+P2033,依相机拍摄的照片分类,,category for pictures taken with equipment,使用該相機型號或型號系列拍攝的照片的共享資源分類,,Commons category for photos taken with that camera model or model line
+P403,河流出口,,mouth of the watercourse,河流注入何处,,the body of water to which the watercourse drains
+P279,上级分类,сынып тармағы,subclass of,比当前项目更高一级的类或类型； 这些项目的所有实例都是这些项目的实例； 该项目是该项目的一个类（子集）。 不要与 P31 (隶属于/instance of) 混淆,ос сыныптың (класс) әрбір данасы келесі сыныптардың данасы болып табылады. P31 («бірі болып табылады») шатыстыруға болмайды,"this item is a subclass (subset) of that item; all instances of this item are instances of that item; different from P31 (instance of), e.g.: K2 is an instance of mountain; volcano is a subclass of mountain (and an instance of volcanic landform)"
+P190,友好城市,,twinned administrative body,孪生城镇、姊妹城市、孪生直辖市和其他有伙伴关系或合作协议的地方，无论是法律上还是非正式上都得到政府承认,,"twin towns, sister cities, twinned municipalities and other localities that have a partnership or cooperative agreement, either legally or informally acknowledged by their governments"
+P136,類型,жанр,genre,作品的類型或藝術家的創作風格，作品的主題見P921,,creative work's genre or an artist's field of work (P101). Use main subject (P921) to relate creative works to their topic
+P6153,研究地點,,research site,展開研究和實驗的地方,,place where this item was researched
+P3096,KML檔案,,KML file,项目链接到维基页面包含一个相关的锁眼标记语言文件的文本,,item with sitelinks to wikimedia page containing text of a relevant KML file
+P7779,軍事單位,,military unit,该人所属的的最小军事单位,,smallest military unit that a person is/was in
+P4043,模拟,,emulates,模拟识别的平台，中央處理器或系统,,"emulates the identified platform, CPU, or system"
+P1343,记载处,,described by source,有记载并描述此项的文献等出处,,work where this item is described
+P910,话题主分类,негізгі тақырып санаты,topic's main category,主要的维基媒体分类,,main Wikimedia category
+P35,国家元首,,head of state,在一个国家拥有最高官方权力的官员,,official with the highest formal authority in a country/state
+P16,交通網路,,transport network,交通线路所屬的系統（或特定國家特定的道路類型）,,network the infrastructure is a part of
+P11799,,,alternate universe counterpart,,,this fictional character/entity is an alternate universe counterpart of the subject
+P4614,所属流域,,drainage basin,降水彙集並排入共同出口，如河流、海灣或其他水體的區域,,"area where precipitation collects and drains off into a common outlet, such as into a river, bay, or other body of water"
+P5475,中日韓越異體字,,CJKV variant character,,,equivalent form of this CJKV character used in different regions or writing systems over time
+P6477,不具备的特性,,does not have characteristic,该项目不具备的预期特性,,expected quality that the item does not possess
+P6275,版權代表人,,copyright representative,有權代行該人或組織著作權之人或組織,,person or organisation who represents the copyright for this person or work of art
+P113,航空枢纽,,airline hub,被航空公司視為樞紐的機場,,airport that serves as a hub for an airline
+P50,作者,автор,author,书面作品的主要创作者（用于作品项目，而不是人类项目）；当维基数据项目未知或不存在时使用P2093（作者名字符串）,,"main creator(s) of a written work (use on works, not humans); use P2093 (author name string) when Wikidata item is unknown or does not exist"
+P27,國籍,азаматтығы,country of citizenship,承認主體是其公民的客體國家,осы адамды өзінің азаматы ретінде танитын мемлекет,the object is a country that recognizes the subject as its citizen
+P9072,从这个物种的组织内分离,,derived from organism type,不同于P703，该属性表示这个细胞株从某个物种的组织内分离而来，而细胞株只能从一个物种内分离,,the taxon that the organism from which the subject cell line was derived belonged to (different from found in taxon (P703) because cell lines are derived only once from a single individual)
+P8453,車站,,public transport stop,邻近车站,,"general (e.g. nearest) public transport stop (bus, tram, train, subway)"
+P3781,,,has active ingredient,,,"has part biologically active component; inverse of ""active ingredient in"" (P3780)"
+P1366,後繼者,,replaced by,接替某人、某職稱或某事物的項目。如果此項目不是替代者，僅為接續者（例如：系列書籍），請使用P156。,,"other person or item which continues the item by replacing it in its role. Use P156 (""followed by"") if the item is not replaced nor identical, but adds to the series (e.g. books in a series)."
+P1740,取景地分類,,category for films shot at this location,該對像是在主題處或主體中拍攝的電影的類別,,the object is a category for films shot at or in the subject
+P5816,保存狀態,,state of conservation,,,"to indicate state of conservation of a building, monument, artifact, etc. It is not related with its heritage protection (P1435), but to its present state of conservation. Ex.: ruinous, demolished, correct, etc."
+P1027,颁发者,,conferred by,頒發獎品或授予榮譽的人或組織,,"person or organization who grants an award, certification, grant, or role"
+P612,母屋,,mother house,宗教學院的主要住所或社區,,principal house or community for a religious institute
+P1056,产品,,product or material produced or service provided,一个地矿、工业设施或工业程序所生产的物质,,"material or product produced by an organization, industry, facility, or process"
+P2679,序言作者,,author of foreword,撰寫該書序言，前言或介紹但不是本書其餘部分作者的人,,"person who wrote the preface, foreword, or introduction of the book but who isn't an author of the rest of the book"
+P25,母亲,,mother,女性家长。继母使用P3448。,,"female parent of the subject. For stepmother, use ""stepparent"" (P3448)"
+P9241,该主题人口统计,,demographics of topic,,,item that deals with demographics of the subject
+P769,,,significant drug interaction,,,"clinically significant interaction between two pharmacologically active substances (i.e., drugs and/or active metabolites) where concomitant intake can lead to altered effectiveness or adverse drug events."
+P5025,,,gens,,,a clan or group of families from Ancient Rome who shared the same nomen
+P3858,路線圖,,route diagram template,,,Wikimedia template with route diagram
+P485,存檔于,,archives at,持有該主題檔案的機構,,the institution holding the subject's archives
+P6819,書法家,,calligrapher,,,calligrapher of a work
+P1536,直接结果,,immediate cause of,,,immediate effect of this cause
+P1192,所屬路線,,connecting service,停靠某車站的路線服务,,service stopping at a station
+P1840,,,investigated by,,,person or organization involved in investigation of the item
+P6291,,,advertises,,,"cause, organization or product targeted by the advertising campaign, character, jingle or slogan"
+P1046,发现方法,,discovery method,發現一顆系外行星的方式,,way an exoplanet was discovered
+P59,星座,,constellation,主体所属的天球区域（从科学的角度，而不是占星学的角度）,,"the area of the celestial sphere of which the subject is a part (from a scientific standpoint, not an astrological one)"
+P8026,,,LiverTox likelihood score,,,categorization of the likelihood that a medication is associated with drug induced liver injury that was developed by the Drug-Induced Liver Injury Network (DILIN) Network and published in NCBI's LiverTox
+P1792,相关人物分类,,category of associated people,維基媒體類別適用於與此地點相關的人員,,Wikimedia category for people associated with this place or organization
+P1456,古迹列表,,list of monuments,,,link to the list of heritage monuments in the place/area
+P5522,Unicode区块,,Unicode block,字符所在的Unicode区块,,Unicode block that a character or code point is in
+P2872,遊客中心,,visitor center,這個目的地的官方旅遊辦公室,,official tourist office of this destination
+P1455,作品列表,,list of works,到一个人的作品的条目的链接,,link to the article with the works of a person; use P358 for discographies
+P559,始终点,,terminus,線性要素末端的要素（如相交的道路，火車站等）,,"the feature (intersecting road, train station, etc.) at the end of a linear feature"
+P197,相邻车站,,adjacent station,与该车站相邻的车站，共用同一条线路,,"the stations next to this station, sharing the same line(s)"
+P1283,影片集锦,,filmography,,,"item for the list of films a person has contributed to. Don't use it to add film items. Instead, add actors as ""cast member"" (P161) on items for films, directors with ""director"" (P57)"
+P4000,拥有果实类型,,has fruit type,,,"morphology of the fruit of this taxon, as defined in botany"
+P194,立法机构,,legislative body,該地的立法機關,,"legislative body governing this entity; political institution with elected representatives, such as a parliament/legislature or council"
+P11738,处理、缓解或管理途径,,"handled, mitigated, or managed by",用以解决、应对或管理某一难题的方法或途径,,approach or method that can be used to address an issue or problem
+P1716,品牌,,brand,该项所属的商业品牌,,commercial brand associated with the item
+P527,可分為,тұрады,has part(s),此主題的一部分，是所屬實體（P361）的逆屬性,,"part of this subject; inverse property of ""part of"" (P361). See also ""has parts of the class"" (P2670)."
+P451,非婚伴侣,,unmarried partner,未婚或婚外伴侶。 對已婚夫婦使用“配偶”(P26)。,,"someone with whom the person is in a relationship without being married. Use ""spouse"" (P26) for married couples"
+P3650,,,JMK film rating,,,rating of a film in the Austrian film rating system
+P868,,,foods traditionally associated,,,foods usually during the ceremony or associated with a certain settlement
+P1200,流域水體分類,,category for the water basin,此類別為包含河盆（地面水和地下水匯入河流，同時補給河流水源的區域）,,the Wikimedia category associated with the basin of a bodies of water
+P103,母语,ана тілі,native language,一个人生来就会的语言,тұлғаның туылғаннан бері білетін тілі,language or languages a person has learned from early childhood
+P6568,,,inscription mentions,,,item about a person or an object mentioned in the inscription's text. Use on Wikimedia Commons on media files
+P8670,角色設計,,character designer,負責設計在漫畫、動畫、電子遊戲等作品裡登場人物模樣的人員,,"person in charge of developing the style and concept of a character in a video game, anime or other creative work"
+P111,以此物理量测量,,measured physical quantity,以数字乘以单位表示的物理属性值,,value of a physical property expressed as number multiplied by a unit
+P30,大洲,континент,continent,主体所属的大洲,бұл элемент орналасқан әлемнің бөлігі. Мемлекеттер үшін қолданылады,continent of which the subject is a part
+P4805,化妝師,,make-up artist,,,person in charge of make-up
+P5753,表意组字序列,,ideographic description sequence,能够造出一汉字的所有的偏旁,,method to describe composition of Han characters using ideographic description characters and character or stroke components
+P185,博士生,,doctoral student,该人所指导的博士生,,doctoral student(s) of a professor
+P2789,连接,,connects with,与另一同类项物理相连,,item with which the item is physically connected
+P1325,外部资料源,,external data available at URL,可以在其中找到該項目的外部資料的URL,,URL where external data on this item can be found
+P10476,标识,,identifies,,,this item uniquely and purposefully distinguishes instances of this class from each other
+P1365,取代對象,,replaces,職位、政權、或其他屬性上被他者取代的某人、某國或某物。如果前項實體沒有被取代，請使用P155。,,"person, state or item replaced. Use ""structure replaces"" (P1398) for structures. Use ""follows"" (P155) if the previous item was not replaced or predecessor and successor are identical"
+P2629,BBFC评级,,BBFC rating,,,"British media content rating (add BBFC reference with qualifier ""P2676"")"
+P112,創辦者,,founded by,該機構、宗教、場所的創辦者或共同創辦者,,"founder or co-founder of this organization, religion, place or entity"
+P1924,疫苗用於,,vaccine for,疫苗所針對的疾病,,disease that a vaccine is for
+P1423,模板包含话题,,template has topic,对应模板或信息框的主要话题,,topic related to template
+P2578,研究對象,,is the study of,该学科所研究的对象,,"the object that an academic field studies; distinct from field of work (P101), which is used for human, organization, etc."
+P123,出版者,баспагер,publisher,负责出版书籍、期刊、印刷音乐、播客、游戏或软件的组织或个人,,"organization or person responsible for publishing books, periodicals, printed music, podcasts, games or software"
+P972,目录,,catalog,用于项目的目录，或用作P528的修饰符——用于“目录编号”有效的目录,,"catalog for the item, or, as a qualifier of P528 – catalog for which the 'catalog code' is valid"
+P483,录制地点,,recorded at studio or venue,,,studio or location where a musical composition/release was recorded
+P3648,,,NatureServe conservation status,,,conservation status assigned by NatureServe
+P3966,編程範型,,programming paradigm,編程語言分類的編程範型,,programming paradigm in which a programming language is classified
+P7078,类型推断系统,,typing discipline,描述某一种程序语言推断某个实体的数据类型的方法,,"specifies the typing discipline implemented, used, or mandated in a programming language"
+P7327,,,OFLC classification,,,rating in the media content rating system of New Zealand
+P461,相對概念,,opposite of,与此项目相反的项目,,item that is in some way the opposite of this item
+P1414,圖像化使用者介面工具箱或框架,,GUI toolkit or framework,程式用來顯示圖像化用戶介面的工具箱或框架,,framework or toolkit a program uses to display the graphical user interface
+P5249,,,sports competition competed at,,,edition of sports competitions at which the club or team that played a season competed at. Use this to link items for team seasons to items for specific seasons of competitions.Sample: 2012–13 FC Barcelona season → 2012–13 UEFA Champions League
+P22,父亲,,father,主体的男性家长。对于继父，使用“继父”（P3448）,,"male parent of the subject. For stepfather, use ""stepparent"" (P3448)"
+P398,子天体,,child astronomical body,,,minor body that belongs to the item
+P1464,出生地分类,,category for people born here,在此地出生者的页面分类,,category item that groups people born in this place
+P5053,,,fastest lap,,,person who does the fastest lap during a motorsport race
+P1656,揭幕人,,unveiled by,揭幕雕像、雕塑、纪念碑、牌匾等的人,,"person who unveils a statue, sculpture, memorial or plaque, etc."
+P802,學生,,student,该人的著名学生,,notable student(s) of the subject individual
+P5138,賽季所屬俱樂部或團隊,,season of club or team,該賽季所屬的俱樂部或球隊,,club or team that played the season
+P517,相互作用,,interaction,與粒子相互作用的四個基本力（強（Q11415），電磁（Q849919），弱（Q11418）和重力（Q11412））的子集,,"subset of the four fundamental forces (strong (Q11415), electromagnetic (Q849919), weak (Q11418), and gravitation (Q11412) with which a particle interacts"
+P1429,寵物,,has pet,,,pet that a person owns
+P376,所在天体,,located on astronomical body,,,single astronomical body on which features or places are situated
+P812,高校专业,,academic major,就读于大学或高校时的专业,,major someone studied at college/university
+P201,流出,,outflows,河流等流出水道名称。 如果蒸发或渗漏是显着的流出，则可以将它们包括在内。 有些术语可能不是地名，例如 蒸发,,"rivers and other outflows waterway names. If evaporation or seepage are notable outflows, they may be included. Some terms may not be place names, e.g. evaporation"
+P655,译者,,translator,翻译作品的人,,agent who adapts any kind of written text from one language to another
+P8546,錄製地點,,recording location,聲音、影像等攝錄的地點,,"location where a media item (sound, video, etc.) was recorded"
+P8138,所在统计领土实体,,located in statistical territorial entity,,,statistical territorial entity in which a place is located or is part of. If a municipality or county is split into or part of several regions: add several values
+P1537,是该对象的影响因素,,contributing factor of,,,"thing that is significantly influenced by this cause, but does not directly result from it.  See 'Help:Modeling causes' for examples and discussion."
+P3818,KMRB电影评级,,KMRB film rating,,,rating of a film in the South Korean film/video rating system
+P3729,下一级,,next lower rank,级别较低的下一级,,"lower rank or level in a ranked hierarchy like sport league, military ranks. If there are several possible, list each one and qualify with ""criterion used"" (P1013), avoid using ranks and date qualifiers. For sports leagues/taxa, use specific properties instead."
+P1196,死亡方式,өлім түрі,manner of death,死亡的情况（自然死亡、事故、自杀、他杀、调查中、未知）。更直接的死亡原因（如心脏病、车祸）请使用P509（死因）,адам өліміне алып келген себепті белгілеу үшін қолданылады,"general circumstances of a person's death; e.g. natural causes, accident, suicide, homicide, etc.  Use 'cause of death' (P509) for the specific physiological mechanism, e.g. heart attack, trauma, pneumonia etc."
+P5028,音效设计师,,sound designer,,,"person responsible for the sound on a stage, in a film or in a radio drama"
+P86,作曲者,композитор,composer,创作音乐的人[作词者，使用“歌词作者”（P676）],,"person(s) who wrote the music [for lyricist, use ""lyrics by"" (P676)]"
+P669,所在街道,,located on street,街道、道路或广场上的物品所在的位置。 要添加号码，请使用Property:P670“街道号码”作为限定符。 如果街道没有条目，请使用P6375。,,"street, road, or square, where the item is located. To add the number, use Property:P670 ""house number"" as qualifier. Use property P6375 ""street address"", if there is no item for the street"
+P3931,著作權所有者,,copyright holder,作品著作權的實際擁有者，會因買賣等因素而變動，不一定為作者。,,person or organisation who holds the copyright of a work according to the Berne Convention
+P2846,輪椅使用性,,disabled accessibility,描述了輪椅無障礙的位置或事件,,describes disabled accessibility of location or event
+P534,,,streak color,,,color of a mineral or material when abraded
+P3828,穿着,,wears,主體上佩戴的衣服或配件,,clothing or accessory worn on subject's body
+P3300,音乐指挥,,musical conductor,,,"the person who directs a musical group, orchestra or chorus"
+P286,主教练,,head coach,,,"on-field manager or head coach of a sports club (not to be confused with a general manager P505, which is not a coaching position) or person"
+P425,专业领域,,field of this occupation,某职业的专业领域（参见P101）,,"field corresponding to this occupation or profession (use only for occupations/professions - for people use Property:P101, for companies use P452)"
+P53,家族,,family,包括皇族和貴族,,"family, including dynasty and nobility houses. Not family name (use P734 for family name)."
+P943,程序员,,programmer,"程序员或工作室,写的软件",,the programmer that wrote the piece of software
+P2831,圖騰,,totem,,,in many indigenous cultures an individual or group has a particular totem (e.g. a type of animal)
+P189,发现地点,,location of discovery,此项目被发现时所在地点,,where the item was located when discovered
+P915,拍攝地點,,filming location,這個場景/電影拍攝的實際地點。關於設定，請使用“敘事發生地”（P840）,,"actual place where this scene/film was shot. For the setting, use ""narrative location"" (P840)"
+P78,顶级域名,,top-level Internet domain,互联网域名系统顶级代码,,Internet domain name system top-level code
+P747,版本,,has edition or translation,链接至此作品项的版本,,link to an edition of this item
+P518,適用部分,,applies to part,声明有效的项目的部分、方面或形式,,"part, aspect, or form of the item to which the claim applies"
+P6195,募款計劃,,funding scheme,,,is supported under the funding scheme
+P1853,血型,қан тобы,blood type,,"адамның, не ағзаның қан тобы",blood type of the human or animal
+P1026,學位論文,,academic thesis,博士學位論文或學位論文,,thesis or dissertation written for a degree
+P7108,,,location of the point of view,,,"geographic location of point of view, may or may not be depicted"
+P5109,擁有語法性,,has grammatical gender,一種語言的名詞類系統的特定形式。 使用限定符“聲明是主題”（P805）鏈接到語言特定項目（如果存在）,,"specific form of noun class system of a language. Use qualifier ""statement is subject of"" (P805) to link to language specific item if present"
+P607,军事冲突,,conflict,,,"battles, wars or other military engagements in which the person or item participated"
+P205,流域国,,basin country,有排水系统进出水体或与水体接壤的国家,,country that have drainage to/from or border the body of water
+P449,首播平台,түпнұсқа таратушы,original broadcaster,广播电视节目的首播电台、电视台，不包括重播、转播或网络同步跟播,,network(s) or service(s) that originally broadcast a radio or television program
+P8866,配備運算,,has operator,此代數結構上有定義的運算,,mathematical operator associated with this algebraic structure
+P8786,,,dedicated heritage entity,,,heritage entity dedicated to or associated with the item's subject
+P469,流经湖泊,,lake on watercourse,河流流经的湖泊或水库,,lake or reservoir through which the river or stream flows
+P1547,依賴軟件,,depends on software,主題軟件取決於對象軟件,,subject software depends on object software
+P65,天文发现地,,site of astronomical discovery,天体被发现的地点，如：天文台、卫星，等,,"the place where an astronomical object was discovered (observatory, satellite)"
+P358,唱片目录,,discography,,,item for list pages with discography of artist or band
+P1302,主要目的地,,primary destinations,,,major towns and cities that a road serves
+P12081,,,‎WHO Aware Classification,,,antibiotic classification according to the World Health Organization
+P1344,参与,қатысты,participant in,某活動或團體的參與者，是P710的相反,"бұл адам немесе ұйым қатысқан шара, P710 мен P1923 қарама-қайшы",event in which a person or organization was/is a participant; inverse of P710 or P1923
+P1750,,,name day,,,"day of the year associated with a first/given name. A qualifier should be used to identify the calendar that is being used. Distinguish from ""feast day"" (P:P841)"
+P664,主辦方,,organizer,組織事件的人或機構,,person or institution organizing an event
+P1622,道路通行方向,,driving side,在特定司法管轄區內車輛行駛的道路的一側,,side of the road that vehicles drive on in a given jurisdiction
+P8006,惯用脚,,footedness,,,dominant foot or preferred stance of this person
+P3712,擁有目標,,has goal,期望的結果或產物,,desired result or outcome
+P834,,,train depot,,,"depot which serves this railway line, not public stations"
+P404,游戏模式,ойын режимі,game mode,电子游戏的娱乐玩法,,a video game's available playing mode(s)
+P931,机场服务地区,,place served by transport hub,该机场服务的城市或地区,,"territorial entity or entities served by this transport hub (airport, train station, etc.)"
+P7163,销售商品,,typically sells,,,type of goods particular type of shops typically sell
+P119,葬于,,place of burial,人或动物的坟墓、安息地、撒灰地等（例如，城镇/城市或墓地）的位置。 可能有几个地方：例如，重新埋葬，分别埋葬身体的一部分。,,"location of grave, resting place, place of ash-scattering, etc. (e.g., town/city or cemetery) for a person or animal. There may be several places: e.g., re-burials, parts of body buried separately."
+P1303,樂器,,instrument,此人物所演奏的樂器,,musical instrument that a person plays or teaches or used in a music occupation
+P2738,不交并属于,,disjoint union of,,,"every instance of this class is an instance of exactly one class in that list of classes. Use ""list item"" P11260 as qualifiers to specify the list of classes"
+P547,紀念對象,,commemorates,某地方、某建築、某節日之紀念對象,,"what the place, monument, memorial, or holiday, commemorates"
+P524,灭绝地质年代,,temporal range end,,,the end of a process such as a geological unit or extinction of a life form relative to the geologic time scale
+P7582,,,Wildlife Protection Act 1972 (India) schedule,,,classification of species found in India as per legal protection status under Wildlife Protection Act 1972
+P971,分類結合話題,,category combines topics,這個分類結合了這兩個或更多的話題,,this category combines (intersects) these two or more topics
+P4147,,,conjugate acid,,,species formed by accepting a proton (H⁺)
+P264,唱片公司,,record label,与主体音乐录音和音乐视频营销相关的品牌和商标,,brand and trademark associated with the marketing of subject music recordings and music videos
+P1754,列表相关分类,,category related to list,,,Wikimedia category that matches the Wikimedia list
+P6587,聯賽系統,,league system,,,league system the league belongs to
+P4149,共轭碱,,conjugate base,,,species formed by losing a proton (H⁺)
+P800,主要作品,елеулі жұмыс,notable work,主要的科研或藝術等作品,"бүкіл жұмыстарының арасындағы ең елеулі, ең танымал, көрнекті жұмысы","notable scientific, artistic or literary work, or other work of significance among subject's works"
+P8706,,,ritual object,,,"ceremonial or ritual objects associated with, and used as part of, rites and rituals practiced in everyday life and in rarer cultic and communal rites"
+P2550,,,recording or performance of,,,item is a recording or release of this composition
+P1412,通晓语言,"адамның сөйлеген, жазған тілдері","languages spoken, written or signed",一个人或民族用于在各种形式的表达（言语、书写、比划等）的语言，包含其母语,"адамның сөйлеген, не жазған тілі, не тілдері. Ана тілін қамтуы мүмкін","language(s) that a person or a people speaks, writes or signs, including the native language(s)"
+P5135,大于,,greater than,,,"instances of the item have a greater value than corresponding instances of the object, for the given measure"
+P3082,,,destroyed,,,physical items destroyed by this event
+P740,成立地點,пайда болған орны,location of formation,組織成立的地點,топ немесе ұйым пайда болған мекен,location where a group or organization was formed
+P1001,管辖区,,applies to jurisdiction,該項目（機構，法律，公職......）所屬、有權管轄或可適用的值（地域管轄區、國家、州、市等）,,"the item (institution, law, public office, public register...) or statement belongs to or has power over or applies to the value (a territorial jurisdiction: a country, state, municipality, ...)"
+P118,所属联盟,,league,体育队伍所属的联赛,,league in which team or player plays or has played in
+P2849,,,produced by,,,links a class of biological features (such as a biochemical compound) with another class of biological entities known to produce it
+P149,建築風格,,architectural style,建築物的外觀特色,,architectural style of a structure
+P5136,,,less than,,,"instances of the item have a lesser value than corresponding instances of the object, for the given measure"
+P2976,衍生父名或母名,,patronym or matronym for this name,源自此名稱的父名、母名或姓氏,,patronym or matronym based on this given name
+P1028,捐贈者,,donated by,,,person or organization who donated the object
+P3967,决赛,,final event,竞赛的最终决赛,,final event of a competition
+P9047,是……的遺跡,,archaeological site of,該物體在這個遺跡被發現,,at this archeological site the object has been uncovered
+P551,居住地,тұратын жері,residence,,"адамның өмір сүрген, не әлі де өмір сүріп жүрген жері","the place where the person is or has been, resident"
+P2701,文件格式,,file format,文件格式、压缩类型或文件中使用的本体,,"file format, compression type, or ontology used in a file"
+P1576,生活方式,,lifestyle,,,"typical way of life of an individual, group, or culture"
+P140,信仰或世界觀,діні,religion or worldview,人或组织的宗教信仰（必须由该人或组织承认，或有历史文献依据）,тұлғаның немесе ұйымның діни көзқарасы,"religion of a person, organization or religious building, or associated with this subject"
+P2175,用于治疗,,medical condition treated,,,"disease that this pharmaceutical drug, procedure, or therapy is used to treat"
+P2962,棋士称号,,title of chess person,国际象棋联合会授予的称号,,title awarded by a chess federation to a person
+P169,首席执行官,,chief executive officer,公司最高行政管理人员,,highest-ranking corporate officer appointed as the CEO within an organization
+P1399,宣判罪名,,convicted of,此人犯下的罪行,,crime a person was convicted of
+P726,候選人,,candidate,在本次选举中可以选择担任某职位的个人或政党,,person or party that is an option for an office in this election
+P460,据称相同,бір нәрсе болуы ықтимал,said to be the same as,据说此项目与该项目相同，但可能存有不确定或争议,"бұл нәрсе осы көрсетілген екінші нәрсемен бір болуы ықтимал, бірақ бұл туралы басқа да пікірлер болуы мүмкін","this item is said to be the same as that item, though this may be uncertain or disputed"
+P8001,推薦者,,endorsed by,表明支持、推薦主題人士、組織或計劃的人或組織,,public support given by a person or organization to a political or other campaign
+P885,源头,,origin of the watercourse,河流的源头,,"main source of a river, stream or lake"
+P88,委托人,,commissioned by,委托进行这项工作的个人或组织,,person or organization that commissioned this work
+P3264,底數,,radix,進位制的底數,,number of distinct digits in a positional numeral system
+P1322,對偶幾何圖形,,dual to,,,"dual of a polytope, graph or curve"
+P470,旗籍,,Eight Banner register,八旗的旗籍,,Manchu household register for people of the Qing Dynasty
+P837,节日日期,,day in year for periodic occurrence,當特定假日或定期事件發生時。可以用作屬性或限定符,,when a specific holiday or periodic event occurs. Can be used as property or qualifier
+P2637,RARS评级,,RARS rating,,,rating in the Russian media content rating system
+P1363,得分或進球者,,points/goal scored by,在比賽中得分或進球的某位人物,,person who scored a point or goal in a game
+P553,开设账户网站,,website account on,该个人或组织拥有账户的网站（与P554一起使用）注意：只能使用可靠的来源或者个人或组织披露它的网站。,,website that the person or organization has an account on (use with P554) Note: only used with reliable source or if the person or organization disclosed it.
+P162,制作人,продюсері,producer,電影或音樂作品的製作人（对于电影，这不包括执行制片人、副制片人等）[对于制作公司，使用 P272，视频游戏 - 使用 P178],,"person(s) who produced the film, musical work, theatrical production, etc. (for film, this does not include executive producers, associate producers, etc.) [for production company, use P272, video games - use P178]"
+P912,擁有設施,,has facility,主題項具有這種類型的設施，例如 廁所，停車場,,"the subject item has this type of facility, e.g. toilet, car park"
+P452,产业,,industry,一所机构的产业,,specific industry of company or organization
+P1416,隶属组织,,affiliation,一个人或组织所附属的组织（未必是其成员或受雇于它）,,organization that a person or organization is affiliated with (not necessarily member of or employed by)
+P1064,軌距,,track gauge,鐵路軌道兩條鋼軌之間的距離,,spacing of the rails on a railway track
+P467,立法者,,legislated by,通过某项法律的立法机关,,indicates that an act or bill was passed by a legislature. The value can be a particular session of the legislature
+P8032,受害人,,victim(s),违法犯罪或灾难事故中受到损害的一方,,person(s) who were harmed from an act or event
+P1981,FSK電影評級,,FSK film rating,根據德國電影評級系統允許的電影觀眾（添加Prüfnummer與限定詞“P2676”）,,"permitted audience of a film, according to the German film-rating system (add Prüfnummer with qualifier ""P2676"")"
+P7047,敌人,,enemy,,,opponent character or group of this fictive character or group
+P3216,,,ClassInd rating,,,"rating of an audiovisual work, video game or RPG in the Brazilian Advisory Rating System (ClassInd)"
+P1591,被告人,,defendant,被指控的人或組織被審判,,person or organization accused at a trial
+P3833,,,diaspora,,,diaspora that a cultural group belongs to
+P2396,值域,,image of function,,,set of values that a mathematical function actually takes
+P3103,,,has tense,,,"grammatical category expressing time reference of the language. To include a sample, use qualifier ""quote"" (P1683), sample: ""He writes"". If an activity before is needed ""He sees"". If an activity afterwards is needed: ""He reads""."
+P7867,地图分类,,category for maps,数据项的维基媒体地图分类,,name of the Wikimedia category specifically for maps or plans of this item
+P141,IUCN保護現狀,,IUCN conservation status,根據國際自然保護聯盟瀕危物種紅色名錄所指定的保護狀況,,conservation status assigned by the International Union for Conservation of Nature
+P832,公立假日,,public holiday,法律规定假日（不上班）,,"official public holiday that occurs in this place in its honor, usually a non-working day"
+P532,船籍港,,port of registry,,,"ship's port of registry. This is generally painted on the ship's stern (for the ""home port"", see Property:P504)"
+P3263,底,,base,能決定幾何圖形特性的基底,,configuration of a polytop vertices around the symmetry axis
+P4647,首演地点,,location of first performance,,,"location where a work was first debuted, performed or broadcasted"
+P4584,首次亮相于,,first appearance,虚构角色首次亮相的作品,,work in which a fictional/mythical character or entity first appeared
+P611,宗教團,,religious order,個人或宗教信仰所屬的僧侶或修女的教團,,order of monks or nuns to which an individual or religious house belongs
+P413,队中位置,,position played on team / speciality,,,position or specialism of a player on a team
+P2882,降级,,relegated,,,competitor or team relegated during competition
+P3438,常用车辆,,vehicle normally used,主体通常使用的车辆,,vehicle the subject normally uses
+P450,航天任务,,astronaut mission,某人曾参与的航天任务,,space mission that the subject is or has been a member of (do not include future missions)
+P3092,电影摄制组成员,,film crew member,,,"member of the crew creating an audiovisual work, used for miscellaneous roles qualified with the job title when no specific property exists. Don't use if such a property is available: notably for cast member (P161), director (P57), etc."
+P2959,永久重複項,,permanent duplicated item,"此項對應的重複項，且兩者不能被合併，因為同一維基媒體項目中包含兩個頁面，例如使用不同字母或語言 (cdowiki、gomwiki、nanwiki都有這種狀況)。不同維基站請使用""重覆項目""。",,"this item duplicates another item and the two can't be merged, as one Wikimedia project includes two pages, e.g. in different scripts or languages (only applies to some wikis, e.g.: cdowiki, gomwiki, nanwiki).  Use P31=Q17362920 for other wikis."
+P2614,世界遺產基準,,World Heritage criteria,,,selection criteria for UNESCO's cultural and natural 'World Heritage' designation since 2005
+P852,ESRB评级,,ESRB rating,,,North American video game content rating
+P5280,部首,,radical,,,radical of Chinese character
+P1625,,,has melody,,,this work has the melody of the following work
+P5826,代表主要意见者,,majority opinion by,,,judicial opinion agreed to by more than half of the members of a court
+P3173,可眺望的景物,,offers view on,建物或場所可眺望的景物,,"things, places this place offers views on"
+P196,小行星族,,minor planet group,根據類似的軌道特徵，對小行星進行分組,,is in grouping of minor planets according to similar orbital characteristics
+P2825,途经,,via,行程的经停点,,"intermediate point on a journey - stopover location, waystation or routing point"
+P2860,引用作品,,cites work,本作品所引用的其他作品,,citation from one creative or scholarly work to another
+P2868,主體角色,,subject has role,项目（“主体”）的角色/通用标识，也在陈述的上下文中。 对于陈述（“客体”）的值的作用，使用P3831（“客体具有作用”）。 对于表演角色，请使用 P453（“扮演角色”）。 对于个人，请使用 P39。,,"role/generic identity of the item (""subject"") in the context of a statement. For the role of the value of the statement (""object""), use P3831 (""object has role""). For acting roles, use P453 (""character role""). For persons, use P39."
+P263,官邸,,official residence,,,the residence at which heads of government and other senior figures officially reside
+P8345,跨媒體製作,медиа франшиза,media franchise,该作品所属的跨媒体制作,,this creative work belongs to this media franchise
+P2159,,,computes solution to,,,problem that this algorithm or method solves
+P1444,行程目的地,,destination point,旅行、航班、航海、探险等活动的目的地,,"destination for this route (journey, flight, sailing, exploration, migration, etc.)"
+P6942,动画师,,animator,,,person creating animated sequences out of still images
+P6104,维护本项的维基专题,,maintained by WikiProject,,,"WikiProject that maintains this property, item, or linked pages. If the WikiProject is hosted outside of Wikidata, define the scope using the qualifier ""of (P642)"""
+P3902,最后进食,,had as last meal,该人生前最后进食,,components of the last meal had by a person before death
+P161,演员,,cast member,主体制作中的演员[使用（P453）和/或（P4633）作为修饰符] [使用“配音演员”（P725）作为仅配音角色],,"actor in the subject production [use ""character role"" (P453) and/or ""name of the character role"" (P4633) as qualifiers] [use ""voice actor"" (P725) for voice-only role]"
+P54,所屬運動隊,,member of sports team,主體目前或曾代表的體育運動隊或俱樂部,,sports teams or clubs that the subject represents or represented
+P5572,,,expressed in,,,gene or protein is expressed during a specific condition/cell cycle/process/form
+P176,制造者,,manufacturer,本产品的制造商或生产商,,(main or final) manufacturer or producer of this product
+P642,属于,,of,（本属性正在被弃用；详情参见WD:P642）修饰符，说明某项目陈述适用于特定项目的范围,,"(This property is being deprecated, see details at WD:P642) qualifier stating that a statement applies within the scope of a particular item"
+P6803,在此找到的分类群,,taxon found at location,描述存在于此地的植物或动物分类群，不是国家或一级行政区实体。必需参考文献。参考文献应涵盖特定位置的有限数量分类群。,,"plant or animals taxon described as present in location, not countries or first-level subnational entities. Requires reference. Ref should cover a limited number of taxa for specific location."
+P2643,卡内基高等教育机构分类,,Carnegie Classification of Institutions of Higher Education,美国学院和大学的分类,,classification of colleges and universities in the United States
+P289,艦級,,vessel class,按照該船舶所屬的相同設計的船舶建造系列,,series of vessels or other watercraft built to the same design of which this vessel is a member
+P6855,是否提供急診,,emergency services,用於描述醫院是否有提供緊急醫療服務,,emergencies treated by hospital or health care organization
+P1791,埋葬地分類,,category for people buried here,,,Wikimedia category for people with a burial site within this area
+P1038,亲属,,relative,非直接家庭成员（由P1039限定）,,"family member (qualify with ""kinship to subject"", P1039; for direct family member please use specific property)"
+P5201,,,IMDA rating,,,rating in the Singaporean film and video game rating system
+P1018,語言管理機構,,language regulatory body,一種語言的監管機構,,regulatory body of a language
+P4151,游戏机制,,game mechanics,为与游戏状态互动而设计的规则或方法结构,,constructs of rules or methods designed for interaction with the game state
+P361,所属实体,бөлігі,part of,将主体视为其中一部分的客体（如果该主体已经是客体A的一部分，而客体A又是客体B的一部分，则请只将主体设为客体A的一部分），是“可分为”（P527）的逆属性（另见“拥有此类别的一部分”（P2670））,"осы субъект құрамдас бөлігі болып табылатын объект, яғни осы нәрсе басқа бір нәрсенің құрамына кірсе, соны белгілеу керек. Бұған қарама қарсы мағынада P527 қолдануға болады, яғни бір нәрсе бірнеше нәрседен құралса, соларды белгілеу үшін","object of which the subject is a part (if this subject is already part of object A which is a part of object B, then please only make the subject part of object A), inverse property of ""has part"" (P527, see also ""has parts of the class"" (P2670))"
+P10254,,,associated cadastral district,,,cadastral district in which a place is located or is part of. Use only if distinct from administrative entities (P131) in predefined countries
+P8596,項目外景共享資源分類,,category for the exterior of the item,用於描述項目（物品、場所）外部景觀的媒體檔案之共享資源分類,,"category for multimedia files depicting exterior views of this item (object, place)"
+P3113,不包含的部分,,does not have part,该项目没有的预期部分（对于修饰符，使用 P6477）,,"expected part that the item does not have (for qualities, use P6477)"
+P5008,维基媒体项目关注列表,,on focus list of Wikimedia project,属性来表明该项目是一个特定的维基媒体项目（WikiProject、编辑部、门户网站等）的工作列表的一部分。另见P6104、P972、P2354。,,"property to indicate that an item is of particular interest for a Wikimedia project. This property does not add notability. Items should not be created with this property if they are not notable for Wikidata. See also P6104, P972, P2354."
+P237,纹章,,coat of arms,主体的纹章,,subject's coat of arms
+P2568,取代者,,repealed by,,,document is repealed/inactived by specified other document
+P1879,,,income classification (Philippines),,,classification grade of a Philippine local government unit based on income
+P8225,为其元类,,is metaclass for,主体的所有实例都是客体的子类,,all instances of the subject are subclasses of the object
+P9493,,,artist files at,,,institution or collection that holds artist files about the subject
+P703,具此物質之物種,,found in taxon,可以在该分类群中找到的项目（化学物质）,,the taxon in which the item can be found
+P344,摄影指导,,director of photography,電影、影片中主導攝影錄影的人,,"person responsible for the framing, lighting, and filtration of the subject work"
+P7937,作品形式,,form of creative work,文学音乐等作品的结构形式,,structure of a creative work
+P556,,,crystal system,,,type of crystal for minerals and/or for crystal compounds
+P8403,理论提出者,,theorised by,,,subject who suggested or proposed this concept or invention
+P5125,,,Wikimedia outline,,,item about an outline of the topic at Wikimedia sites
+P282,書寫系統,,writing system,字母，字符集或主題語言使用的其他寫作系統,,"alphabet, character set or other system of writing used by a language, word, or text, supported by a typeface"
+P2673,下一个上游跨越点,,next crossing upstream,此河流（或运河等）在该项目上游一侧的跨越建筑,,"next crossing of this river, canal, etc. upstream of this subject"
+P1060,,,disease transmission process,,,"process by which a pathogen is transmitted, equivalent to ""transmitted by"" in the relation ontology http://purl.obolibrary.org/obo/RO_0002451"
+P4323,,,young rider classification,,,person ranked as young participant for this cycling stage or race
+P414,证券交易所,,stock exchange,该公司进行交易的交易所,,exchange on which this company is traded
+P2289,静脉引流,,venous drainage,,,vein draining the anatomical structure
+P682,生物途径,,biological process,是_生物过程的参与者,,is involved in the biological process
+P991,当选者,,successful candidate,,,person(s) or political organization(s) elected after the election
+P3085,,,qualifies for event,,,this event qualifies for that event
+P3301,广播业者,,broadcast by,通过广播、电视或互联网广播该项目的频道、网络、网站或服务,,"channel, network, website or service that broadcast this item over radio, television or the Internet"
+P10661,,,exhibited creator,,,intellectual or creative entity (person or organization) responsible for the elements exhibited
+P3834,廣播，電視和電影電影評級,,RTC film rating,墨西哥電影分類系統中的電影評級,,rating of a film in the Mexican film classification system
+P2989,具有语义格,,has grammatical case,用這種語言的案例,,case used in this language
+P859,赞助者,,sponsor,,,organization or individual that sponsors this item
+P1204,維基媒體主題的主要話題,,Wikimedia portal's main topic,此主題頁面（Portal）的主題項目,,primary topic of this Wikimedia portal
+P84,建築師,,architect,建造此建築物的人或建築公司,,person or architectural firm responsible for designing this building
+P2348,時期,,time period,該主體發生的時間段（歷史時代、體育賽季、戲劇季、立法期等）,,"time period (historic period or era, sports season, theatre season, legislative period etc.) in which the subject occurred"
+P5389,永久居留权,,permanent resident of,该人有权永久居留的国家或地区,,country or region where a person has the legal status of permanent resident
+P4224,分类包含,,category contains,分类所包含的元素,,category contains elements that are instances of this item
+P5030,,,talk show guest,,,person invited in a talk show
+P1037,主管,,director / manager,管理任何組織的人,,person who manages any kind of group
+P2283,使用,,uses,主体或操作中使用的项目或概念（另见仪器 [P1303] 和武器 [P520]）,,item or concept used by the subject or in the operation (see also instrument [P1303] and armament [P520])
+P1995,醫學專科,,health specialty,在醫學中所屬的專科,,"main specialty that diagnoses, prevent human illness, injury and other physical and mental impairments"
+P57,导演,режиссёрі,director,电影、电视剧、舞台剧、电子游戏等的导演,,"director(s) of film, TV-series, stageplay, video game or similar"
+P92,主要規管文獻,,main regulatory text,當主體受管制時，用以設立主要管理規則的文本,,text setting the main rules by which the subject is regulated
+P3428,,,INCAA film rating,,,rating of a movie in the Argentinian content rating system
+P2695,模式产地 (地质学),,type locality (geology),,,"the locality where a particular rock type, stratigraphic unit or mineral species is defined from (can coincide but not the same as p189)"
+P967,,,guest of honor,,,"guest(s) of honor invited to an event, e.g. a convention"
+P11279,是该实体的数量,,is a number of,此实体是代表该项目数量的数字,,this entity is a number representing the quantity of this item
+P156,之后是,,followed by,紧接在主体是其中一部分的一系列项目中[如果主体已被替换，例如 政治职位，使用“被取代”（P1366）],,"immediately following item in a series of which the subject is a part, preferably use as qualifier of P179 [if the subject has been replaced, e.g. political offices, use ""replaced by"" (P1366)]"
+P552,利手,икемді қолы,handedness,人类习惯所使用的手，左撇子或右撇子,"«оңқай (Q3039938)», «солақай (Q789447)», не «амбидекстрия (Q457332)» мәндерін ала алады",handedness of the person
+P3342,重要人物,,significant person,与某个项目的任何可能方面有所联系的人物,,person linked to the item in any possible way
+P4428,實現對象,,implementation of,該項是標準，程序，規範或編程語言的實現,,"implementation of a standard, program, specification or programming language"
+P3402,,,CNC film rating (Romania),,,rating of a movie in the Romanian content rating system
+P209,最高司法机关,,highest judicial authority,该地的最高司法机关,,"supreme judicial body within a country, administrative division, or other organization"
+P8744,主题经济,,economy of topic,以对象的经济作为主题,,item that deals with the economy of the subject
+P2758,,,CNC film rating (France),,,category assigned to a film by the Board of Film Classification (CNC) which what audiences may view it in France
+P248,载于,дереккөзі,stated in,用于来源字段，显示信息来源,дереккөздер тізімінде дереккөзге сілтеме жасау үшін қолданылады; квалификаторлар үшін P805 қолданыңыз,to be used in the references field to refer to the information document or database in which a claim is made; for qualifiers use P805; for the type of document in which a claim is made use P3865
+P1268,代表对象,,represents,實體所代表的組織、個人或概念,,"organization, individual, or concept that an entity represents"
+P179,所属系列,сериясының бөлігі,part of the series,包含主体的系列,,series which contains the subject
+P276,位置,орналасқан жері,location,客體、結構或活動的位置。如遇某行政實體作為包含項目，請使用P131。統計實體請使用P8138。如遇地理實體請使用P706。與客體相關的位置請使用P7153,бір нәрсенің орналасқан жерін белгілеу үшін қолданылады. Әкімшілік-территориалды бөлімін көрсету үшін P131 қолданылады,"location of the object, structure or event. In the case of an administrative entity as containing item use P131. For statistical entities use P8138. In the case of a geographic entity use P706. Use P7153 for locations associated with the object"
+P908,PEGI评级,,PEGI rating,泛欧游戏资讯组织游戏评级,,European video game content rating system
+P155,之前是,,follows,主体是其中一部分的一系列中紧接在前面的项目[如果主体已取代前一项目，例如。 政府官员，使用“替换”（P1365）],,"immediately prior item in a series of which the subject is a part, preferably use as qualifier of P179 [if the subject has replaced the preceding item, e.g. political offices, use ""replaces"" (P1365)]"
+P833,换乘车站,,interchange station,与此车站存在换乘关系（无论是否处于同一收费体制下）的异名车站,,"station to which passengers can transfer from this station, normally without extra expense"
+P1531,此杂交种、品种或栽培品种的亲本,,hybrid of,,,parent of this hybrid breed or cultivar
+P647,選秀上被指名,,drafted by,遴選球員的球隊,,which team the player was drafted by
+P6524,,,expression of,,,"realization of a work through words, sound, image etc. in the FRBR model"
+P7938,所属选区,,associated electoral district,,,constituencies/electoral districts in which a place is located or is part of. If a municipality/county is split into or part of several districts: add several values. Use only if distinct from administrative entities (P131) in predefined countries
+P11108,,,recorded participant,,,agent taking an active role as a participant in a nonfiction moving image or other recorded work
+P418,印章描述,,"has seal, badge, or sigil",,,links to the item for the subject's seal
+P8956,与此兼容,,compatible with,此作品、產品、物體或標準可以與另一個作品、產品、物體或標準互動,,"this work, product, object or standard can interact with another work, product, object or standard"
+P10695,,,introduced in,,,item that introduced the subject
+P2239,急救措施,,first aid measures,,,"actions to take to help a person in the case of exposure to this hazard or malady (accidents, injuries, harmful chemicals)"
+P1382,部分重合物,,partially coincident with,某物部分屬於，但並非全部都屬於某個主題（全都屬於使用P361）,,"object that partially overlaps with the subject in its instances, parts, or members"
+P6216,著作權狀態,,copyright status,,,"copyright status for intellectual creations like works of art, publications, software, etc."
+P412,聲部,,voice type,,,"person's voice type. expected values: soprano, mezzo-soprano, contralto, countertenor, tenor, baritone, bass (and derivatives)"
+P5131,,,possible medical findings,,,possible medical findings of a medical condition
+P5277,日本汉字等级,,grade of kanji,,,degree of difficulty of kanji
+P1269,话题方面,,facet of,该项目是其一个方面的主题，该项目为同一主题提供更广泛的视角,,"topic of which this item is an aspect, item that offers a broader perspective on the same topic"
+P47,接壤,,shares border with,屬同一等級的行政區劃與項目的邊界接壤，無論陸域或水域,,"countries or administrative subdivisions, of equal level, that this item borders, either by land or water. A single common point is enough."
+P488,領導者,,chairperson,组织的控制人,,"presiding member of an organization, group or body"
+P200,流入源,,inflows,主要流入來源-河流，含水層，冰川徑流等。某些術語可能不是地名，例如 沒有,,"major inflow sources — rivers, aquifers, glacial runoff, etc. Some terms may not be place names, e.g. none"
+P1075,院长,,rector,,,senior official in an educational institution
+P128,调控（分子生物学）,,regulates (molecular biology),分子生物学中由蛋白质或RNA调节的过程,,process regulated by a protein or RNA in molecular biology
+P2517,,,category for recipients of this award,,,link to Wikimedia category for recipients of this award
+P2341,原生地,,indigenous to,语言、艺术、文化等的原生之处,,"place or ethnic group where a language, art genre, cultural tradition or expression, cooking style or food, or biological species or variety is found (or was originally found)"
+P2094,競技類別,,competition class,由監管機構進行的官方分類，主體（事件，團隊，參與者或設備）有資格列入,,"official classification by a regulating body under which the subject (events, teams, participants, or equipment) qualifies for inclusion"
+P3842,当今地处行政领土实体,,located in the present-day administrative territorial entity,该实体目前所位于的行政区,,the item was located in the territory of this present-day administrative unit; however the two did not at any point coexist in time
+P2992,软件质量管理,,software quality assurance,,,quality assurance process in place for a particular software
+P734,姓氏,тегі,family name,某人的姓氏,тұлғаның толық аты-жөнінің бөлігі,part of full name of person
+P8874,香港電影分級,,Hong Kong film rating,香港電影分級制度,,Hong Kong film classification system
+P4791,指揮者,,commanded by,军事单位的指挥者,,"commander of a military unit/army/security service, operation, etc."
+P1398,先前取代建筑,,structure replaces,某建築物在同一地點設立之後所取代的舊建築物,,"the item this building or structure replaced, at the same geographic location"
+P3432,,,parent cell line,,,closest parent cell line of the cell line in question
+P7903,,,gained territory from,,,(qualifier) territorial entity from which the subject item gained territory as a result of the event in the statement
+P1532,体育代表国,,country for sport,某个人或团队在进行体育运动时所代表的国家,,country a person or a team represents when playing a sport
+P735,名字,есімі,given name,人名，相对于姓；该属性的值不应链接到消歧义页或姓氏,осы тұлғаның алғашқы немесе жеке есімі,first name or another given name of this person; values used with the property should not link disambiguations nor family names
+P790,獲准自,,approved by,,,item is approved by other item(s) [qualifier: statement is approved by other item(s)]
+P694,被替代异名,,replaced synonym (for nom. nov.),,,"previously published name on which a replacement name (avowed substitute, nomen novum) is based"
+P87,劇作者,,librettist,歌劇、輕歌劇、神劇或清唱套曲的作詞者，或音樂劇劇本的作者,,"author of the libretto (words) of an opera, operetta, oratorio or cantata, or of the book of a musical"
+P913,符號,,notation,,,mathematical notation or another symbol
+P9488,使用領域,,field of usage,這個意義的專門領域或術語,,specialized area or terminology where this sense is used
+P1071,制作地点,,location of creation,製作物品的地方; 最終裝配的位置,,"place where the item was conceived or made; where applicable, location of final assembly"
+P8693,粉絲文化,,fandom,,,"fan group of a celebrity, musical group, artist, work, etc."
+P69,就读于,оқыған жері,educated at,主体就读的教育机构,,educational institution attended by subject
+P3179,领土重合于,,territory overlaps,與該實體關聯的部分或全部區域與該實體關聯的部分或全部區域重疊,,part or all of the area associated with (this) entity overlaps part or all of the area associated with that entity
+P2587,具有音位,,has phoneme,語言的音韻包括這種聲音,,the language's phonology includes this sound
+P1881,角色列表,кейіпкерлер тізімі,list of characters,含有介紹該作品各角色訊息的頁面,,Wikimedia page with the list of characters for this work
+P4777,,,has boundary,,,element that's on the two dimensional border that surrounds the subject; the limit of an entity
+P2853,電源插頭型式,,electrical plug type,,,standard plug type for mains electricity in a country
+P177,跨越,,crosses,此桥梁上跨，或次隧道下跨的障碍物（水体、道路、铁路等）,,"obstacle (body of water, road, railway...) which this bridge (ferry, ford) crosses over or this tunnel goes under"
+P680,分子功能,,molecular function,,,represents gene ontology function annotations
+P923,医学检查,,medical examination,,,examinations that might be used to diagnose and/or prognose the medical condition
+P91,性取向,,sexual orientation,標示一個人物的性取向——当且仅当他们自己明确声明，或者在他们死后被历史学家广泛认同时使用,,"the sexual orientation of the person relative to their declared gender — use ONLY IF they have stated it themselves, unambiguously, or it has been widely agreed upon by historians after their death"
+P1809,编舞,,choreographer,,,person(s) who did the choreography
+P1880,测量规范,,measurement scale,,,scale by which a phenomenon is measured
+P9161,,,thesis committee member,,,"member of the committee for this thesis or dissertation; for any type of thesis (bachelor's, master's, doctoral, etc.). Qualify with ""object has role"" (P3831) to indicate chair"
+P3259,,,intangible cultural heritage status,,,status of an item that is designated as intangible heritage
+P1560,,,given name version for other gender,,,"equivalent name (with respect to the meaning of the name) in the same language: female version of a male first name, male version of a female first name. Add primarily the closest matching one"
+P636,给药途径,,route of administration,将药物、液体、毒物或其他物质摄入体内的路径,,"path by which a drug, fluid, poison, or other substance is taken into the body"
+P1592,檢察官,,prosecutor,,,"person representing the prosecuting authority, at a trial"
+P797,管理机关,,authority,對給定實體具有行政權力的實體,,entity having executive power on given entity
+P6379,館藏處,,has works in the collection,收藏有該藝術家作品的場館,,collection that has works of this person or organisation (use archives at [P485] for archives)
+P1598,,,consecrator,,,bishop who presided as consecrator or co-consecrator of this bishop
+P462,颜色,түс,color,主題的顏色,,color of subject
+P8701,人口普查,,has census,,,general population census of the country or region
+P2670,拥有此类的一部分,,has part(s) of the class,主体实例具有客体类的部分（主体通常不是类）,,the subject has one or more parts of the object class
+P1406,文字方向,,script directionality,此語言的書寫系統的方向,,direction that a writing system goes in
+P629,原作，或再版原作，或译本,,edition or translation of,是该实体的再版版本或译作,,is an edition or translation of this entity
+P371,主持人,,presenter,电台或电视节目的主要主持人,,main role in presenting a radio or television program or a performing arts show
+P2567,,,amended by,,,document is amended by specified other document
+P1327,专业或体育合作伙伴,,partner in business or sport,,,professional collaborator
+P163,旗帜,,flag,主体的旗帜,,subject's flag
+P1906,國家元首職位,,office held by head of state,,,political office that is fulfilled by the head of state of this item
+P2058,保管方,,depositary,,,depositary of the treaty
+P1678,頂點圖,,has vertex figure,以幾何圖形頂角切去時所露出的形狀來描述頂角結構,,the figure exposed when a corner of a polytope is sliced off
+P3364,立體異構體,,stereoisomer of,目標項目是此項目的立體異構體,,target item is a stereoisomer of this item
+P921,作品主题,негізгі пән,main subject,作品的主要话题（另可参见P180，描绘对象）,,primary topic of a work (see also P180: depicts)
+P2597,革蘭氏染色,,Gram staining,,,Gram stain type of a bacterial strain
+P2674,下一个下游跨越点,,next crossing downstream,此河流（或运河等）在该项目下游一侧的跨越建筑,,"next crossing of this river, canal, etc. downstream of this subject"
+P5841,在捷克濒危物种红色名录中的状态,,Status in the Red List of Threatened Species in the Czech Republic,,,endangerment status of species in the national Red List of the Czech Republic
+P1552,特性,,has characteristic,該實體的固有性質或可辨別的質特徵,,inherent or distinguishing quality or feature of the entity. Use a more specific property when possible
+P2515,服裝設計,,costume designer,,,"person who designed the costumes for a film, television programme, etc."
+P6364,官方颜色,,official color,用于表示或标识项目的正式颜色,,official colors chosen to represent or identify an item
+P689,影响,,afflicts,受某种病症或疾病影响的生物体或器官的类型,,"type of organism which a condition or disease afflicts (for an organ affected by a condition, use P927)"
+P457,成立文书,,foundational text,成立一个机构或客体所依据的文书,,text through which an institution or object has been created or established
+P8875,收录题录数据库,,indexed in bibliographic review,收录该学术期刊的题录数据库,,bibliographic review(s) and/or database(s) which index this academic journal
+P3592,沙羅周期,,saros cycle of eclipse,,,
+P3494,,,points classification,,,classification established according to points scored by runners
+P2784,麥加利地震烈度表,,modified Mercalli intensity scale,量度地震震度的單位,,measurement of the intensity of an earthquake
+P6193,批准方,,ratified by,用以指明條約已被指定國家或國際法主體批准,,used to specify that a treaty has been ratified by a given state or subject of international law
+P4290,官方应用程序,,official app,本组织或其他实体的官方应用程序（Android、iOS等可下载应用程序）,,"official app for this organization or other entity (a downloadable application for Android, iOS, etc.)"
+P4324,,,combination classification,,,"person ranked in ""best at combination"" for this cycling stage or race"
+P5236,,,prime factor,,,one of the prime numbers that can be multiplied to give this number
+P2869,,,record or record progression,,,links to item on the record or record progression
+P516,发动机,,powered by,用於為主體提供動力的設備或發動機,,equipment or engine used by the subject to convert a source or energy into mechanical energy
+P2499,,,league level above,,,the league above this sports league
+P178,開發者,әзірлеуші,developer,開發該項目的組織或個人,,organization or person that developed the item
+P6532,,,has phenotype,,,"a relationship that holds between a biological entity and a phenotype, equivalent to ""has property"" in the relation ontology http://purl.obolibrary.org/obo/RO_0002200"
+P870,使用的乐器,,instrumentation,,,combination of musical instruments employed in a composition or accompanying a (folk) dance
+P530,外交关系,,diplomatic relation,该国的外交关系,,diplomatic relations of the country
+P8339,,,entry receptor,,,receptor protein or protein whose receptor is being used by this subject virus/microorganism group to enter cells
+P37,官方语言,,official language,本项目指定的官方语言,,language designated as official by this item
+P533,攻击目标,,target,军事行动或恐怖袭击的目标,,target of an attack or military operation
+P40,子女,,child,主体有作为其子女的客体。 不要用于继子女,,"subject has object as child. Do not use for stepchildren—use ""relative"" (P1038), qualified with ""type of kinship"" (P1039)"
+P10611,,,has certification,,,states that an item has a certain certification
+P8791,電子化,,digitised by,,,"institution or person who digitised an exemplar of this item. Qualify with ""criterion used"" (P1013) to indicate which step was done."
+P3985,支援的程式語言,,supports programming language,此程式設計工具支援的程式語言,,programming language which is supported by this programming tool
+P1478,直接原因,,has immediate cause,,,"nearest, proximate thing that directly resulted in the subject as outcome or effect. Used in conjunction with 'has cause' (i.e. underlying cause) and 'has contributing factor'. See 'Help:Modeling causes'."
+P417,主保圣人,,patron saint,该主题的守护神,,patron saint adopted by the subject
+P1299,描绘作品,,depicted by,描述本主题的创意、宗教作品,,"object depicting this subject (object being creative works such as books, films, paintings)"
+P1875,代表者,,represented by,,,person or agency that represents or manages the subject
+P3150,生日,,birthday,出生月和日。用於無法得知完整「出生日期」(P569)時,,"item for day and month on which the subject was born. Used when full ""date of birth"" (P569) isn't known."
+P135,文化运动,,movement,与此人或作品相关的文学、艺术、科学或哲学运动或事件,,"literary, artistic, scientific or philosophical movement or scene associated with this person or work. For political ideologies use P1142."
+P676,作词者,,lyrics by,歌詞作者；也可以將P86用於音樂作曲家,,author of song lyrics
+P180,描繪內容,суреттелген нәрсе,depicts,被描绘的实体（另见 P921：主要主体）,,"entity visually depicted in an image, literarily described in a work, or otherwise incorporated into an audiovisual or other medium; see also P921,  'main subject'"
+P1877,原著作者,,after a work by,,,artist whose work strongly inspired / was copied in this item
+P2817,,,appears in the heritage monument list,,,heritage monument is a part of the list of heritage monuments
+P5588,入侵到,,invasive to,,,"region which a taxon is not endemic to where the taxon has a tendency to spread to a degree believed to cause damage to the environment, human economy or human health"
+P9897,App Store年龄分级,,App Store age rating,Apple針對App Store中發佈的軟體內容分級分類,,content rating category by Apple for software published at the App Store
+P1571,到达域,,codomain,函数输出值的集合,,codomain of a function
+P1066,师承,,student of,传授技艺者,,person who has taught this person
+P6886,书写语言,,writing language,作者寫作時所用的語言,,language in which the writer has written their work
+P2363,NMHH電影評級,,NMHH film rating,匈牙利的電影評級,,rating of a film in the Hungarian film rating system
+P8047,船舶国籍,,country of registry,船舶所进行登记注册的国家,,country where a ship is or has been registered
+P793,重大事件,негізгі оқиға,significant event,相关的重大或著名的事件,элемент үшін аса маңызды оқиға,significant or notable events associated with the subject
+P1424,话题主模板,негізгі тақырып үлгісі,topic's main template,该主题的主要信息框或导航模板,,the main template relating to a topic
+P479,输入设备,,input device,与软件交互的方式或装置,,input device used to interact with a software or a device
+P4969,衍生作品,туынды жұмыс,derivative work,從這件藝術品的主要部分創作的作品; 從該軟件的主要部分創建的工作,,"new work of art (film, book, software, etc.) derived from major part of this work"
+P2596,文化,мәдениет,culture,该数据项所属的文化或民族,бұл нәрсемен байланысты мәдениет,human culture or people (or several cultures) associated with this item
+P2563,,,superhuman feature or ability,,,"superhuman, supernatural, or paranormal abilities that the fictional subject exhibits"
+P9652,虚构角色的性格特点,,personality trait of fictional character,,,particular personality trait which applies to this fictional character
+P1889,相異於,шатастырмаңыз,different from,容易混淆但不相同的事物,"осы элементпен жиі шатастырылатын, басқа мағынасы бар элементке сілтеме","item that is different from another item, with which it may be confused"
+P8193,,,hardiness of plant,,,"recommended hardiness zone for plant, ability of plant to survive adverse growing conditions"
+P8702,,,parallel street,,,closest street(s) that run parallel to the item
+P3080,游戏艺术家,,game artist,,,"game artist(s) that produced art assets for a role-playing games, collectible card games, video game, etc."
+P4675,形态,,appears in the form of,这个虚构的或神话中的实体采取了该实体的形式,,this fictional or mythical entity takes the form of that entity
+P1568,定義域,,definition domain,函數自變數所有可取值的集合,,"set of ""input"" or argument values for which a mathematical function is defined"
+P739,,,ammunition,,,cartridge or other ammunition used by the subject firearm
+P4387,更新方法,,update method,應用程式或作業系統接收更新或自我更新的方法,,method used by an app/OS to receive updates or self-update
+P186,材料,,made from material,制品所使用的材料,,material the subject or the object is made of or derived from (do not confuse with P10672 which is used for processes)
+P4788,,,storage device,,,data storage device supported by a machine (e.g. camera or mobile phone)
+P2176,用藥,,drug or therapy used for treatment,治療該病使用的藥品,,"drug, procedure, or therapy that can be used to treat a medical condition"
+P4844,,,research intervention,,,"the focus of an experiment, also called the experimental variable, research activity, or study intervention"
+P10624,组织内官方观察员地位,,official observer status in organisation,,,Organisation by which the subject is granted observer status
+P3018,所在保护区,,located in protected area,,,protected area where a place or geographical feature is physically located
+P3938,命名者,,named by,对该对象命名的人或组织，用作限定符,,person or organisation that coined the name; use as qualifier for P2561 and its subproperties
+P4884,法院,,court,审理该案件的法院,,specific court a legal case is/was heard/decided in
+P150,下辖行政领土实体,,contains the administrative territorial entity,行政领土实体的直接细分（清单）,,(list of) direct subdivisions of an administrative territorial entity
+P61,發現者或發明者,,discoverer or inventor,发现、首先描述、发明或开发此发现或发明的主体,,"subject who discovered, first described, invented, or developed this discovery or invention or scientific hypothesis or theory"
+P10449,教練,,trained by,曾訓練此運動員的教練,,personal trainer of the athlete
+P2522,獲勝賽事,,victory,,,competition or event won by the subject
+P7501,音响系统,аудио жүйесі,audio system,音响系统硬件,,audio system hardware used in the item
+P710,參與者,қатысушылар,participant,參與/參加活動的人，團體或組織（對象）（主題）。 最好使用“對像有角色”（P3831）限定符。 將P1923用於團隊參與者。,,"person, group of people or organization (object) that actively takes/took part in an event or process (subject).  Preferably qualify with ""object has role"" (P3831). Use P1923 for participants that are teams."
+P6954,在线获取状态,,online access status,,,property or qualifier for an ID property indicating whether linked content is directly readable online
+P5072,展示于,,presented in,舉辦談話，電影，紙張或海報的活動,,"event at which a talk, film, paper, or poster was presented"
+P129,物理相互作用于,,physically interacts with,主体与之交互的物理实体,,physical entity that the subject interacts with
+P2378,發行者,,issued by,發布或分配標識符的組織,,"organisation or other agent that issues or allocates an identifier, code, classification number, etc."
+P1574,原本,,exemplar of,手稿、簽名、搖籃本、不同的印刷版本等所基於的原本,,"property for manuscripts, autographs, incunabula, distinct printed copies"
+P542,开幕宣布人,,officially opened by,,,person that officially opened the event or place
+P2632,羁押地点,,place of detention,,,place where this person is or was detained
+P2417,,,stage classification,,,stage results and ranking of a stage race
+P2500,,,league level below,,,the league below this sports league
+P5642,风险因子,,risk factor,,,"factor associated with a high prevalence of a particular gene, disease or characteristic. These factors can be country of origin, country of citizenship, race, gender, occupation, anamnesis, etc."
+P2184,主题历史,,history of topic,項目話題的歷史發展,,"item about the historical development of a subject's topic, example: ""history of Argentina"" for ""Argentina"". To list key events of the topic, use ""significant event"" (P793)"
+P1542,導致,,has effect,这个项目的效果,,effect of this item
+P598,,,commander of (DEPRECATED),,,"for persons who are notable as commanding officers, the units they commanded"
+P7573,,,IFCO rating,,,rating certificate of a film in the Irish content classification system
+P5869,範例項目,,model item,,,"defines which item is a best practice example of modelling a subject, which is described by the value of this property, usage instructions at Wikidata:Model items"
+P406,原声专辑,,soundtrack release,,,music release that incorporates music directly recorded from the soundtrack of an audiovisual work
+P1050,医疗状况,,medical condition,人或动物等所患疾病等健康状况,,"any state relevant to the health of an organism, including diseases and positive conditions"
+P878,,,avionics,,,"notable sensors, electronics, and other avionics installed in the subject aircraft"
+P5996,用于此语言电影的分类,,category for films in this language,,,link to category entity contains films in this language
+P3026,休业日,,closed on,,,"exceptions to open days (P3025), usually special dates"
+P4312,鏡頭設置,,camera setup,電影拍攝方式，填「單鏡頭」（Q2918907）或「多鏡頭」（Q738160）,,filmmaking method that the cameras were placed by. Use single-camera (Q2918907) or multiple-camera (Q738160)
+P1074,相應虛構概念,,fictional or mythical analog of,,,used to link an entity or class of entities appearing in a creative work with the analogous entity or class of entities in the real world
+P6658,RCQ分级,,RCQ classification,Régie du cinéma 对电影的评级,,movie classification for the Régie du Cinéma Québécois
+P1013,使用標準,қолданылған критерий,criterion used,区分或分类所依据的属性,екі нәрсе арасындағы айырмашылықтың себебі,property by which a distinction or classification is made
+P3701,,,incarnation of,,,"coming into reality of a religious or supernatural being in form of a human, a basically religious concept incompatible with modern science"
+P121,運營项目,,item operated,主体操作的设备、装置或服务,,"equipment, installation or service operated by the subject"
+P8329,学术带头人,,principal investigator,,,person(s) in charge of conducting a research project
+P5323,文獻出處,,attested in,提及該詞條、詞義、字詞或名稱的文獻出處，未必有詳述,,"document or corpus where the lemma or form of a Lexeme entity, word or name is used, but not described"
+P1419,形状,,shape,物体的几何形状,,shape of an object
+P1885,,,cathedral,,,principal church of a religious district
+P1817,收件人,,addressee,,,person or organization to whom a letter or note is addressed
+P5096,所在乘组,,member of the crew of,乘务员所服务的交通工具,,"person who has been a member of a crew associated with the vessel or spacecraft. For spacecraft, inverse of crew member (P1029), backup or reserve team or crew (P3015)"
+P171,父级分类单元,,parent taxon,某一分类单元最低级别的上级分类单元,,closest parent taxon of the taxon in question
+P21,性別,жыныс,sex or gender,应由下面择一：人：男性（Q6581097）、女性（Q6581072）、双性人（Q1097630）、跨性別女性（Q1052281）、跨性別男性（Q2449503）；动物：雄性（Q44148）、或雌性（Q43445）,"Ер жынысты (Q6581097), әйел жынысты (Q6581072) немесе интерсексуалды (Q1097630) болуы керек","sex or gender identity of human or animal. For human: male, female, non-binary, intersex, transgender female, transgender male, agender, etc. For animal: male organism, female organism. Groups of same gender use subclass of (P279)"
+P725,配音演员,дауыс актері,voice actor,配音员是以配音为主要工作内容的职业。,,"performer of a spoken role in a creative work such as animation, video game, radio drama, or dubbing over [use ""character role"" (P453) as qualifier] [use ""cast member"" (P161) for live acting]"
+P6569,在此特别保护的分类群,,taxon especially protected in area,在一个地区特别受保护的物种和其他分类群，无论是否仍然存在。 不要用于国家/地方实体：改用IUCN红色名录属性。,,"species and other taxa especially protected in a area, whether still actually present or not. Do not use for countries/subnational entities: use red lists properties instead."
+P4794,賽季開始,,season starts,描述体育赛季开始的月份或季,,month or season when sports competition begins
+P914,USK评级,,USK rating,德国电子游戏评级,,German video game content rating - see talk page for appropriate values
+P10606,,,notable role,,,"role in a theatrical, motion picture, television, or other work that a performer is particularly known for"
+P272,製作商,өндірістік компания,production company,製造作品的機構,,"company that produced this film, audio or performing arts work"
+P2359,,,Roman nomen gentilicium,,,"standard part of the name of a Roman, link to items about the Roman gens only"
+P8865,逆元,,mathematical inverse,關於某二元運算的逆元（以P2210為限定符指出該運算）,,inverse element with respect to binary operation given as a qualifier using P2210
+P3373,兄弟姊妹,ағасы/інісі/апасы/қарындасы/сіңілісі,sibling,人物有他們兄弟的對象（兄弟，姐妹等）。 使用“親戚”（P1038）為兄弟姐妹（姐夫，嫂子等）和繼兄弟（繼兄弟，繼姐妹等）,"осы адамның ағасы, інісі, апасы, қарындасы немесе сіңілісі","the subject and the object have at least one common parent (brother, sister, etc. including half-siblings); use ""relative"" (P1038) for siblings-in-law (brother-in-law, sister-in-law, etc.) and step-siblings (step-brothers, step-sisters, etc.)"
+P4688,,,geomorphological unit,,,topographic or bathymetric feature to which this geographical item belongs
+P4878,象征,,symbolizes,,,"symbolism of an artistic element; can also be used as a qualifier for ""depicts"" (P180) statements"
+P6365,成员分类,,member category,该组织成员的维基媒体分类,,category item for members of the organization
+P1811,剧集列表,сериялар тізімі,list of episodes,分集列表,,link to the article with the list of episodes for this series
+P8933,項目所見景觀之分類,,category for the view from the item,用於從項目（物品、場所）所見景觀的分類,,"category for the view from this item (object, place)"
+P39,担任职务,мансабы,position held,主体目前或曾经担任的客体职位或公职,,subject currently or formerly holds the object position or public office
+P1999,,,UNESCO language status,,,degree of endangerment of a language conferred by the UNESCO Atlas of World Languages in Danger
+P501,内飞于,,enclave within,被另一个地方包围即为内飞地,,territory is entirely surrounded (enclaved) by the other territory
+P823,演讲者,,speaker,在該活動、儀式、主題演講、演講或文學作品中擔任演講者的人,,"person who is speaker for this event, ceremony, keynote, presentation or in a literary work"
+P1040,剪輯,фильм редакторы,film editor,,,"person who works with the raw footage, selecting shots and combining them into sequences to create a finished motion picture"
+P1321,原出生地 (瑞士),,place of origin (Switzerland),,,lieu d'origine/Heimatort/luogo d'origine of a Swiss national. Not be confused with place of birth or place of residence
+P1308,公职人员,мансап иесі,officeholder,擔任職務或擁有貴族頭銜的人,"лауазымды, не асыл атақты иеленген адам",persons who hold and/or held an office or noble title
+P6259,曆元,,epoch,,,epoch of an astronomical object coordinate
+P1435,文化遗产保护状况,,heritage designation,文化或自然遗址的遗产名称,,heritage designation of a cultural or natural site
+P166,所獲獎項,марапаттар алды,award received,人物、机构或作品所获的奖项,,"award or recognition received by a person, organization or creative work"
+P2684,Kijkwijzer評級,,Kijkwijzer rating,荷蘭的媒體評級,,Dutch media content rating system
+P8111,计量单位,,recommended unit of measurement,,,"unit in which a quantity is measured as recommended by a standard (SI, ISO, IEC, etc.)"
+P11146,,,collection items at,,,"institution (museum, collection, etc.) holding items (specimens or other objects) collected by the subject (collector) or at the subject (e.g. site). (use archive location P485 for the archives)"
+P566,基名,,basionym,新组合或者更改级别的学名所基于的合法发表的名称,,"the legitimate, previously published name on which a new combination or name at new rank is based"
+P618,能量来源,,source of energy,描述物体的能量来源,,describes the source of energy an animated object (machine or animal) uses
+P608,展覽歷史,,exhibition history,,,exhibitions where the item is or was displayed
+P2925,保佑領域,,domain of saint or deity,神聖存在所控制或保佑的領域,,domain(s) which this saint or deity controls or protects
+P2650,关注对象,,interested in,,,item of special or vested interest to this person or organisation
+P366,用途,,has use,該項目的主要用途（含當前及過去）,,main use of the subject (includes current and former usage)
+P5606,车站等级,,class of station,,,"class of a railway station, assigned by its operator; ""issued by"" is a mandatory qualifier."
+P3349,设计运输,,designed to carry,,,what the vehicle or class of vehicles is or was designed to carry
+P681,细胞组件,,cell component,,,component of the cell in which this item is present
+P1312,維面,,has facet polytope,組成幾何圖形的面或其他少一個維度的對象,,"facet of a polytope, in the next-lower dimension"
+P5769,總編輯,,editor-in-chief,出版物的編輯負責人，對出版物的運作和政策以及選擇作者，翻譯，插圖畫家以及在出版物或期刊中發表文章或書籍的格式負最終責任,,"a publication's editorial leader who has final responsibility for its operations and policies and the selection of authors, translators, illustrators, and formats for publishing articles or books in collections or periodical papers"
+P10527,存档于,,documentation files at,持有有關該主題的文檔文件的機構,,institution that holds documentation files about the subject
+P5800,故事角色,,narrative role,该虚构角色的类型（应用作登场角色(P674)的限定符，或者由of(P642)限定为特定作品）,,narrative role of this character (should be used as a qualifier with P674 or restricted to a certain work using P10663)
+P195,藏于,,collection,主体所属的艺术、博物馆、档案或书目收藏,,"art, museum, archival, or bibliographic collection the subject is part of"
+P9059,子单位,,subdivision of this unit,一个主要计量单位（或货币）下的子单位名称,,name of subdivision of this unit/currency
+P10290,酒店评分,,hotel rating,,,star rating of the hotel
+P6237,地產發展商,,real estate developer,,,person or organization responsible for building this item
+P3320,董事,,board member,该组织董事会的成员,,member(s) of the board for the organization
+P807,分离自,бөлінді,separated from,主體是通過從確定的對像中分離出來而建立或開始的,бұрын осы нәрсенің құрамында болған,subject was founded or started by separating from identified object
+P9071,角色類型,,character type,指虛擬作品中角色的類型，如原型，定型角色，刻板形象等,,generic character type that this fictional character represents
+P2384,,,statement describes,,,formalization of the statement contains a bound variable in this class
+P942,主題曲,музыкалық тақырып,theme music,項目使用的主題音樂/歌曲,,the theme music/song used by the item
+P1462,標準組織,,standards body,發布或維護標準的組織,,organisation that published or maintains the standard governing an item
+P1264,有效期,,valid in period,聲明有效的時間段,,time period when a statement is valid
+P1431,執行製作人,атқарушы продюсері,executive producer,電影或電視節目的執行製作人,,"executive producer of a movie, TV show, or other piece of media or entertainment"
+P1411,提名或入圍獎項,,nominated for,因為個人、組織或是優秀的作品而獲得的獎項提名（不同於「獲獎」(P166)）,,"award nomination received by a person, organisation or creative work (inspired from ""award received"" (Property:P166))"
+P407,作品或名稱使用語言,жұмыс тілі немесе аты,language of work or name,该创作（如书籍、节目、歌曲等）或该項目名称所使用的语言（人物请使用P103与P1412）,,"language associated with this creative work (such as books, shows, songs, broadcasts or websites) or a name (for persons use ""native language"" (P103) and ""languages spoken, written or signed"" (P1412))"
+P2747,,,Filmiroda rating,,,rating of a film in the former (2004–2011) Hungarian film rating system
+P144,改编自,негізделген,based on,以主体项目为基础的作品,,the work(s) used as the basis for subject item
+P2416,体育参赛项目,,sports discipline competed in,,,discipline an athlete competed in within a sport
+P1313,政府首脑职位,,office held by head of government,由該項目的政府首腦履行的政治機構,,political office that is fulfilled by the head of the government of this item
+P1202,所搭載科學儀器,,carries scientific instrument,在某載具、衛星、或設備中，所搭載並非為推動或導航之必須而裝載的科學儀器,,"scientific instruments carried by a vessel, satellite, or device that are not required for propelling or navigating"
+P8324,財務贊助者,,funder,,,"entity that gives money to a person, organization, or project for a specific purpose"
+P2894,星期,,day of week,发生或适用于星期几,,"day of the week on which this item occurs, applies to or is valid"
+P2715,當選選舉,,elected in,該人獲得某職位的選舉，或者某職位、議會任期等的來源選舉,,"election in which a person gained a position (as qualifier), or a position or legislative term is/was elected (as main value)"
+P2079,制作方法,,fabrication method,用於種植，烹飪，編織，構建，組裝，製造物品的方法，過程或技術,,"method, process or technique used to grow, cook, weave, build, assemble, manufacture the item"
+P702,編碼基因,,encoded by,編碼基因產物的基因,,the gene that encodes some gene product
+P8306,,,has grouping,,,"section or grouping used in the appendix, list or table"
+P8411,环境设定,,set in environment,叙事作品设定的背景环境,,"environment (geographic feature, building type, etc.) the narrative work is set in"
+P937,工作地點,жұмыс істейтін жері,work location,人員活躍的地點,субъект әрекетінің орны,"location where persons or organisations were actively participating in employment, business or other work"
+P4345,考古实地考察主任,,director of archaeological fieldwork,在這個地方領導考古或人類學發掘的人,,person leading the archaeological or anthropological investigation at a given site
+P4271,,,rating,,,qualifier to indicate a score given by the referenced source indicating the quality or completeness of the statement
+P6902,年号,,era name,,,era name for rulers in East Asia
+P9888,,,NZTCS conservation status,,,the conservation status from the New Zealand Threat Classification System assigned by the New Zealand Department of Conservation
+P9714,分类单元分布范围,,taxon range,存在某分类单元的地理区域,,geographic area(s) where a taxon is found
+P631,結構工程師,,structural engineer,負責建築物或結構的結構工程的人，團體或組織,,"person, group or organisation responsible for the structural engineering of a building or structure"
+P1884,髮色,,hair color,头发的颜色,,person's hair color. Use P585 as qualifier if there's more than one value
+P105,分类等级,,taxon rank,生物分类法中假定的层级体系，用以确立生物类群之间的包含隶属关系,,level in a taxonomic hierarchy
+P5021,所接受的测评,,assessment,项目主题所接收的测试、考试、评估等,,"subject took the test or exam, or was assessed per test or method"
+P1479,影响因素,,has contributing factor,影響但不直接導致這種結果或效果的事情。 與'有原因'和'有直接原因'一起使用。 請參見'[[幫助:建模原因]]'。,,"thing that significantly influenced, but did not directly cause, this outcome or effect.  Used in conjunction with 'has cause' and 'has immediate cause'.  See '[[Help:Modeling causes]]'."
+P4070,,,identifier shared with,,,"qualifier, to be used on external identifier IDs, indicating another Wikidata item is also matched to this ID"
+P175,表演者,,performer,与此角色或音乐作品相关的演员、音乐家、乐队或其他表演者,,"actor, musician, band or other performer associated with this role or musical work"
+P974,支流,,tributary,流入更大河流的河流或溪流（湖泊流入使用 P200）,,watercourse that flows into an other one (for lake inflows use P200)
+P106,职业,кәсіп,occupation,某个人的职业；另见“工作领域”（属性:P101）、“担任职务”（属性:P39）,адамның кәсібі; сондай-ақ P101 сынып тармағын көріңіз,"occupation of a person; see also ""field of work"" (Property:P101), ""position held"" (Property:P39)"
+P5817,使用狀態,,state of use,指示建築物、紀念碑等的使用狀態。它與其遺產定位 (P1435) 無關，但與其目前的使用狀態有關。例如：廢棄、使用中、暫時關閉等。,,"to indicate state of use of a building, monument, etc. It is not related with its heritage protection (P1435), but to its present state of use. Ex.: abandoned, in use, temporarily closed, etc."
+P9419,私人圖書館在,,personal library at,,,institution holding the subject’s personal library
+P7603,CITES附录,,CITES Appendix,,,appendix of a taxon according to CITES convention
+P7419,,,gender educated,,,genders educated at this educational institution
+P26,配偶,,spouse,主体以对象为配偶（丈夫、妻子、伴侣等）。 未婚伴侣使用“未婚伴侣”（P451）,,"the subject has the object as their spouse (husband, wife, partner, etc.). Use ""unmarried partner"" (P451) for non-married companions"
+P5166,,,established from medical condition,,,cell line or xenograft established from an individual person or animal with a specific medical condition
+P5970,,,Medierådet rating,,,rating of a film in the Danish movie content rating system
+P658,曲目,,tracklist,该数据项所含曲目,,audio tracks contained in this release
+P2652,合伙对象,,partnership with,,,partnership (commercial or/and non-commercial) between this organization and another organization or institution
+P8131,電腦語言的方言,,dialect of computer language,具有此屬性的項目是一種電腦語言的方言（相對較小的變體）,,computer language of which an item with this property is a dialect (a relatively small variation)
+P3512,移动方式,,means of locomotion,,,method that the subject uses to move from one place to another
+P2770,收入來源,,source of income,機構或個人的收入來源,,source of income of an organization or person
+P421,时区,,located in time zone,所处的时区,,time zone for this item
+P1923,參與隊伍,қатысушы команда,participating team,類似於“參與者”（P710），但對於團隊而言。 對於諸如自行車賽或足球比賽之類的事件，您可以使用此屬性列出球隊，並使用P710列出個人（“運動隊成員”（P54）作為個人的預選賽）,,like 'Participant' (P710) but for teams. For an event like a cycle race or a football match you can use this property to list the teams and P710 to list the individuals (with 'member of sports team' (P54) as a qualifier for the individuals)
+P2554,美術指導,өндіріс дизайнері,production designer,,,"person(s) responsible for overall aesthetic of the story of this motion picture, play, video game or similar; responsible for visual concept, producing interior, exterior, location, graphics, etc; deals with many and varied logistic related to this"
+P8889,MTRCB分级,,MTRCB rating,菲律宾对电影或电视节目的分级,,rating of a film or television program in the Philippines
+P1535,使用者,,used by,,,item or concept that makes use of the subject (use sub-properties when appropriate)
+P4379,青年翼,,youth wing,,,group of younger people associated with this organization
+P706,所处地理环境,,located in/on physical feature,,,located on the specified (geo)physical feature. Should not be used when the value is only political/administrative (P131) or a mountain range (P4552).
+P2291,上榜,,charted in,,,chart where the element reached a position
+P1387,政治立場,,political alignment,政党或个人的政治立场,,political position within the left–right political spectrum
+P5132,,,suggests the existence of,,,medical conditions associated with the subject medical finding
+P2936,使用语言,,language used,在该地区或该场活动中所广泛使用（无论口语或书面语言）的语言,,language widely used (spoken or written) in this place or at this event
+P512,学位,ғылыми дәрежесі,academic degree,一种学术称号,тұлғаның ғылыми дәрежесі,academic degree that the person holds
+P8852,脸毛,,facial hair,,,"style of cutting, arranging, or combing the hair on the subject's face (usually on the chin, cheeks, and upper lip region); beard"
+P609,起止所在地,,terminus location,線性物件的端点所在的位置,,location of the terminus of a linear feature
+P562,中央銀行或發行機構,,central bank/issuer,負責此貨幣發行的機構或中央銀行,,central bank or other issuing authority for the currency
+P634,隊長,,team captain,,,captain of this sports team
+P4101,论文提交到,,dissertation submitted to,,,institution to whom a thesis or dissertation is submitted
+P2507,勘誤,,corrigendum / erratum,為了修正某出版物的印刷錯誤而附在出版物中的表單,,published notice that corrects or amends a previous publication
+P9929,麦兹海布,мазһабы,madhhab,,,Islamic school of thought within Fiqh
+P688,生物编码,,encodes,,,the product of a gene (protein or RNA)
+P4908,電視劇季,,season,電視劇集的季別,,"season of a series (televison, web, podcast)"
+P10241,個體所屬生物分類單元,,individual of taxon,個體生物（動物、植物）所屬的分類單元,,"the taxon of an individual named organism (animal, plant)"
+P674,登场角色,кейіпкерлер,characters,在作品内出现的人物,,"characters which appear in this item (like plays, operas, operettas, books, comics, films, TV series, video games)"
+P12526,,,performing organization,,,organization that received funding to create this entity
+P4913,属于之语言,,dialect of,具有此屬性的項目為一方言。若為於某個類語言被視為一種方言的情境，則使用“子類”（P279）。,,"language of which an item with this property is a dialect. Use in addition to ""subclass of"" (P279) if a languoid is also considered a dialect."
+P8058,,,symbol of,,,item of which the image is a symbol
+P36,行政中心,,capital,国家、省、州或其他类型行政领土实体的政府所在地,,"seat of government of a country, province, state or other type of administrative territorial entity"
+P170,創作作者,жасаушы,creator,藝術創作或其他類型的創作的作者（適用於該創作不帶有其他更精切屬性的情況）,,maker of this creative work or other object (where no more specific property exists)
+P1029,乘务员,,crew member(s),交通工具上参与运行或服务的人员,,person(s) that participated operating or serving aboard this vehicle
+P4437,,,FPB rating,,,rating of a film or video game in the South African media content rating system
+P545,火炬点燃者,,torch lit by,,,"person that lit the torch at an event, like the Olympic Games"
+P2881,,,promoted,,,competitor or team promoted during competition
+P3032,相邻建筑,,adjacent building,结构上相接的建筑,,building adjacent to the item
+P115,主场,,home venue,运动队或适用的表演艺术组织的主场或场地,,home stadium or venue of a sports team or applicable performing arts organization
+P1072,可讀取文件格式,оқылатын файл пішімі,readable file format,程式能夠開啟與閱讀的檔案格式,,file format a program can open and read
+P5202,改編者,,adapted by,負責安排或改編此版本原作品的人,,person responsible for the arrangement or adaptation resulting in this version of the original work
+P1142,政治意识形态,,political ideology,此组织或个人的政治意识形态,,political ideology of an organization or person or of a work (such as a newspaper)
+P167,替代建築,,structure replaced by,在同一地理位置替换此建筑物或结构的项目,,"the item which replaced this building or structure, at the same geographic location"
+P1950,西班牙語姓名第二姓氏,,second family name in Spanish name,西班牙名字中的第二個（通常為母親）姓氏（不用於其他雙管名稱）,,second (generally maternal) family name in Spanish names (do not use for other double barrelled names) and in some French names.
+P355,拥有下属机构,,has subsidiary,一家公司或组织的下属机构部门；通常是完全拥有的单立集团。与“业务部门”（P199）相对应。母组织（P749）的逆属性。,,"subsidiary of a company or organization; generally a fully owned separate corporation. Compare with ""business division"" (P199). Opposite of parent organization (P749)."
+P4743,品種,,animal breed,家畜所属动物品种,,"subject item belongs to a specific group of domestic animals, generally given by association"
+P1349,染色體倍性,,ploidy,基因組的染色體倍性,,"ploidy of a genome, a taxon or an anatomical entity"
+P2756,映倫電影分級,,EIRIN film rating,,,category in the Japanese film rating system (add EIRIN number with qualifier P2676)
+P9899,,,music created for,,,"a work, event, etc. for which a musical composition was created (e.g., a play for which incidental music was composed; a ballet for which ballet music was written; a film for which motion picture music was created)"
+P5514,,,accredited by,,,"optionally use together with ""subject has role"" (P2868)"
+P4330,容纳,,contains,位于该项目内部，但不属于其一部分的项目或物质,,item or substance located within this item but not part of it
+P748,委任者,,appointed by,,,"who appointed the person to the office, can be used as a qualifier"
+P941,启发自,,inspired by,启发此作品创作灵感的作品,,"work, human, place or event which inspired this creative work or fictional entity"
+P4600,,,polymer of,,,monomer of which this polymer compose
+P520,武器,,armament,配备的武器装备,,equippable weapon item for the subject
+P1383,包含聚落,,contains settlement,某行政區劃之中所包含的聚落,,settlement which an administrative division contains
+P183,特有分布,,endemic to,分类群生活的唯一位置或栖息地类型,,sole location or habitat type where the taxon lives
+P6885,历史地区,,historical region,在某個時間點具有文化，種族，語言或政治基礎的地理區域，無論現在的邊界如何,,"geographic area which at some point in time had a cultural, ethnic, linguistic or political basis, regardless of present-day borders"
+P10672,,,raw material processed,,,"raw or intermediate material, or a natural resource converted or consumed by a factory or industrial process, to manufacture a product, or to deliver energy (not to be confused with P186 that is used with products)"
+P803,,,professorship,,,professorship position held by this academic person
+P509,死因,,cause of death,死亡的直接原因（如车祸、胃癌等）。关于死亡更广的分类（如自然死亡、事故、他杀、自杀等）请使用P1196（死亡方式）。,,"underlying or immediate cause of death.  Underlying cause (e.g. car accident, stomach cancer) preferred. Use 'manner of death' (P1196) for broadest category, e.g. natural causes, accident, homicide, suicide"
+P3403,空间重合实体,,coextensive with,此项目与目标有相同的区划边界。,,this item has the same boundary as the target item; area associated with (this) entity is identical with the area associated with that entity
+P1652,裁判,,referee,比赛的裁判员,,referee or umpire of a match
+P4353,提名者,,nominated by,职位、奖项等的提名人,,who nominated a person for an office or award; can be used as a qualifier
+P4792,水壩,,dam,,,construction impounding this watercourse or creating this reservoir
