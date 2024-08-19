@@ -3,7 +3,7 @@ from pathlib import Path
 from py2neo import Graph, Node, Relationship
 
 # 连接到Neo4j数据库
-graph = Graph("bolt://120.48.107.254:7687", auth=("neo4j", "yh980727@"))
+graph = Graph("bolt://62.234.35.209:7687", auth=("neo4j", "yh980727@"))
 
 # 清空数据库（谨慎使用！）
 graph.delete_all()
@@ -52,12 +52,12 @@ def create_entity_relationships(file_path):
 
 # 主函数
 def main():
-    HOME_DIR = Path(__file__).parent / 'data_file_2'
-    import_entities(str(HOME_DIR / 'merged_kk_item_info.csv'))
-    import_entities(str(HOME_DIR / 'merged_kk_adjitem_info.csv'))
+    HOME_DIR = Path(__file__).parent / 'neo4j'
+    import_entities(str(HOME_DIR / 'item_info.csv'))
+    import_entities(str(HOME_DIR / 'adjitem_info.csv'))
 
     import_relationships(str(HOME_DIR / 'property_info.csv'))
-    create_entity_relationships(str(HOME_DIR / 'triplet_id.csv'))
+    create_entity_relationships(str(HOME_DIR / 'filtered_triplet_id.csv'))
 
     print("Data import completed.")
 

@@ -74,23 +74,23 @@ def building_new_query_qid(query_qid_file: str, entity_info_file: str) -> pd.Dat
     return new_query_qid_df
 
 
-query_qid_file = str(HOME_DIR / 'base_train_QID_filtered_search_results.csv')
-entity_info_file = str(HOME_DIR / 'base_train_query_entity_filtered_info.csv')
+query_qid_file = str(HOME_DIR / 'base_test2_QID_filtered_search_results.csv')
+entity_info_file = str(HOME_DIR / 'base_test2_query_entity_filtered_info.csv')
 
-new_qurey_qid_file = str(HOME_DIR / 'new_qurey_qid_get_triple_id.csv')
+# new_qurey_qid_file = str(HOME_DIR / 'new_qurey_qid_get_triple_id.csv')
 
-triplet_id_file = str(HOME_DIR / 'triplet_id.csv')
+triplet_id_file = str(HOME_DIR / 'base_test2_triplet_id.csv')
 
 # 构建新的 query_qid
-# query_qid_df = building_new_query_qid(query_qid_file, entity_info_file)
+query_qid_df = building_new_query_qid(query_qid_file, entity_info_file)
 # query_qid_df.to_csv(new_qurey_qid_file, index=False, encoding='utf-8')
 
-query_qid_df = pd.read_csv(new_qurey_qid_file, encoding='utf-8')
+# query_qid_df = pd.read_csv(new_qurey_qid_file, encoding='utf-8')
 query_qid_df = query_qid_df.astype(str)
 
 triplet_id = []
 
-start_idx = 6272
+start_idx = 595
 end_idx = query_qid_df.shape[0]
 pending_query_qid_df = query_qid_df.iloc[start_idx:end_idx]
 

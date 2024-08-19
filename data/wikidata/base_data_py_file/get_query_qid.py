@@ -6,12 +6,12 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
-HOME_DIR = Path(__file__).parent
+HOME_DIR = Path(__file__).parent.parent / 'base_data'
 # 定义 查询 对应 qid 的文件
-QID_search_results_file = str(HOME_DIR / 'base_train_QID_search_results.csv')
+QID_search_results_file = str(HOME_DIR / 'base_test2_QID_search_results.csv')
 
 # 加载 zh-kk base-train 查询数据 并将其转成列表
-dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-base/zh/train')
+dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test2')
 queries_df = pd.DataFrame(dataset_obj.queries_iter())
 # queries_list = queries_df['text'].to_list()
 
