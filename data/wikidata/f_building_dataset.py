@@ -57,97 +57,97 @@ test_qrels_df.to_csv(test_qrels_file, index=False, encoding='utf-8')
 
 
 
-# # 使用 ir_datasets 加载文档内容
-# CLIRMatrix_dataset = ir_datasets.load('clirmatrix/kk/bi139-full/zh/train') 
-# docstore = CLIRMatrix_dataset.docs_store()
+# 使用 ir_datasets 加载文档内容
+CLIRMatrix_dataset = ir_datasets.load('clirmatrix/kk/bi139-full/zh/train') 
+docstore = CLIRMatrix_dataset.docs_store()
 
-# # 构建JSONL数据
-# jsonl_data = []
+# 构建JSONL数据
+jsonl_data = []
 
-# adjitem_num = 3
-# size = int(0.8 * len(query2qid))
-# train_query2qid = query2qid.iloc[:size]
-# test_query2qid = query2qid.iloc[size:]
+adjitem_num = 3
+size = int(0.8 * len(query2qid))
+train_query2qid = query2qid.iloc[:size]
+test_query2qid = query2qid.iloc[size:]
 
-# for _, query_row in test_query2qid.iterrows():
-#     query_id = query_row['query_id']
-#     query_text = query_row['text']
-#     query_qid = query_row['qid']
+for _, query_row in test_query2qid.iterrows():
+    query_id = query_row['query_id']
+    query_text = query_row['text']
+    query_qid = query_row['qid']
     
-#     # 获取查询对应实体的信息
-#     q_item = item_info[item_info['item'] == query_qid].iloc[0]
+    # 获取查询对应实体的信息
+    q_item = item_info[item_info['item'] == query_qid].iloc[0]
 
-#     # 检查q_item中的'label_zh', 'label_kk' description_zh description_kk 是否有一个为空
-#     if q_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any():
-#         continue
+    # 检查q_item中的'label_zh', 'label_kk' description_zh description_kk 是否有一个为空
+    if q_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any():
+        continue
 
-#     q_item_info = {
-#         "label_zh": q_item['label_zh'],
-#         "label_kk": q_item['label_kk'],
-#         "description_zh": q_item['description_zh'],
-#         "description_kk": q_item['description_kk']
-#     }
+    q_item_info = {
+        "label_zh": q_item['label_zh'],
+        "label_kk": q_item['label_kk'],
+        "description_zh": q_item['description_zh'],
+        "description_kk": q_item['description_kk']
+    }
     
-#     # 获取相邻实体的信息
-#     # adj_items = filtered_triplet_id[filtered_triplet_id['item'] == qid]['adjItem'].unique()
-#     adj_items = triplet_id[triplet_id['item'] == query_qid]['adjItem']
+    # 获取相邻实体的信息
+    # adj_items = filtered_triplet_id[filtered_triplet_id['item'] == qid]['adjItem'].unique()
+    adj_items = triplet_id[triplet_id['item'] == query_qid]['adjItem']
 
-#     # 舍弃相邻实体数量为0的query
-#     if len(adj_items) == 0:
-#         continue
-#     elif len(adj_items) > 0 and len(adj_items) < adjitem_num:
-#         adj_items = adj_items.tolist()
-#         while len(adj_items) < adjitem_num:
-#             adj_items.append(adj_items[(adjitem_num - len(adj_items)) % len(adj_items)])
-#         adj_items = pd.Series(adj_items)
-#     else:
-#         # replace=False 是 pandas sample() 方法的一个参数，表示在抽样时不进行重复抽样
-#         # sampled_adj_items = adj_items.sample(adjitem_num, replace=False)
-#         adj_items = adj_items.sample(adjitem_num)
+    # 舍弃相邻实体数量为0的query
+    if len(adj_items) == 0:
+        continue
+    elif len(adj_items) > 0 and len(adj_items) < adjitem_num:
+        adj_items = adj_items.tolist()
+        while len(adj_items) < adjitem_num:
+            adj_items.append(adj_items[(adjitem_num - len(adj_items)) % len(adj_items)])
+        adj_items = pd.Series(adj_items)
+    else:
+        # replace=False 是 pandas sample() 方法的一个参数，表示在抽样时不进行重复抽样
+        # sampled_adj_items = adj_items.sample(adjitem_num, replace=False)
+        adj_items = adj_items.sample(adjitem_num)
 
-#     adj_item_info = {
-#         "label_zh": [],
-#         "label_kk": [],
-#         "description_zh": [],
-#         "description_kk": []
-#     }
+    adj_item_info = {
+        "label_zh": [],
+        "label_kk": [],
+        "description_zh": [],
+        "description_kk": []
+    }
     
-#     for adj_item in adj_items:
-#         adj_info = adjitem_info[adjitem_info['item'] == adj_item].iloc[0]
-#         # 这里可以判断一下 adj_item 中的下面的信息是否 为空
-#         adj_item_info["label_zh"].append(adj_info['label_zh'])
-#         adj_item_info["label_kk"].append(adj_info['label_kk'])
-#         adj_item_info["description_zh"].append(adj_info['description_zh'])
-#         adj_item_info["description_kk"].append(adj_info['description_kk'])
+    for adj_item in adj_items:
+        adj_info = adjitem_info[adjitem_info['item'] == adj_item].iloc[0]
+        # 这里可以判断一下 adj_item 中的下面的信息是否 为空
+        adj_item_info["label_zh"].append(adj_info['label_zh'])
+        adj_item_info["label_kk"].append(adj_info['label_kk'])
+        adj_item_info["description_zh"].append(adj_info['description_zh'])
+        adj_item_info["description_kk"].append(adj_info['description_kk'])
     
 
-#     query_docs = qrels[qrels['query_id'] == query_id]
-#     if len(query_docs) == 0:
-#         continue
-#     else:
-#         pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'][:3]
-#         # neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'][:3]
-#         neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(3)
+    query_docs = qrels[qrels['query_id'] == query_id]
+    if len(query_docs) == 0:
+        continue
+    else:
+        pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'][:3]
+        # neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'][:3]
+        neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(3)
 
         
-#         pos_doc_texts = [docstore.get(doc_id).text for doc_id in pos_doc_ids]
-#         neg_doc_texts = [docstore.get(doc_id).text for doc_id in neg_doc_ids]
+        pos_doc_texts = [docstore.get(doc_id).text for doc_id in pos_doc_ids]
+        neg_doc_texts = [docstore.get(doc_id).text for doc_id in neg_doc_ids]
     
-#     # if len(pos_doc_texts) == 0:
-#     #     continue
+    # if len(pos_doc_texts) == 0:
+    #     continue
     
-#     jsonl_data.append({
-#         "query_id": query_id,
-#         "query": query_text,
-#         "pos_doc": pos_doc_texts,
-#         "neg_doc": neg_doc_texts,
-#         "q_item_info": q_item_info,
-#         "adj_item_info": adj_item_info
-#     })
+    jsonl_data.append({
+        "query_id": query_id,
+        "query": query_text,
+        "pos_doc": pos_doc_texts,
+        "neg_doc": neg_doc_texts,
+        "q_item_info": q_item_info,
+        "adj_item_info": adj_item_info
+    })
 
-# # 将数据写入JSONL文件
-# with jsonlines.open(test_dataset_file, mode='w') as writer:
-#     writer.write_all(jsonl_data)
+# 将数据写入JSONL文件
+with jsonlines.open(test_dataset_file, mode='w') as writer:
+    writer.write_all(jsonl_data)
 
 
 
