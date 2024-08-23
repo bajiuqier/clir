@@ -89,7 +89,7 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         
     return new_qrels
 
-new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=True)
+# new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=True)
 
 
 

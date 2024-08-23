@@ -43,7 +43,7 @@ with jsonlines.open(test_dataset_file, mode='r') as reader:
 
 # 步骤2: 读取qrels数据
 
-# 步骤3: 只保留存在于jsonl文件中的query_id对应的行
+# 步骤3: 只保留存在于jsonl文件中的 query_id 对应的行
 train_qrels_df = qrels[qrels['query_id'].isin(train_query_ids)]
 train_qrels_df.to_csv(train_qrels_file, index=False, encoding='utf-8')
 
