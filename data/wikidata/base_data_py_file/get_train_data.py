@@ -25,6 +25,8 @@ query_ids = set(triple_id_df['query_id'])
 
 # 过滤掉多余的 query_id 的文档数据
 qrels_filtered_df = qrels_df[qrels_df['query_id'].isin(query_ids)]
+# 过滤后 query 数量为 5092
+# 文章
 
 
 def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, save_new_qrels: bool=True) -> pd.DataFrame:
