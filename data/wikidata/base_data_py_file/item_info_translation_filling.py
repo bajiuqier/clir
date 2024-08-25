@@ -3,29 +3,12 @@ import pandas as pd
 # 这个库要求 httpx==0.13.3
 # 但环境中的其他库可能需要更高版本的 httpx 所以为翻译任务单独创建一个环境
 from googletrans import Translator
+from translation_utils import google_translate
 import time
 
+from pathlib import Path
+HOME_DIR = Path(__file__).parent.parent / 'base_data'
 
-# 打印支持的语言
-# print(googletrans.LANGUAGES)
-
-
-# for index, row in data_df.iterrows():
-#     print(str(row[1]))
-#     if index == 3:
-
-#         break
-
-# 设置Google翻译服务地址
-# translator = Translator(service_urls=[
-#       'translate.google.com'
-# ])
-# 不设置的话 应该有默认值 translate.google.com
-translator = Translator()
-translation = translator.translate('A woman with a black shirt and tan apron is standing behind a counter in a restaurant .', dest='zh-cn').text
-
-print(translation)
-# zh_text = []
 
 # for index, row in data_df.iterrows():
 
