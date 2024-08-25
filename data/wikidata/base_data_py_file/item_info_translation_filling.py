@@ -1,18 +1,14 @@
 import pandas as pd
-from googletrans import Translator
-import time
-
 # pip install googletrans==4.0.0-rc1
 # 这个库要求 httpx==0.13.3
 # 但环境中的其他库可能需要更高版本的 httpx 所以为翻译任务单独创建一个环境
+from googletrans import Translator
+import time
 
+
+# 打印支持的语言
 # print(googletrans.LANGUAGES)
-# data_path = '/home/yanghe/Downloads/1001-1500.xlsx'
-# data_df = pd.read_excel(data_path, header=None)
 
-# en_data = data_df.iloc[:100,1]
-# en_data.to_csv('/home/yanghe/Downloads/501-600_en.csv', index=False, header=False)
-# data_df[1].to_excel('/home/yanghe/Downloads/1001-1500.xlsx', index=False, header=False)
 
 # for index, row in data_df.iterrows():
 #     print(str(row[1]))
@@ -24,6 +20,7 @@ import time
 # translator = Translator(service_urls=[
 #       'translate.google.com'
 # ])
+# 不设置的话 应该有默认值 translate.google.com
 translator = Translator()
 translation = translator.translate('A woman with a black shirt and tan apron is standing behind a counter in a restaurant .', dest='zh-cn').text
 
