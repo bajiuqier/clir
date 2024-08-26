@@ -76,6 +76,11 @@ def google_translate(text: Union[str, List[str]], dest: str='zh-cn', src: str='a
             try:
                 translation = translator.translate(text=item, dest=dest)
                 translation_text.append(translation.text)
+
+                # 如果没有错误 重置错误次数计数器 
+                if has_error_num <= 5:
+                    has_error_num = 0
+
             except Exception as e:
                 print(f"Error translating '{item}': {e}")
                 translation_text.append("error error error la")
