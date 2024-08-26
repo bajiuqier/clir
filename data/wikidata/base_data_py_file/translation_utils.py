@@ -3,7 +3,7 @@
 # 但环境中的其他库可能需要更高版本的 httpx 所以为翻译任务单独创建一个环境
 import googletrans
 # from googletrans import Translator
-from typing import Union
+from typing import Union, List
 from tqdm import tqdm
 
 # 打印支持的语言
@@ -37,17 +37,68 @@ translator = googletrans.Translator()
 # translation = translator.translate('A woman with a black shirt and tan apron is standing behind a counter in a restaurant .', dest='zh-cn')
 # print(translation.text)
 
-def google_translate(text: Union[str, list[str]], dest: str = 'zh-cn') -> Union[str, list[str]]:
+def google_translate(text: Union[str, List[str]], dest: str='zh-cn', src: str='auto') -> Union[str, List[str]]:
+    translator = googletrans.Translator()
+
     if isinstance(text, str):
-        translation = translator.translate(text=text, dest=dest)
-        translation_text = translation.text
+        try:
+            translation = translator.translate(text=text, dest=dest, src=src)
+            translation_text = translation.text
+        except Exception as e:
+            print(f"Error translating text: {e}")
+            translation_text = "error error error la"
+
+    # elif isinstance(text, list) and isinstance(text[0], str):
+    #     translation_text = []
+    #     try:
+    #         has_error = False
+    #         for item in tqdm(text, total=len(text)):
+    #             translation = translator.translate(text=item, dest=dest, src=src)
+    #             translation_text.append(translation.text)
+    #     except Exception as e:
+    #         print(f"Error translating '{item}': {e}")
+    #         translation_text.append("errorerrorerror")
+    #         has_error = True
+
+    #     if has_error:
+    #         print("所有文本已经翻译完成 过程中出现了翻译错误 请检查值为 'errorerrorerror' 的数据")
+    #     else:
+    #         print("所有文本已经翻译完成 没有出现错误")
 
     elif isinstance(text, list) and isinstance(text[0], str):
         translation_text = []
-        for item in tqdm(text, total=len(text)):
-            translation = translator.translate(text=item, dest=dest)
-            translation_text.append(translation.text)
+
+        has_error = False
+        has_error_num = 0
+
+        for item in tqdm(text, total=len(text), desc="Translating"):
+        # for item in tqdm(text, total=len(text)):
+            try:
+                translation = translator.translate(text=item, dest=dest)
+                translation_text.append(translation.text)
+            except Exception as e:
+                print(f"Error translating '{item}': {e}")
+                translation_text.append("error error error la")
+
+                if not has_error:
+                    has_error = True
+                    has_error_num = has_error_num + 1
+                else:
+                    has_error_num += 1
+
+            # 如果出错的次数太多了 可能是 time out 了 就跳出循环
+            if has_error_num > 5:
+                break
+        
+        if has_error and has_error_num > 5:
+            print("出现了错误 只翻译了部分文本")
+        elif has_error and has_error_num <= 5:
+            print("所有文本已经翻译完成 过程中出现了翻译错误 请检查值为 'error error error la' 的数据")
+        else:
+            print("所有文本已经翻译完成 没有出现错误")
+
+    
     else:
-        ValueError("请检查翻译文本的数据类型是否为 str 或者 list[str] ")
+        raise ValueError("请检查翻译文本的数据类型是否为 str 或者 list[str] ")
 
     return translation_text
