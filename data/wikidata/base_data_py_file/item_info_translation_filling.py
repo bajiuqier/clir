@@ -6,9 +6,21 @@ from googletrans import Translator
 from translation_utils import google_translate
 import time
 
-from pathlib import Path
-HOME_DIR = Path(__file__).parent.parent / 'base_data'
 
+# 打印支持的语言
+# print(googletrans.LANGUAGES)
+
+
+# 设置Google翻译服务地址
+# translator = Translator(service_urls=[
+#       'translate.google.com'
+# ])
+# 不设置的话 应该有默认值 translate.google.com
+translator = Translator()
+translation = translator.translate('A woman with a black shirt and tan apron is standing behind a counter in a restaurant .', dest='zh-cn').text
+
+print(translation)
+# zh_text = []
 
 # for index, row in data_df.iterrows():
 
