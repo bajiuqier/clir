@@ -46,7 +46,7 @@ def filling_item_info_old(item_info_file: str, filled_file: str=None, save_fille
 
         # 填充哈萨克文描述
         if pd.isna(row['description_kk']) or row['description_kk'] == error_str:
-            description_kk_trans = google_translate(text=description_en, dest=lang_zh, src=lang_src)
+            description_kk_trans = google_translate(text=description_en, dest=lang_kk, src=lang_src)
             if description_kk_trans == error_str:
                 has_error_num += 1
             else:
@@ -106,9 +106,9 @@ def filling_item_info(item_info_file: str, filled_file: str=None, save_filled_fi
 
 if __name__ == "__main__":
 
-    item_info_file = str(HOME_DIR / 'base_train_query_entity_filtered_info.csv')
-    item_info_filled_file = str(HOME_DIR / 'base_train_query_entity_filled_info_1.csv')
+    item_info_file = str(HOME_DIR / 'base_train_query_entity_filled_info_1.csv')
+    item_info_filled_file = str(HOME_DIR / 'base_train_query_entity_filled_info_2.csv')
 
-    item_info_filled_df = filling_item_info_old(item_info_file=item_info_file, filled_file=item_info_filled_file, save_filled_file=True)
-    print(item_info_filled_df)
+    # item_info_filled_df = filling_item_info_old(item_info_file=item_info_file, filled_file=item_info_filled_file, save_filled_file=True)
+    # print(item_info_filled_df)
     
