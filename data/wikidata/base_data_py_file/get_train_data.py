@@ -27,6 +27,8 @@ query_ids = set(triple_id_df['query_id'])
 qrels_filtered_df = qrels_df[qrels_df['query_id'].isin(query_ids)]
 # 过滤后 query 数量为 5092
 # 段落数量 201707
+qrels_filtered_df.drop('iteration', axis=1, inplace=True)
+
 
 
 def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, save_new_qrels: bool=True) -> pd.DataFrame:
@@ -35,17 +37,18 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
     其中 相关度从高到底 6 5 4 3 2 1 0
     full 版本数据的 qrels 和 base不同的是 query 没有对应的负样本文档 及 没有相关度为 0 的文档 id
     '''
-
-    # 计算每个query_id对应的relevance为0的doc_id数量
-    # zero_counts = original_qrels[original_qrels['relevance'] == 0].groupby('query_id').size().reset_index(name='zero_count')
-    
     # 设置随机种子
     random_seed = 42
     random.seed(random_seed)
-    # 获取 query_ids
-    query_ids = original_qrels['query_id'].unique()
+
+    # 计算每个 query_id 对应的 relevance 为 0 的 doc_id 数量
+    neg_samples_counts_df = original_qrels[original_qrels['relevance'] == 0].groupby('query_id').size().reset_index(name='neg_sample_count')
+    # query_id 对应的 relevance 为 0 的 doc_id 数量 不足 5个的 query_id
+    insufficient_neg_samples_df = neg_samples_counts_df[neg_samples_counts_df['neg_sample_count'] < 5]
+    # 获取 这些 query_ids
+    query_ids = insufficient_neg_samples_df['query_id'].unique()
     # 准备一个包含所有doc_id的列表，用于随机选择
-    all_doc_ids = qrels_df['doc_id'].unique()
+    all_doc_ids = original_qrels['doc_id'].unique()
 
     # 定义一个列表 存储 添加的负样本
     new_rows = []
@@ -91,7 +94,7 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         
     return new_qrels
 
-# new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=True)
+new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=False)
 
 def build_train_data():
     pass
