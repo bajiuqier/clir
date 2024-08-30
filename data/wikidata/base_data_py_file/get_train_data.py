@@ -4,33 +4,6 @@ import ir_datasets
 import random
 from tqdm import tqdm
 
-
-HOME_DIR = Path(__file__).parent.parent / 'base_data'
-
-triple_id_file = str(HOME_DIR / 'base_train_triplet_id_fragment_5.csv')
-new_qrels_file = str(HOME_DIR / 'base_train_qrels.csv')
-
-# 加载 zh-kk clir 数据集
-CLIRMatrix_dataset = ir_datasets.load('clirmatrix/kk/bi139-base/zh/train')
-
-# queries_df = pd.DataFrame(CLIRMatrix_dataset.queries_iter())
-# docstore = CLIRMatrix_dataset.docs_store()
-
-# 加载原始的 qrels 数据
-qrels_df = pd.DataFrame(CLIRMatrix_dataset.qrels_iter())
-# 加载经过 获取过三元组数据的 query_id 数据
-triple_id_df = pd.read_csv(triple_id_file, encoding='utf-8').astype(str)
-# 取出 处理过后的数据中的 query_id 的唯一值
-query_ids = set(triple_id_df['query_id'])
-
-# 过滤掉多余的 query_id 的文档数据
-qrels_filtered_df = qrels_df[qrels_df['query_id'].isin(query_ids)]
-# 过滤后 query 数量为 5092
-# 段落数量 201707
-qrels_filtered_df.drop('iteration', axis=1, inplace=True)
-
-
-
 def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, save_new_qrels: bool=True) -> pd.DataFrame:
     '''
     base 版本数据的 qrels 中，作者已经为每个 query 构建了 100 个对应的文档
@@ -87,18 +60,58 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         original_qrels = pd.concat([original_qrels, pd.DataFrame(new_rows)], ignore_index=True)
 
     # 按 query_id 和 relevance 排序，保证每个 query_id 对应的100个 doc_id 是连续的
+    original_qrels['query_id'] = original_qrels['query_id'].astype(int)
+    original_qrels['relevance'] = original_qrels['relevance'].astype(int)
     new_qrels = original_qrels.sort_values(by=['query_id', 'relevance'], ascending=[True, False]).reset_index(drop=True)
+
+    new_qrels['query_id'] = new_qrels['query_id'].astype(str)
+    new_qrels['doc_id'] = new_qrels['doc_id'].astype(str)
+    new_qrels['relevance'] = new_qrels['relevance'].astype(int)
 
     if save_new_qrels:
         new_qrels.to_csv(new_qrels_file, index=False, encoding='utf-8')
+        print("------------------------------------------------------")
+        print(f"新的 qrels 文件已经保存在{new_qrels_file}")
+        print("------------------------------------------------------")
         
     return new_qrels
 
-new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=False)
-
 def build_train_data():
+    '''
+    构建 训练 使用的 jsonl 数据    
+    '''
+    
     pass
 
+if __name__ == "__main__":
 
+    HOME_DIR = Path(__file__).parent.parent / 'base_data'
 
+    # 加载 zh-kk clir 数据集
+    CLIRMatrix_dataset = ir_datasets.load('clirmatrix/kk/bi139-base/zh/train')
+
+    # queries_df = pd.DataFrame(CLIRMatrix_dataset.queries_iter())
+    # docstore = CLIRMatrix_dataset.docs_store()
+
+    # ----------------------- 整理原始的 qrels -----------------------
+    # 加载原始的 qrels 数据
+    qrels_df = pd.DataFrame(CLIRMatrix_dataset.qrels_iter())
+    # 加载经过 获取过三元组数据的 query_id 数据
+    triple_id_file = str(HOME_DIR / 'base_train_triplet_id_fragment_5.csv')
+    triple_id_df = pd.read_csv(triple_id_file, encoding='utf-8').astype(str)
+    # 取出 处理过后的数据中的 query_id 的唯一值
+    query_ids = set(triple_id_df['query_id'])
+
+    # 过滤掉多余的 query_id 的文档数据
+    qrels_filtered_df = qrels_df[qrels_df['query_id'].isin(query_ids)]
+    # 过滤后 query 数量为 5092
+    # 段落数量 201707
+
+    # 删除 iteration 列数据
+    qrels_filtered_df.drop('iteration', axis=1, inplace=True)
+
+    # ----------------------- 构建新的 qrels -----------------------
+    new_qrels_file = str(HOME_DIR / 'base_train_qrels.csv')
+    new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=False)
+    print(new_qrels_df)
 
