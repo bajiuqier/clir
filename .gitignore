@@ -30,6 +30,6 @@ cython_debug/
 /data/wikidata/base_data/*
 /data/wikidata/triplet_id_segment/*
 /data/wikidata/neo4j/*
-
+/data/wikidata/base_train_adj_item_info/*
 
 
