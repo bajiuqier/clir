@@ -5,7 +5,10 @@ from tqdm import tqdm
 
 HOME_DIR = Path(__file__).parent.parent / 'base_data'
 
-def filling_item_info_old(item_info_file: str, filled_file: str=None, save_filled_file: bool=True) -> pd.DataFrame:
+def single_filling_item_info(item_info_file: str, filled_file: str=None, save_filled_file: bool=True) -> pd.DataFrame:
+    '''
+    使用 谷歌翻译 API 翻译
+    '''
     item_info_df = pd.read_csv(item_info_file, encoding='utf-8')
 
     lang_zh = 'zh-cn'
@@ -64,7 +67,10 @@ def filling_item_info_old(item_info_file: str, filled_file: str=None, save_fille
 
     return item_info_df
 
-def filling_item_info(item_info_file: str, filled_file: str=None, save_filled_file: bool=True) -> pd.DataFrame:
+def multi_filling_item_info(item_info_file: str, filled_file: str=None, save_filled_file: bool=True) -> pd.DataFrame:
+    '''
+    使用 谷歌翻译 API 翻译
+    '''
     item_info_df = pd.read_csv(item_info_file, encoding='utf-8')
 
     lang_zh = 'zh-cn'
@@ -104,11 +110,39 @@ def filling_item_info(item_info_file: str, filled_file: str=None, save_filled_fi
 
     return item_info_df
 
+def artificial_filling_item_info(item_info_file: str, filled_file: str):
+    '''
+    将 过滤后的 item info 文件 存储为 xlsx 文件
+    根据 label_en 和 description_en 手动翻译 过滤后的 item info
+    将翻译后的 zh 和 kk info 添加 作为新的列数据 添加到 文件中
+    添加的新列名 ["MT_label_zh", "MT_description_zh", "MT_label_kk", "MT_description_kk"]
+    将zh kk 缺失的信息 根据新添加的数据 进行填充
+    '''
+    item_info_df = pd.read_excel(item_info_file, index_col=0)
+    for index, row in tqdm(item_info_df.iterrows(), total=item_info_df.shape[0]):
+        if pd.isna(row["label_zh"]) and not pd.isna(row["MT_label_zh"]):
+            row["label_zh"] = row["MT_label_zh"]
+        
+        if pd.isna(row["description_zh"]) and not pd.isna(row["MT_description_zh"]):
+            row["description_zh"] = row["MT_description_zh"]
+
+        if pd.isna(row["label_kk"]) and not pd.isna(row["MT_label_kk"]):
+            row["label_kk"] = row["MT_label_kk"]
+
+        if pd.isna(row["description_kk"]) and not pd.isna(row["MT_description_kk"]):
+            row["description_kk"] = row["MT_description_kk"]
+
+    item_info_df.to_excel(filled_file, index=False)
+    print("--------------------------------------")
+    print(f"填充好的数据已经存储在了{filled_file}")
+    print("--------------------------------------")
+
+
 if __name__ == "__main__":
 
-    item_info_file = str(HOME_DIR / 'base_train_query_entity_filled_info_1.csv')
-    item_info_filled_file = str(HOME_DIR / 'base_train_query_entity_filled_info_2.csv')
+    item_info_file = str(HOME_DIR / 'base_train_adj_item_filtered_MT_info.xlsx')
+    item_info_filled_file = str(HOME_DIR / 'base_train_adj_item_filled_info.xlsx')
 
-    # item_info_filled_df = filling_item_info_old(item_info_file=item_info_file, filled_file=item_info_filled_file, save_filled_file=True)
+    # item_info_filled_df = single_filling_item_info(item_info_file=item_info_file, filled_file=item_info_filled_file, save_filled_file=True)
     # print(item_info_filled_df)
-    
+    artificial_filling_item_info(item_info_file=item_info_file, filled_file=item_info_filled_file)

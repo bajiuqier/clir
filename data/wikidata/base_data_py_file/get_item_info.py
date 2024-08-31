@@ -177,46 +177,46 @@ if __name__ == "__main__":
 
     # ------------------ 获取相邻实体的 adj_item_info ------------------
 
-    ADJ_ITEM_INFO_HOME_DIR = Path(__file__).parent.parent / 'base_train_adj_item_info'
+    # ADJ_ITEM_INFO_HOME_DIR = Path(__file__).parent.parent / 'base_train_adj_item_info'
 
-    triplet_id_file = str(HOME_DIR / 'base_train_triplet_id_fragment_3.csv')
+    # triplet_id_file = str(HOME_DIR / 'base_train_triplet_id_fragment_3.csv')
 
-    triplet_id_df = pd.read_csv(triplet_id_file, encoding='utf-8')
-    triplet_id_df = triplet_id_df.astype(str)
+    # triplet_id_df = pd.read_csv(triplet_id_file, encoding='utf-8')
+    # triplet_id_df = triplet_id_df.astype(str)
 
-    adj_item_qid_list = triplet_id_df.loc[:]['adj_item_qid'].to_list()
-    # 去除 列表中的重复值
-    adj_item_qid_list = list(set(adj_item_qid_list))
+    # adj_item_qid_list = triplet_id_df.loc[:]['adj_item_qid'].to_list()
+    # # 去除 列表中的重复值
+    # adj_item_qid_list = list(set(adj_item_qid_list))
 
-    # 假设这是您的工作目录中的一个文件，用于存储已处理的QID
-    PROCESSED_QIDS_FILE = str(ADJ_ITEM_INFO_HOME_DIR / "processed_qids.json")
+    # # 假设这是您的工作目录中的一个文件，用于存储已处理的QID
+    # PROCESSED_QIDS_FILE = str(ADJ_ITEM_INFO_HOME_DIR / "processed_qids.json")
 
-    loop_num = 0
+    # loop_num = 0
 
-    if isinstance(adj_item_qid_list[0], str):
+    # if isinstance(adj_item_qid_list[0], str):
 
-        # 读取已经 处理的 item qid
-        processed_qids = load_processed_qids(PROCESSED_QIDS_FILE=PROCESSED_QIDS_FILE)  # 获取已经处理过的 item 的 qid
+    #     # 读取已经 处理的 item qid
+    #     processed_qids = load_processed_qids(PROCESSED_QIDS_FILE=PROCESSED_QIDS_FILE)  # 获取已经处理过的 item 的 qid
 
-        while len(processed_qids) < len(adj_item_qid_list):
+    #     while len(processed_qids) < len(adj_item_qid_list):
 
-            print("-------------------------------------------------------")
-            print(f"第 {loop_num} 次处理数据")
-            print("-------------------------------------------------------")
+    #         print("-------------------------------------------------------")
+    #         print(f"第 {loop_num} 次处理数据")
+    #         print("-------------------------------------------------------")
             
-            property_info_df, processed_qids = multithreading_fetch_item_info(qid_list=adj_item_qid_list, processed_qids=processed_qids)
+    #         property_info_df, processed_qids = multithreading_fetch_item_info(qid_list=adj_item_qid_list, processed_qids=processed_qids)
 
-            adj_item_info_file = str(ADJ_ITEM_INFO_HOME_DIR / f"base_train_adj_item_info_{loop_num}.csv")
+    #         adj_item_info_file = str(ADJ_ITEM_INFO_HOME_DIR / f"base_train_adj_item_info_{loop_num}.csv")
 
-            property_info_df.to_csv(adj_item_info_file, index=False, encoding='utf-8')
+    #         property_info_df.to_csv(adj_item_info_file, index=False, encoding='utf-8')
 
-            loop_num = loop_num + 1
+    #         loop_num = loop_num + 1
 
-            save_processed_qids(processed_qids=processed_qids, PROCESSED_QIDS_FILE=PROCESSED_QIDS_FILE)
+    #         save_processed_qids(processed_qids=processed_qids, PROCESSED_QIDS_FILE=PROCESSED_QIDS_FILE)
 
-    else:
-        raise ValueError('qid_list 里面的 qid 需要是 str 类型')
+    # else:
+    #     raise ValueError('qid_list 里面的 qid 需要是 str 类型')
     
-    print("-------------------------------------------------------")
-    print(f"数据处理完成 一共循环了{loop_num}次 文件存储在了{ADJ_ITEM_INFO_HOME_DIR}")
-    print("-------------------------------------------------------")
+    # print("-------------------------------------------------------")
+    # print(f"数据处理完成 一共循环了{loop_num}次 文件存储在了{ADJ_ITEM_INFO_HOME_DIR}")
+    # print("-------------------------------------------------------")
