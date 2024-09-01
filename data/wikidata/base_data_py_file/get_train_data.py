@@ -2,7 +2,23 @@ import pandas as pd
 from pathlib import Path
 import ir_datasets
 import random
+import jsonlines
+from typing import NamedTuple
 from tqdm import tqdm
+
+
+def filter_qrels(qrels_df: pd.DataFrame, filter_reference_file: str) -> pd.DataFrame:
+
+    # 加载 过滤 所需的文件
+    filter_reference_df = pd.read_csv(filter_reference_file, encoding='utf-8').astype(str)
+    query_ids = set(filter_reference_df['query_id'])
+
+    # 过滤掉多余的 query_id 的文档数据
+    qrels_filtered_df = qrels_df[qrels_df['query_id'].isin(query_ids)]
+    # 删除 iteration 列数据
+    qrels_filtered_df.drop('iteration', axis=1, inplace=True)
+
+    return qrels_filtered_df
 
 def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, save_new_qrels: bool=True) -> pd.DataFrame:
     '''
@@ -76,12 +92,116 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         
     return new_qrels
 
-def build_train_data():
+def build_train_data(docstore: NamedTuple, query_qid_file: str, qrels_file: str, item_info_file: str, triple_id_file: str):
     '''
     构建 训练 使用的 jsonl 数据    
     '''
-    
+    query_qid_df = pd.read_csv(query_qid_file, encoding='utf-8')
+
+    qrels_df = pd.read_csv(qrels_file, encoding='utf-8')
+
+    item_info_df = pd.read_csv(item_info_file, encoding='utf-8')
+
+    triple_id_df = pd.read_csv(triple_id_file, encoding='utf-8')
+
+    # 使用 ir_datasets 加载文档内容
+    CLIRMatrix_dataset = ir_datasets.load('clirmatrix/kk/bi139-full/zh/train') 
+    docstore = CLIRMatrix_dataset.docs_store()
+
+    # 构建JSONL数据
+    jsonl_data = []
+
+    adjitem_num = 3
+    size = int(0.8 * len(query2qid))
+    train_query2qid = query2qid.iloc[:size]
+    test_query2qid = query2qid.iloc[size:]
+
+    for _, query_row in test_query2qid.iterrows():
+        query_id = query_row['query_id']
+        query_text = query_row['text']
+        query_qid = query_row['qid']
+        
+        # 获取查询对应实体的信息
+        q_item = item_info[item_info['item'] == query_qid].iloc[0]
+
+        # 检查q_item中的'label_zh', 'label_kk' description_zh description_kk 是否有一个为空
+        if q_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any():
+            continue
+
+        q_item_info = {
+            "label_zh": q_item['label_zh'],
+            "label_kk": q_item['label_kk'],
+            "description_zh": q_item['description_zh'],
+            "description_kk": q_item['description_kk']
+        }
+        
+        # 获取相邻实体的信息
+        # adj_items = filtered_triplet_id[filtered_triplet_id['item'] == qid]['adjItem'].unique()
+        adj_items = triplet_id[triplet_id['item'] == query_qid]['adjItem']
+
+        # 舍弃相邻实体数量为0的query
+        if len(adj_items) == 0:
+            continue
+        elif len(adj_items) > 0 and len(adj_items) < adjitem_num:
+            adj_items = adj_items.tolist()
+            while len(adj_items) < adjitem_num:
+                adj_items.append(adj_items[(adjitem_num - len(adj_items)) % len(adj_items)])
+            adj_items = pd.Series(adj_items)
+        else:
+            # replace=False 是 pandas sample() 方法的一个参数，表示在抽样时不进行重复抽样
+            # sampled_adj_items = adj_items.sample(adjitem_num, replace=False)
+            adj_items = adj_items.sample(adjitem_num)
+
+        adj_item_info = {
+            "label_zh": [],
+            "label_kk": [],
+            "description_zh": [],
+            "description_kk": []
+        }
+        
+        for adj_item in adj_items:
+            adj_info = adjitem_info[adjitem_info['item'] == adj_item].iloc[0]
+            # 这里可以判断一下 adj_item 中的下面的信息是否 为空
+            adj_item_info["label_zh"].append(adj_info['label_zh'])
+            adj_item_info["label_kk"].append(adj_info['label_kk'])
+            adj_item_info["description_zh"].append(adj_info['description_zh'])
+            adj_item_info["description_kk"].append(adj_info['description_kk'])
+        
+
+        query_docs = qrels[qrels['query_id'] == query_id]
+        if len(query_docs) == 0:
+            continue
+        else:
+            pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'][:3]
+            # neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'][:3]
+            neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(3)
+
+            
+            pos_doc_texts = [docstore.get(doc_id).text for doc_id in pos_doc_ids]
+            neg_doc_texts = [docstore.get(doc_id).text for doc_id in neg_doc_ids]
+        
+        # if len(pos_doc_texts) == 0:
+        #     continue
+        
+        jsonl_data.append({
+            "query_id": query_id,
+            "query": query_text,
+            "pos_doc": pos_doc_texts,
+            "neg_doc": neg_doc_texts,
+            "q_item_info": q_item_info,
+            "adj_item_info": adj_item_info
+        })
+
+    # 将数据写入JSONL文件
+    with jsonlines.open(test_dataset_file, mode='w') as writer:
+        writer.write_all(jsonl_data)
+
+
+
     pass
+
+
+
 
 if __name__ == "__main__":
 
@@ -89,28 +209,20 @@ if __name__ == "__main__":
 
     # 加载 zh-kk clir 数据集
     CLIRMatrix_dataset = ir_datasets.load('clirmatrix/kk/bi139-base/zh/train')
-
+    # 加载原始查询数据
     # queries_df = pd.DataFrame(CLIRMatrix_dataset.queries_iter())
-    # docstore = CLIRMatrix_dataset.docs_store()
-
-    # ----------------------- 整理原始的 qrels -----------------------
+    # 加载 doc 数据
+    docstore = CLIRMatrix_dataset.docs_store()
     # 加载原始的 qrels 数据
     qrels_df = pd.DataFrame(CLIRMatrix_dataset.qrels_iter())
-    # 加载经过 获取过三元组数据的 query_id 数据
-    triple_id_file = str(HOME_DIR / 'base_train_triplet_id_fragment_5.csv')
-    triple_id_df = pd.read_csv(triple_id_file, encoding='utf-8').astype(str)
-    # 取出 处理过后的数据中的 query_id 的唯一值
-    query_ids = set(triple_id_df['query_id'])
 
-    # 过滤掉多余的 query_id 的文档数据
-    qrels_filtered_df = qrels_df[qrels_df['query_id'].isin(query_ids)]
+    # 加载过滤 qrels 数据所需的参考文件
+    triple_id_file = str(HOME_DIR / 'base_train_triplet_id_fragment_5.csv')
+
+    qrels_filtered_df = filter_qrels(qrels_df=qrels_df, filter_reference_file=triple_id_file)
     # 过滤后 query 数量为 5092
     # 段落数量 201707
 
-    # 删除 iteration 列数据
-    qrels_filtered_df.drop('iteration', axis=1, inplace=True)
-
-    # ----------------------- 构建新的 qrels -----------------------
     new_qrels_file = str(HOME_DIR / 'base_train_qrels.csv')
     new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=False)
     print(new_qrels_df)
