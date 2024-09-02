@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 HOME_DIR = Path(__file__).parent.parent / 'base_data'
 # 定义 查询 对应 qid 的文件
-QID_search_results_file = str(HOME_DIR / 'base_test2_QID_search_results.csv')
+query_entity_qid_file = str(HOME_DIR / 'base_test2_query_entity_qid.csv')
 
 # 加载 zh-kk base-train 查询数据 并将其转成列表
 dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test2')
@@ -80,4 +80,4 @@ if __name__ == "__main__":
 
     if not error_occurred:
         df = pd.DataFrame(results)
-        df.to_csv(QID_search_results_file, index=False, encoding='utf-8')
+        df.to_csv(query_entity_qid_file, index=False, encoding='utf-8')

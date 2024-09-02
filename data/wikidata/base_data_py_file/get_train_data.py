@@ -92,7 +92,7 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         
     return new_qrels
 
-def build_train_data(
+def build_dataset(
         docstore: NamedTuple,
         query_qid_file: str,
         qrels_file: str,
@@ -128,7 +128,7 @@ def build_train_data(
 
         # 获取查询对应实体的信息
         q_item = item_info_df[item_info_df['item_qid'] == q_item_qid]
-        
+
         if q_item.shape[0] == 0:
             continue
         else:
@@ -172,7 +172,13 @@ def build_train_data(
         stop_inner = False
 
         for adj_item_qid in adj_item_qids:
-            adj_item = adj_item_info_df[adj_item_info_df['item_qid'] == adj_item_qid].iloc[0]
+            adj_item = adj_item_info_df[adj_item_info_df['item_qid'] == adj_item_qid]
+
+            if adj_item.shape[0] == 0:
+                stop_inner = True
+                break
+            else:
+                adj_item = adj_item.iloc[0]
 
             # 检查 adj_item 中的'label_zh', 'label_kk' description_zh description_kk 是否有一个为空
             if adj_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any():
@@ -206,10 +212,10 @@ def build_train_data(
             "query_id": query_id,
             "q_item_qid": q_item_qid,
             "query": query_text,
+            "q_item_info": q_item_info,
+            "adj_item_info": adj_item_info,
             "pos_doc": pos_doc_texts,
             "neg_doc": neg_doc_texts,
-            "q_item_info": q_item_info,
-            "adj_item_info": adj_item_info
         })
 
     # 将数据写入JSONL文件
