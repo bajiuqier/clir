@@ -24,7 +24,7 @@ def fetch_qid(query_id, query_text):
         search_results = response.json()
     # 否则 返回 网络错误 并且返回 query_id 和 query text 信息
     else:
-        data_item = {'query_id': query_id, 'query': query_text, 'search_term': 'network error'}
+        data_item = {'query_id': query_id, 'query_text': query_text, 'search_term': 'network error'}
         return data_item
 
     # search_term 在不出错的情况下 应该是和 query_text 相同的
@@ -39,7 +39,7 @@ def fetch_qid(query_id, query_text):
         # 再判断一下 结果 的 label 值是否与 search_term 或者 query_text 相同
         if item['label'] == search_term:
         # if item['label'] == query_text:
-            data_item['qid'] = item.get('id')
+            data_item['q_item_qid'] = item.get('id')
             data_item['label'] = item.get('label')
             data_item['description'] = item.get('description')
     
