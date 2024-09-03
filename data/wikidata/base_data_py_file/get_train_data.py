@@ -1,3 +1,4 @@
+import logging
 import pandas as pd
 from pathlib import Path
 import ir_datasets
@@ -6,6 +7,7 @@ import jsonlines
 from typing import NamedTuple
 from tqdm import tqdm
 
+logging.basicConfig(level=logging.INFO)
 
 def filter_qrels(qrels_df: pd.DataFrame, filter_reference_file: str) -> pd.DataFrame:
 
@@ -20,7 +22,7 @@ def filter_qrels(qrels_df: pd.DataFrame, filter_reference_file: str) -> pd.DataF
 
     return qrels_filtered_df
 
-def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, save_new_qrels: bool=True) -> pd.DataFrame:
+def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, neg_doc_num: int=5, save_new_qrels: bool=True) -> pd.DataFrame:
     '''
     base 版本数据的 qrels 中，作者已经为每个 query 构建了 100 个对应的文档
     其中 相关度从高到底 6 5 4 3 2 1 0
@@ -33,7 +35,7 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
     # 计算每个 query_id 对应的 relevance 为 0 的 doc_id 数量
     neg_samples_counts_df = original_qrels[original_qrels['relevance'] == 0].groupby('query_id').size().reset_index(name='neg_sample_count')
     # query_id 对应的 relevance 为 0 的 doc_id 数量 不足 5个的 query_id
-    insufficient_neg_samples_df = neg_samples_counts_df[neg_samples_counts_df['neg_sample_count'] < 5]
+    insufficient_neg_samples_df = neg_samples_counts_df[neg_samples_counts_df['neg_sample_count'] < neg_doc_num]
     # 获取 这些 query_ids
     query_ids = insufficient_neg_samples_df['query_id'].unique()
     # 准备一个包含所有doc_id的列表，用于随机选择
@@ -49,9 +51,9 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         zero_relevance_docs = current_docs[current_docs['relevance'] == 0]['doc_id']
 
         # 如果数量少于5，补足缺少的 doc_id
-        if len(zero_relevance_docs) < 5:
+        if len(zero_relevance_docs) < neg_doc_num:
             # 当前缺少的 doc_id 数量
-            shortage = 5 - len(zero_relevance_docs)
+            shortage = neg_doc_num - len(zero_relevance_docs)
             
             # 获取当前 query_id 下所有的 doc_id
             current_doc_ids = current_docs['doc_id'].unique()
@@ -92,7 +94,7 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         
     return new_qrels
 
-def build_dataset(
+def build_dataset_1(
         docstore: NamedTuple,
         query_qid_file: str,
         qrels_file: str,
@@ -101,12 +103,13 @@ def build_dataset(
         triple_id_file: str,
         output_file: str,
         adj_item_num: int=3,
+        dataset_type: str="train",
         pos_doc_num: int=1,
         neg_doc_num: int=1
 ):
 
     '''
-    构建 训练 使用的 jsonl 数据    
+    构建数据集使用的 jsonl 数据    
     '''
     query_qid_df = pd.read_csv(query_qid_file, encoding='utf-8').astype(str)
     item_info_df = pd.read_csv(item_info_file, encoding='utf-8').astype(str)
@@ -194,29 +197,43 @@ def build_dataset(
             # 跳过外层循环中剩下的代码，进行下一次迭代
             continue
         
-        query_docs = qrels_df[qrels_df['query_id'] == query_id]
-        if query_docs.shape[0] == 0:
-            continue
+        if dataset_type == "train":
+            query_docs = qrels_df[qrels_df['query_id'] == query_id]
+            if query_docs.shape[0] == 0:
+                continue
+            else:
+                pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'][:pos_doc_num]
+                # neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'][:3]
+                neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(neg_doc_num)
+
+                pos_doc_texts = [docstore.get(doc_id).text for doc_id in pos_doc_ids]
+                neg_doc_texts = [docstore.get(doc_id).text for doc_id in neg_doc_ids]
+            
+            # if len(pos_doc_texts) == 0:
+            #     continue
+
+            jsonl_data.append({
+                "query_id": query_id,
+                "q_item_qid": q_item_qid,
+                "query": query_text,
+                "q_item_info": q_item_info,
+                "adj_item_info": adj_item_info,
+                "pos_doc": pos_doc_texts,
+                "neg_doc": neg_doc_texts,
+            })
+
+        elif dataset_type == "test":
+
+            jsonl_data.append({
+                "query_id": query_id,
+                "q_item_qid": q_item_qid,
+                "query": query_text,
+                "q_item_info": q_item_info,
+                "adj_item_info": adj_item_info,
+            })
+
         else:
-            pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'][:pos_doc_num]
-            # neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'][:3]
-            neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(neg_doc_num)
-
-            pos_doc_texts = [docstore.get(doc_id).text for doc_id in pos_doc_ids]
-            neg_doc_texts = [docstore.get(doc_id).text for doc_id in neg_doc_ids]
-        
-        # if len(pos_doc_texts) == 0:
-        #     continue
-
-        jsonl_data.append({
-            "query_id": query_id,
-            "q_item_qid": q_item_qid,
-            "query": query_text,
-            "q_item_info": q_item_info,
-            "adj_item_info": adj_item_info,
-            "pos_doc": pos_doc_texts,
-            "neg_doc": neg_doc_texts,
-        })
+            raise ValueError("dataset_type 值缺失/错误: “train”或者“test”")           
 
     # 将数据写入JSONL文件
     with jsonlines.open(output_file, mode='w') as writer:
@@ -227,8 +244,133 @@ def build_dataset(
     print("--------------------------------------------------------------")
 
 
+def build_dataset(
+    docstore: NamedTuple,
+    query_qid_file: str,
+    qrels_file: str,
+    item_info_file: str,
+    adj_item_info_file: str,
+    triple_id_file: str,
+    output_file: str,
+    adj_item_num: int=3,
+    dataset_type: str="train",
+    pos_doc_num: int=1,
+    neg_doc_num: int=1
+):
+    try:
+        query_qid_df = pd.read_csv(query_qid_file, encoding='utf-8').astype(str)
+        item_info_df = pd.read_csv(item_info_file, encoding='utf-8').astype(str)
+        adj_item_info_df = pd.read_csv(adj_item_info_file, encoding='utf-8').astype(str)
+        triple_id_df = pd.read_csv(triple_id_file, encoding='utf-8').astype(str)
+        qrels_df = pd.read_csv(qrels_file, encoding='utf-8')
+        qrels_df['query_id'] = qrels_df['query_id'].astype(str)
+        qrels_df['doc_id'] = qrels_df['doc_id'].astype(str)
+        qrels_df['relevance'] = qrels_df['relevance'].astype(int)
+    except Exception as e:
+        logging.error(f"Error reading files: {e}")
+        return
 
+    jsonl_data = []
 
+    for _, row in tqdm(query_qid_df.iterrows(), total=query_qid_df.shape[0], desc="Building dataset"):
+        query_id = row['query_id']
+        query_text = row['query_text']
+        q_item_qid = row['q_item_qid']
+
+        # Get the entity information corresponding to the query
+        q_item = item_info_df.get(item_info_df['item_qid'] == q_item_qid)
+        if q_item.empty:
+            logging.warning(f"No item info found for q_item_qid: {q_item_qid}")
+            continue
+
+        # Check if any of the required fields are missing
+        if q_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any(axis=1).any():
+            logging.warning(f"Missing required fields for q_item_qid: {q_item_qid}")
+            continue
+
+        q_item_info = {
+            "label_zh": q_item['label_zh'].values[0],
+            "label_kk": q_item['label_kk'].values[0],
+            "description_zh": q_item['description_zh'].values[0],
+            "description_kk": q_item['description_kk'].values[0]
+        }
+
+        adj_item_qids = triple_id_df[triple_id_df['item_qid'] == q_item_qid]['adj_item_qid']
+        if adj_item_qids.empty:
+            logging.warning(f"No adjacent items found for q_item_qid: {q_item_qid}")
+            continue
+
+        # Ensure we have the correct number of adjacent items
+        adj_item_qids = adj_item_qids.sample(n=adj_item_num, replace=True) if len(adj_item_qids) < adj_item_num else adj_item_qids.sample(n=adj_item_num)
+
+        adj_item_info = {
+            "label_zh": [],
+            "label_kk": [],
+            "description_zh": [],
+            "description_kk": []
+        }
+
+        stop_inner = False
+
+        for adj_item_qid in adj_item_qids:
+            adj_item = adj_item_info_df.get(adj_item_info_df['item_qid'] == adj_item_qid)
+
+            # 其实这里可以不判断的，因为 triplet id 数据 已经经过 adj_item_info 过滤过了
+            if adj_item.empty:
+                logging.warning(f"No item info found for adj_item_qid: {adj_item_qid}")
+                stop_inner = True
+                break
+
+            if adj_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any(axis=1).any():
+                logging.warning(f"Missing required fields for adj_item_qid: {adj_item_qid}")
+                stop_inner = True
+                break
+
+            adj_item_info["label_zh"].append(adj_item['label_zh'].values[0])
+            adj_item_info["label_kk"].append(adj_item['label_kk'].values[0])
+            adj_item_info["description_zh"].append(adj_item['description_zh'].values[0])
+            adj_item_info["description_kk"].append(adj_item['description_kk'].values[0])
+
+        if stop_inner:
+            continue
+
+        if dataset_type == "train":
+            query_docs = qrels_df[qrels_df['query_id'] == query_id]
+            if query_docs.empty:
+                logging.warning(f"No relevant documents found for query_id: {query_id}")
+                continue
+
+            pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'].head(pos_doc_num)
+            neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(n=neg_doc_num)
+
+            pos_doc_texts = [docstore.get(doc_id).text for doc_id in pos_doc_ids]
+            neg_doc_texts = [docstore.get(doc_id).text for doc_id in neg_doc_ids]
+
+            jsonl_data.append({
+                "query_id": query_id,
+                "q_item_qid": q_item_qid,
+                "query": query_text,
+                "q_item_info": q_item_info,
+                "adj_item_info": adj_item_info,
+                "pos_doc": pos_doc_texts,
+                "neg_doc": neg_doc_texts,
+            })
+        elif dataset_type == "test":
+            jsonl_data.append({
+                "query_id": query_id,
+                "q_item_qid": q_item_qid,
+                "query": query_text,
+                "q_item_info": q_item_info,
+                "adj_item_info": adj_item_info,
+            })
+        else:
+            raise ValueError("dataset_type must be either 'train' or 'test'.")
+
+    # Write data to JSONL file
+    with jsonlines.open(output_file, mode='w') as writer:
+        writer.write_all(jsonl_data)
+
+    logging.info(f"Dataset built and saved to {output_file}. Data size: {len(jsonl_data)}")
 
 
 if __name__ == "__main__":
@@ -260,13 +402,14 @@ if __name__ == "__main__":
 
     build_dataset(
         docstore=docstore,
-        query_qid_file=str(HOME_DIR / 'base_train_QID_search_results_filtered.csv'),
+        query_qid_file=str(HOME_DIR / 'base_train_query_entity_qid_final.csv'),
         qrels_file=str(HOME_DIR / 'base_train_qrels.csv'),
         item_info_file=str(HOME_DIR / 'base_train_query_entity_info_filled.csv'),
         adj_item_info_file=str(HOME_DIR / 'base_train_adj_item_info_filled.csv'),
-        triple_id_file=str(HOME_DIR / 'base_train_triplet_id_fragment_3.csv'),
+        triple_id_file=str(HOME_DIR / 'base_train_triplet_id_fragment_3_final.csv'),
         output_file=str(HOME_DIR / 'train_dataset.jsonl'),
         adj_item_num=3,
+        dataset_type="train",
         pos_doc_num=1,
         neg_doc_num=1
     )
