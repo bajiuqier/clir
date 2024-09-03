@@ -258,7 +258,7 @@ if __name__ == "__main__":
     # -------------------- 构建 新的 qrels 文件 --------------------
 
 
-    build_train_data(
+    build_dataset(
         docstore=docstore,
         query_qid_file=str(HOME_DIR / 'base_train_QID_search_results_filtered.csv'),
         qrels_file=str(HOME_DIR / 'base_train_qrels.csv'),
