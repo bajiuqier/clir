@@ -94,7 +94,7 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         
     return new_qrels
 
-def build_dataset_1(
+def build_dataset_old(
         docstore: NamedTuple,
         query_qid_file: str,
         qrels_file: str,
