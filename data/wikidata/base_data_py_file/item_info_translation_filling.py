@@ -132,7 +132,8 @@ def artificial_filling_item_info(item_info_file: str, filled_file: str):
         if pd.isna(row["description_kk"]) and not pd.isna(row["MT_description_kk"]):
             row["description_kk"] = row["MT_description_kk"]
 
-    item_info_df.to_excel(filled_file, index=False)
+    item_info_df = item_info_df[["item_qid", "label_zh", "label_kk", "label_en", "description_zh", "description_kk", "description_en"]]
+    item_info_df.to_csv(filled_file, index=False, encoding='utf-8')
     print("--------------------------------------")
     print(f"填充好的数据已经存储在了{filled_file}")
     print("--------------------------------------")
@@ -140,8 +141,8 @@ def artificial_filling_item_info(item_info_file: str, filled_file: str):
 
 if __name__ == "__main__":
 
-    item_info_file = str(HOME_DIR / 'base_train_adj_item_filtered_MT_info.xlsx')
-    item_info_filled_file = str(HOME_DIR / 'base_train_adj_item_filled_info.xlsx')
+    item_info_file = str(HOME_DIR / 'base_test2_query_entity_info_filtered_MT_info.xlsx')
+    item_info_filled_file = str(HOME_DIR / 'base_test2_query_entity_info_filled.csv')
 
     # item_info_filled_df = single_filling_item_info(item_info_file=item_info_file, filled_file=item_info_filled_file, save_filled_file=True)
     # print(item_info_filled_df)

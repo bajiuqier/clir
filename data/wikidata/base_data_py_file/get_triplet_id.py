@@ -58,9 +58,9 @@ def fetch_triplet_id(query_entity_qid: str) -> list:
 
 
 if __name__ == "__main__":
-    query_entity_info_file = str(HOME_DIR / 'base_test2_query_entity_filtered_info.csv')
+    query_entity_info_file = str(HOME_DIR / 'base_test1_query_entity_info_filtered.csv')
 
-    triplet_id_file = str(HOME_DIR / 'base_test2_triplet_id.csv')
+    triplet_id_file = str(HOME_DIR / 'base_test11_triplet_id.csv')
 
     query_entity_info_df = pd.read_csv(query_entity_info_file, encoding='utf-8').astype(str)
 
@@ -71,15 +71,15 @@ if __name__ == "__main__":
     pending_query_qid_df = query_entity_info_df.iloc[start_idx:end_idx]
 
     for idx, row in tqdm(pending_query_qid_df.iterrows(), total=pending_query_qid_df.shape[0]):
-        query_id = row['query_id']
-        query_entity_qid = row['qid']
+        
+        query_entity_qid = row['item_qid']
         
         try:
-            result = fetch_triplet_id(query_id=query_id, query_entity_qid=query_entity_qid)
+            result = fetch_triplet_id(query_entity_qid=query_entity_qid)
         except Exception as e:
             print(f"------------ 处理到第{idx}个数据时 报错了 ------------")
             print(f"Error occurred: {e}")
-            triplet_id_file = str(HOME_DIR / f'triplet_id_{idx}.csv')
+            triplet_id_file = str(HOME_DIR / f'base_test11_triplet_id_{idx}.csv')
 
             break
 
