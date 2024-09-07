@@ -2,12 +2,13 @@ import ir_datasets
 import pandas as pd
 from tqdm import tqdm
 from torch.utils.data import Dataset
-# from datasets import load_dataset
+from datasets import load_dataset
 from transformers import DataCollatorWithPadding
 from typing import Dict, List, Tuple, Any, Optional
 from dataclasses import dataclass
 
 from argments import parse_args
+
 
 
 class CLIRMatrixDataset(Dataset):
@@ -46,9 +47,7 @@ class CLIRMatrixDataset(Dataset):
             if neg_doc:  # 确保负样本存在
                 train_data.append([query, pos_doc, neg_doc])
         return train_data
-    
-
-            
+                
 
 @dataclass
 class DataCollatorForCrossEncoder(DataCollatorWithPadding):
@@ -77,6 +76,7 @@ class DataCollatorForCrossEncoder(DataCollatorWithPadding):
             )
 
         return batch
+
 
 class DatasetForTest(Dataset):
     def __init__(self, args: parse_args) -> None:

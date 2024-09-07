@@ -15,13 +15,14 @@ from data2 import DatasetForTest, DataCollatorForTest
 
 args = parse_args()
 
-HOME_DIR = Path(__file__).parent.parent
-model_path = str(HOME_DIR / 'models' / 'models--xlm-roberta-base')
-tokenizer_path = str(HOME_DIR / 'models' / 'models--xlm-roberta-base')
+HOME_DIR = Path(__file__).parent
+model_path = str(HOME_DIR / 'output' / 'training_ended' / 'cross_model')
+tokenizer_path = str(HOME_DIR /  'output' / 'training_ended')
 
 # 加载测试数据
 test1_dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test1')
 test1_qrels_df = pd.DataFrame(test1_dataset_obj.qrels_iter())
+test1_qrels_df.drop('iteration', axis=1, inplace=True)
 
 # 加载模型
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -47,7 +48,7 @@ for batch_idx, batch in enumerate(test_dataloader):
 if len(scores) != test1_qrels_df.shape[0]:
     ValueError('模型计算的test数据集的得分 数量上和原数据不等')
 
-run_qrels_df = test1_qrels_df.drop(['relevance', 'iteration'], axis=1, inplace=False)
+run_qrels_df = test1_qrels_df.drop('relevance', axis=1, inplace=False)
 run_qrels_df['score'] = scores
 
 METRICS_LIST = [R@5, R@10, RR@5, RR@10, nDCG@5, nDCG@10]

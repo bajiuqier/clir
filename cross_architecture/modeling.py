@@ -6,7 +6,7 @@ from transformers import AutoModelForSequenceClassification
 from typing import Optional, NamedTuple
 
 from argments import parse_args
-# from criteria import CustomCosineEmbeddingLoss
+from criteria import PairwiseSoftmaxLoss
 
 class OutputTuple(NamedTuple):
     loss: Optional[torch.Tensor] = None
@@ -20,11 +20,12 @@ class CrossModel(nn.Module):
         self.model = AutoModelForSequenceClassification.from_pretrained(args.model_name_or_path, num_labels=1)
         self.batch_size = args.per_device_train_batch_size
         if self.training:
-            self.loss_function = nn.CrossEntropyLoss()
+            # self.loss_function = nn.CrossEntropyLoss()
+            self.loss_function = PairwiseSoftmaxLoss()
         
     def get_scores(self, batch):
         logits = self.model(**batch).logits
-        scores = logits.view(self.batch_size, 2)
+        scores = logits.view(-1, 2)
         return scores
 
     def forward(self, batch):
@@ -34,8 +35,9 @@ class CrossModel(nn.Module):
             loss = None
         else:
             scores = self.get_scores(batch)
-            target = torch.zeros(scores.size(0), device=scores.device, dtype=torch.long)
-            loss = self.loss_function(scores, target)
+            # target = torch.zeros(scores.size(0), device=scores.device, dtype=torch.long)
+            # loss = self.loss_function(scores, target)
+            loss = self.loss_function(scores)
 
         return OutputTuple(
             loss=loss,
@@ -47,4 +49,4 @@ class CrossModel(nn.Module):
         self.model.save_pretrained(os.path.join(output_dir, "cross_model"))
         # 使用 pytorch 保存 模型的静态参数字典
         model_status_save_path = os.path.join(output_dir, 'model.pth')
-        torch.save(self.embedding_model.state_dict(), model_status_save_path)
+        torch.save(self.model.state_dict(), model_status_save_path)

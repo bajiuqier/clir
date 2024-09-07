@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 from transformers import SchedulerType
 
-HOME_DIR = Path.home() / 'Desktop'
+HOME_DIR = Path.home().parent / 'mnt' / 'workspace'
 
 def parse_args():
     parser = argparse.ArgumentParser(description="myself argments")
@@ -66,7 +66,7 @@ def parse_args():
     parser.add_argument(
         "--model_name_or_path",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'models' / 'models--xlm-roberta-base'),
+        default=str(HOME_DIR / 'clir' / 'models' / 'models--bert-base-multilingual-uncased'),
         help="Path to pretrained model or model identifier from huggingface.co/models.",
         # required=True,
     )
@@ -111,11 +111,11 @@ def parse_args():
     parser.add_argument(
         "--learning_rate",
         type=float,
-        default=5e-5,
+        default=1e-5,
         help="Initial learning rate (after the potential warmup period) to use.",
     )
     parser.add_argument("--weight_decay", type=float, default=0.001, help="Weight decay to use.")
-    parser.add_argument("--num_train_epochs", type=int, default=3, help="Total number of training epochs to perform.")
+    parser.add_argument("--num_train_epochs", type=int, default=15, help="Total number of training epochs to perform.")
     parser.add_argument(
         "--max_train_steps",
         type=int,
@@ -155,7 +155,7 @@ def parse_args():
     parser.add_argument(
         "--output_dir",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'myself' / 'output'),
+        default=str(HOME_DIR / 'clir' / 'cross_architecture' / 'output'),
         help="Where to store the final model."
     )
     parser.add_argument("--seed", type=int, default=42, help="A seed for reproducible training.")
@@ -172,7 +172,7 @@ def parse_args():
     parser.add_argument(
         "--checkpointing_steps",
         type=str,
-        default=None,
+        default='epoch',
         help="Whether the various states should be saved at the end of every n steps, or 'epoch' for each epoch. 是否应该在每n步结束时保存各种状态 或者在每个 epoch 末尾保存 ",
     )
     parser.add_argument(

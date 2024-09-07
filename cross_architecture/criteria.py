@@ -31,196 +31,72 @@ class PairwiseHingeLoss(torch.nn.Module):
         else:
             raise ValueError(f"Invalid reduction mode: {self.reduction}")
 
-# a = torch.randn(2, 2).view(1, -1).squeeze(0)
-# b = torch.ones(2, 2, dtype=torch.int)
-# b[:, 1] = -1
-# b = b.view(1, -1).squeeze(0)
-
-# loss_f = CustomCosineEmbeddingLoss()
-# output = loss_f(a, b)
-
-# print(output)
-
-
-
-class ContrastLoss(torch.nn.Module):
-    def __init__(self, temperature: float = 0.05):
+class PairwiseSoftmaxLoss(torch.nn.Module):
+    def __init__(self):
         super().__init__()
-        self.temperature = temperature
 
-
-class PairInBatchNegCoSentLoss(ContrastLoss):
-    def forward(
-        self,
-        text_embeddings: torch.Tensor,
-        text_pos_embeddings: torch.Tensor,
-    ) -> torch.Tensor:
-        sim_matrix = torch.cosine_similarity(
-            text_embeddings.unsqueeze(1),
-            text_pos_embeddings.unsqueeze(0),
-            dim=-1,
-        )
-        sim_matrix = sim_matrix / self.temperature
-        sim_matrix_diag = sim_matrix.diag()
-        sim_matrix_diff = sim_matrix - sim_matrix_diag.unsqueeze(1)
-        loss = torch.logsumexp(sim_matrix_diff, dim=1).mean()
+    def forward(self, scores):
+        # 假设scores形状为(batch_size, 2)
+        # 第一列是正样本分数,第二列是负样本分数
+        # 计算softmax概率分布
+        prob_dist = scores.softmax(dim=1)
+        
+        # 提取正样本概率
+        pos_prob = prob_dist[:, 0]
+        
+        # 计算负样本概率
+        neg_prob = 1 - pos_prob
+        
+        # 计算负样本概率的均值作为损失
+        loss = neg_prob.mean()
+        
         return loss
 
 
-class TripletInBatchNegCoSentLoss(ContrastLoss):
-    def __init__(self, temperature: float = 0.05, add_swap_loss: bool = False):
-        super().__init__(temperature)
-        self.add_swap_loss = add_swap_loss
-        if self.add_swap_loss:
-            self._pair_contrast_softmax_loss = PairInBatchNegCoSentLoss(temperature)
-        else:
-            self._pair_contrast_softmax_loss = None
+# loss_function = PairwiseHingeLoss()
+# # score = torch.Tensor([0.7, 0.3, 0.8, 0.6])
+# score = torch.tensor([[0.7, 0.3], [0.8, 0.6]])
 
-    def forward(
-        self,
-        text_embeddings: torch.Tensor,
-        text_pos_embeddings: torch.Tensor,
-        text_neg_embeddings: torch.Tensor,
-    ) -> torch.Tensor:
-        sim_pos_vector = torch.cosine_similarity(text_embeddings, text_pos_embeddings, dim=-1)
-        sim_neg_matrix = torch.cosine_similarity(
-            text_embeddings.unsqueeze(1),
-            text_neg_embeddings.unsqueeze(0),
-            dim=-1,
-        )
-        sim_matrix = torch.cat([sim_pos_vector.unsqueeze(1), sim_neg_matrix], dim=1)
-        sim_matrix = sim_matrix / self.temperature
-        sim_matrix_diff = sim_matrix - sim_matrix[:, 0].unsqueeze(1)
-        loss = torch.logsumexp(sim_matrix_diff, dim=1).mean()
-        if self._pair_contrast_softmax_loss:
-            loss += self._pair_contrast_softmax_loss(text_pos_embeddings, text_embeddings)
-        return loss
+# # target = torch.Tensor([1, 0, 1, 0])
+# # 使用 repeat 方法构建 target 张量，每行都是 [1, 0]
+# target = torch.tensor([1, 0], dtype=torch.long).repeat(score.size()[0], 1)
 
+# loss = loss_function(score, target)
+# print(loss)
 
-class PairInBatchNegSoftmaxContrastLoss(ContrastLoss):
-    def __init__(self, temperature: float = 0.05):
-        super().__init__()
-        self.temperature = temperature
-        self._cross_entropy_loss = torch.nn.CrossEntropyLoss()
+# 示例
+batch_size = 3
+num_classes = 2
 
-    def forward(
-        self,
-        text_embeddings: torch.Tensor,
-        text_pos_embeddings: torch.Tensor,
-    ) -> torch.Tensor:
-        sim_matrix = torch.cosine_similarity(
-            text_embeddings.unsqueeze(1),
-            text_pos_embeddings.unsqueeze(0),
-            dim=-1,
-        )
-        sim_matrix = sim_matrix / self.temperature
-        labels = torch.arange(sim_matrix.size(0), device=text_embeddings.device, dtype=torch.long)
-        loss = self._cross_entropy_loss(sim_matrix, labels)
-        return loss
+# 创建一个维度为 [batch_size, num_classes] 的 scores 张量
+scores = torch.randn(batch_size, num_classes)
 
+# 创建一个维度为 [batch_size, num_classes] 的 target 张量，每行的数据都是 [1, 0]，类型为 torch.long
+target = torch.tensor([[1, 0], [1, 0], [1, 0]], dtype=torch.long)
 
-class TripletInBatchNegSoftmaxContrastLoss(ContrastLoss):
-    def __init__(self, temperature: float = 0.05, add_swap_loss: bool = False):
-        super().__init__(temperature)
-        self.add_swap_loss = add_swap_loss
-        if self.add_swap_loss:
-            self._pair_contrast_softmax_loss = PairInBatchNegSoftmaxContrastLoss(temperature)
-        else:
-            self._pair_contrast_softmax_loss = None
+# 创建损失函数对象
+loss_fn = PairwiseHingeLoss(margin=0.5, reduction='mean')
 
-    def forward(
-        self,
-        text_embeddings: torch.Tensor,
-        text_pos_embeddings: torch.Tensor,
-        text_neg_embeddings: torch.Tensor,
-    ) -> torch.Tensor:
-        sim_pos_vector = torch.cosine_similarity(text_embeddings, text_pos_embeddings, dim=-1)
-        sim_neg_matrix = torch.cosine_similarity(
-            text_embeddings.unsqueeze(1),
-            text_neg_embeddings.unsqueeze(0),
-            dim=-1,
-        )
-        sim_matrix = torch.cat([sim_pos_vector.unsqueeze(1), sim_neg_matrix], dim=1)
-        sim_matrix = sim_matrix / self.temperature
-        labels = torch.zeros(sim_matrix.size(0), dtype=torch.long, device=sim_matrix.device)
-        loss = torch.nn.CrossEntropyLoss()(sim_matrix, labels)
-        if self._pair_contrast_softmax_loss:
-            loss += self._pair_contrast_softmax_loss(text_pos_embeddings, text_embeddings)
-        return loss
+# 计算二维张量的损失
+loss_2d = loss_fn(scores, target)
 
+# 将 scores 和 target 展开为一维张量
+scores_flat = scores.view(-1)
+target_flat = target.view(-1)
 
-class PairInBatchNegSigmoidContrastLoss(ContrastLoss):
-    def __init__(self, temperature: float = 0.05):
-        super().__init__()
-        self.temperature = temperature
+# 计算一维张量的损失
+loss_1d = loss_fn(scores_flat, target_flat)
 
-    def forward(
-        self,
-        text_embeddings: torch.Tensor,
-        text_pos_embeddings: torch.Tensor,
-    ) -> torch.Tensor:
-        batch_size = text_embeddings.size(0)
-        sim_matrix = torch.cosine_similarity(
-            text_embeddings.unsqueeze(1),
-            text_pos_embeddings.unsqueeze(0),
-            dim=-1,
-        )
-        sim_matrix = sim_matrix / self.temperature
-        sim_matrix_diag = sim_matrix.diag()
+print("Scores (2D):")
+print(scores)
+print("Target (2D):")
+print(target)
+print("Loss (2D):")
+print(loss_2d)
 
-        sim_diff_matrix = sim_matrix_diag.unsqueeze(1) - sim_matrix
-        diag_mask = torch.eye(sim_matrix.size(0), dtype=torch.bool, device=sim_matrix.device)
-        sim_diff_matrix = sim_diff_matrix.masked_fill(diag_mask, 1e9)
-
-        loss = -torch.log(torch.sigmoid(sim_diff_matrix)).sum() / (batch_size**2 - batch_size)
-        return loss
-
-
-class TripletInBatchNegSigmoidContrastLoss(ContrastLoss):
-    def __init__(self, temperature: float = 0.05, add_swap_loss: bool = False):
-        super().__init__(temperature)
-        self.add_swap_loss = add_swap_loss
-        if self.add_swap_loss:
-            self._pair_contrast_sigmoid_loss = PairInBatchNegSigmoidContrastLoss(temperature)
-        else:
-            self._pair_contrast_sigmoid_loss = None
-
-    def forward(
-        self,
-        text_embeddings: torch.Tensor,
-        text_pos_embeddings: torch.Tensor,
-        text_neg_embeddings: torch.Tensor,
-    ) -> torch.Tensor:
-        sim_pos_vector = torch.cosine_similarity(text_embeddings, text_pos_embeddings, dim=-1)
-        sim_pos_vector = sim_pos_vector / self.temperature
-        sim_neg_matrix = torch.cosine_similarity(
-            text_embeddings.unsqueeze(1),
-            text_neg_embeddings.unsqueeze(0),
-            dim=-1,
-        )
-        sim_neg_matrix = sim_neg_matrix / self.temperature
-        sim_diff_matrix = sim_pos_vector.unsqueeze(1) - sim_neg_matrix
-        loss = -torch.log(torch.sigmoid(sim_diff_matrix)).mean()
-        if self._pair_contrast_sigmoid_loss:
-            loss += self._pair_contrast_sigmoid_loss(text_pos_embeddings, text_embeddings)
-        return loss
-
-
-class CoSentLoss(ContrastLoss):
-    bias: torch.Tensor
-
-    def __init__(self, temperature: float = 0.05) -> None:
-        super().__init__(temperature)
-        self.register_buffer('bias', torch.tensor([0.0]))
-
-    def forward(self, predict_similarity: torch.Tensor, true_similarity: torch.Tensor) -> torch.Tensor:
-        predict_similarity = predict_similarity / self.temperature
-
-        cosine_similarity_diff = -(predict_similarity.unsqueeze(0) - predict_similarity.unsqueeze(1))
-        smaller_mask = true_similarity.unsqueeze(0) <= true_similarity.unsqueeze(1)
-        cosine_similarity_diff = cosine_similarity_diff.masked_fill(smaller_mask, -1e12)
-
-        cosine_diff_scores_add_bias = torch.cat((cosine_similarity_diff.view(-1), self.bias))
-
-        loss = torch.logsumexp(cosine_diff_scores_add_bias, dim=0)
-        return loss
+print("\nScores (1D):")
+print(scores_flat)
+print("Target (1D):")
+print(target_flat)
+print("Loss (1D):")
+print(loss_1d)

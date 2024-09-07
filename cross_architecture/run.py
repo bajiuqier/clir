@@ -9,7 +9,7 @@ from transformers import AutoConfig, AutoTokenizer, get_scheduler
 
 from utils import set_seed
 from argments import parse_args
-from data import CLIRMatrixDataset, DataCollatorForCrossEncoder
+from data2 import CLIRMatrixDataset, DataCollatorForCrossEncoder
 from modeling import CrossModel
 
 logger = logging.getLogger(__name__)
@@ -44,8 +44,9 @@ def main():
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     model = CrossModel(args).to(device)
     
+    logger.info("  train_dataset生成中ing......")
     train_dataset = CLIRMatrixDataset(args=args)
-    data_collator = DataCollatorForCrossEncoder(tokenizer, max_len=128)
+    data_collator = DataCollatorForCrossEncoder(tokenizer, max_len=256)
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, collate_fn=data_collator, batch_size=args.per_device_train_batch_size
@@ -77,9 +78,9 @@ def main():
     lr_scheduler = get_scheduler(
         name=args.lr_scheduler_type,
         optimizer=optimizer,
-        # num_warmup_steps=args.num_warmup_steps,
+        num_warmup_steps=num_update_steps_per_epoch,
         # 迭代一个epoch所需的步数
-        num_warmup_steps=math.ceil(num_update_steps_per_epoch / 2),
+        # num_warmup_steps=math.ceil(num_update_steps_per_epoch / 6),
         num_training_steps=total_train_steps,
     )
     # ------------------------ Optimizer 优化器 ------------------------
@@ -144,14 +145,15 @@ def main():
                         logger.info(f"  第 {completed_steps} 步已经训练完成  模型保存在 {output_dir}")
                         logger.info(f"  ----------------------------------------------------------")
 
-            if completed_steps % 100 == 0:
+            if completed_steps % 10 == 0:
                 # print(f'------loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}------')
                 logger.info(f"  loss: {loss:.4f},\tsteps: {completed_steps}/{total_train_steps},\tepoch: {epoch},\tlearning_rate: {lr_scheduler.get_last_lr()[0]}")
                 
             if completed_steps >= total_train_steps:
                 break
         # 每个 epoch 保存一次模型
-        if args.checkpointing_steps == "epoch" and (epoch+1) % 2 == 0:
+        if args.checkpointing_steps == "epoch" and (epoch+1) % 5 == 0:
+        # if args.checkpointing_steps == "epoch":
             output_dir_name = f"epoch_{epoch}"
             if args.output_dir is not None:
                 output_dir = os.path.join(args.output_dir, output_dir_name)

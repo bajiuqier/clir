@@ -1,6 +1,9 @@
 import os
 import logging
 import math
+import pandas as pd
+import ir_measures
+from ir_measures import *
 import torch
 from datetime import datetime
 from torch.utils.data import DataLoader, random_split
@@ -9,8 +12,8 @@ from transformers import get_scheduler, BertTokenizer
 
 from utils import set_seed
 from argments import add_logging_args, add_model_args, add_training_args
-from data import MyDataset, DataCollatorForMe
-from modeling import HIKE
+from data import MyDataset, DataCollatorForHIKE, DatasetForTest
+from modeling_myself import MyModel
 
 logger = logging.getLogger(__name__)
 
@@ -44,22 +47,33 @@ def main():
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = HIKE(model_args=model_args).to(device)
+    model = MyModel(model_args=model_args).to(device)
     
-    logger.info("  train_dataset生成中ing......")
-    dataset = MyDataset(dataset_file=model_args.dataset_name_or_path)
-    # 将数据集划分为训练集和测试集
-    train_size = int(0.8 * len(dataset))
-    test_size = len(dataset) - train_size
-    train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
+    print("  train_dataset生成中ing......")
+    train_dataset = MyDataset(dataset_file=training_args.train_dataset_name_or_path)
+    test_dataset = DatasetForTest(dataset_file=training_args.test_dataset_name_or_path, test_qrels_file=training_args.test_qrels_file)
 
-    data_collator = DataCollatorForMe(tokenizer, max_len=256)
+    test_qrels_df = pd.read_csv(training_args.test_qrels_file, encoding='utf-8')
+    test_qrels_df['query_id'] = test_qrels_df['query_id'].astype(str)
+    test_qrels_df['doc_id'] = test_qrels_df['doc_id'].astype(str)
+    test_qrels_df.drop('iteration', axis=1, inplace=True)
+    run_qrels_df = test_qrels_df.drop('relevance', axis=1, inplace=False)
+
+    METRICS_LIST = [R@5, R@10, RR@5, RR@10, nDCG@5, nDCG@10]
+
+    # 将数据集划分为训练集和测试集
+    # train_size = int(0.8 * len(dataset))
+    # test_size = len(dataset) - train_size
+    # train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
+
+    train_data_collator = DataCollatorForHIKE(tokenizer, max_len=256, training=True)
+    test_data_collator = DataCollatorForHIKE(tokenizer, max_len=256, training=False)
 
     train_dataloader = DataLoader(
-        train_dataset, shuffle=True, collate_fn=data_collator, batch_size=training_args.batch_size, drop_last=True
+        train_dataset, shuffle=True, collate_fn=train_data_collator, batch_size=training_args.batch_size, drop_last=True
     )
     test_dataloader = DataLoader(
-        test_dataset, shuffle=False, collate_fn=data_collator, batch_size=training_args.batch_size, drop_last=True
+        test_dataset, shuffle=False, collate_fn=test_data_collator, batch_size=training_args.batch_size, drop_last=True
     )
     # ------------------------ 加载 tokenizer、model、model_config、dataset、dataloader等等 ------------------------
 
@@ -82,9 +96,11 @@ def main():
     # 将encoder和其他模块的参数分别收集到不同的参数组，并设置weight_decay
     optimizer = torch.optim.AdamW([
         {'params': model.encoder.parameters(), 'lr': 1e-5, 'weight_decay': training_args.weight_decay},
-        {'params': model.multihead_attn.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-        {'params': model.knowledge_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-        {'params': model.language_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        # {'params': model.multihead_attn.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        # {'params': model.knowledge_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        # {'params': model.language_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        {'params': model.gat1.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        {'params': model.gat2.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
         {'params': model.classifier.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay}
     ])
 
@@ -179,9 +195,41 @@ def main():
                 
             if completed_steps >= total_train_steps:
                 break
+
+        model.eval()
+        scores = []
+        for _ , batch in enumerate(test_dataloader):
+            with torch.no_grad():
+                qd_batch = {k: v.to(device) for k, v in batch['qd_batch'].items()}
+                ed_s_batch = {k: v.to(device) for k, v in batch['ed_s_batch'].items()}
+                ed_t_batch = {k: v.to(device) for k, v in batch['ed_t_batch'].items()}
+
+                outputs = model(
+                    qd_batch=qd_batch,
+                    ed_s_batch=ed_s_batch,
+                    ed_t_batch=ed_t_batch
+                )
+
+                batch_socres = outputs.scores.squeeze(1).tolist()
+                scores.extend(batch_socres)
+        
+        if len(scores) != test_qrels_df.shape[0]:
+            ValueError('模型计算的test数据集的得分 数量上和原数据不等')
+
+
+        run_qrels_df['score'] = scores
+
+        results = ir_measures.calc_aggregate(METRICS_LIST, test_qrels_df, run_qrels_df)
+
+        test_results = {}
+        for metric in METRICS_LIST:
+            test_results[str(metric)] = results[metric]
+
+        logger.info(f"  第{epoch}轮的训练 测试结果为：{test_results}")
+
         # 每个 epoch 保存一次模型
-        # if training_args.checkpointing_steps == "epoch" and (epoch+1) % 5 == 0:
-        if training_args.checkpointing_steps == "epoch":
+        if training_args.checkpointing_steps == "epoch" and (epoch+1) % 5 == 0:
+        # if training_args.checkpointing_steps == "epoch":
             output_dir_name = f"epoch_{epoch}"
             if training_args.output_dir is not None:
                 output_dir = os.path.join(training_args.output_dir, output_dir_name)

@@ -32,4 +32,7 @@ cython_debug/
 /data/wikidata/neo4j/*
 /data/wikidata/base_adj_item_info/*
 
+tensorboard_logs/
+HIKE/data/*
+.ipynb_checkpoints/
 
