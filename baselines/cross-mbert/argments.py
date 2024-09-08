@@ -48,14 +48,6 @@ def add_logging_args():
         help="日志存放文件夹"
     )
     
-    # parser.add_argument(
-    #     "--num_heads",
-    #     type=int,
-    #     default=6,
-    #     help="multihead attention 的头数"
-    # )
-
-
     args = parser.parse_args()
     return args
 
