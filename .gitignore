@@ -36,3 +36,4 @@ tensorboard_logs/
 HIKE/data/*
 .ipynb_checkpoints/
 
+/code_test/*

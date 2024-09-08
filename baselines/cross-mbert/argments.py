@@ -4,6 +4,18 @@ from transformers import SchedulerType
 
 HOME_DIR = Path.home().parent / 'mnt' / 'workspace'
 
+def add_logging_args():
+    parser = argparse.ArgumentParser(description="logging argments")
+    parser.add_argument(
+        "--log_dir",
+        type=str,
+        default=str(HOME_DIR / 'clir' / 'HIKE' / 'mbert' / 'training_logs'),
+        help="日志存放文件夹"
+    )
+    
+    args = parser.parse_args()
+    return args
+
 def add_model_args():
     parser = argparse.ArgumentParser(description="model argments")
 
@@ -39,49 +51,39 @@ def add_model_args():
     args = parser.parse_args()
     return args
 
-def add_logging_args():
-    parser = argparse.ArgumentParser(description="logging argments")
-    parser.add_argument(
-        "--log_dir",
-        type=str,
-        default=str(HOME_DIR / 'clir' / 'HIKE' / 'mbert' / 'training_logs'),
-        help="日志存放文件夹"
-    )
-    
-    args = parser.parse_args()
-    return args
+
 
 def add_training_args():
-    parser = argparse.ArgumentParser(description="logging argments")
+    parser = argparse.ArgumentParser(description="training argments")
     parser.add_argument(
         "--output_dir",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'HIKE' / 'mbert' / 'output'),
+        default=str(HOME_DIR / 'clir' / 'baselines' / 'cross-mbert' / 'output'),
         help="Where to store the final model."
     )
     parser.add_argument(
         "--train_dataset_name_or_path",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'HIKE' / 'data' / 'train_dataset.jsonl'),
-        help="数据集"
+        default=str(HOME_DIR / 'clir' / 'data' / 'mydata' / 'clirmatrix_zh_kk' / 'train_dataset.jsonl'),
+        help="训练数据集"
     )
     parser.add_argument(
         "--test_dataset_name_or_path",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'HIKE' / 'data' / 'test_dataset.jsonl'),
-        help="数据集"
+        default=str(HOME_DIR / 'clir' / 'data' / 'mydata' / 'clirmatrix_zh_kk' / 'test_dataset.jsonl'),
+        help="测试数据集"
     )
     parser.add_argument(
         "--test_qrels_file",
         type=str,
         default=str(HOME_DIR / 'clir' / 'HIKE' / 'data' / 'test_qrels.csv'),
-        help="数据集"
+        help="测评时使用的 qrels 文件"
     )
     parser.add_argument(
         "--seed",
         type=int,
         default=42,
-        help="随机种子值 保证实验的可复现性"
+        help="随机种子 保证实验的可复现性"
     )
     parser.add_argument("--batch_size", type=int, default=8, help="批量大小")
     parser.add_argument("--num_train_epochs", type=int, default=15, help="Total number of training epochs to perform.")
