@@ -10,7 +10,9 @@ from tqdm import tqdm
 logging.basicConfig(level=logging.INFO)
 
 def filter_qrels(qrels_df: pd.DataFrame, filter_reference_file: str) -> pd.DataFrame:
-
+    '''
+    配合 build_new_base_train_qrels 使用
+    '''
     # 加载 过滤 所需的文件
     filter_reference_df = pd.read_csv(filter_reference_file, encoding='utf-8').astype(str)
     query_ids = set(filter_reference_df['query_id'])
@@ -21,6 +23,25 @@ def filter_qrels(qrels_df: pd.DataFrame, filter_reference_file: str) -> pd.DataF
     qrels_filtered_df.drop('iteration', axis=1, inplace=True)
 
     return qrels_filtered_df
+
+def build_new_base_test_qrels(original_qrels: pd.DataFrame, query_entity_qid_file: str=None, new_qrels_file: str=None,):
+
+    # 加载 过滤 所需的文件
+    filter_reference_df = pd.read_csv(query_entity_qid_file, encoding='utf-8').astype(str)
+    query_ids = set(filter_reference_df['query_id'])
+
+    # 过滤掉多余的 query_id 的文档数据
+    new_qrels_df = original_qrels[original_qrels['query_id'].isin(query_ids)]
+    # 删除 iteration 列数据
+    new_qrels_df.drop('iteration', axis=1, inplace=True)
+
+    # 存储新的测试使用的qrels
+    new_qrels_df.to_csv(new_qrels_file, index=False, encoding='utf-8')
+
+    print("----------------------------------------------------------")
+    print(f"新的用于测试的 qrels 文件已经处理好 存储在了{new_qrels_file}")
+    print("----------------------------------------------------------")
+
 
 def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, neg_doc_num: int=5, save_new_qrels: bool=True) -> pd.DataFrame:
     '''
@@ -375,16 +396,16 @@ def build_dataset(
 
 if __name__ == "__main__":
 
-    HOME_DIR = Path(__file__).parent.parent / 'base_data'
+    HOME_DIR = Path(__file__).parent.parent / 'base_data_file'
 
     # 加载 zh-kk clir 数据集
-    CLIRMatrix_dataset = ir_datasets.load('clirmatrix/kk/bi139-base/zh/train')
+    CLIRMatrix_dataset_train = ir_datasets.load('clirmatrix/kk/bi139-base/zh/train')
     # 加载原始查询数据
     # queries_df = pd.DataFrame(CLIRMatrix_dataset.queries_iter())
     # 加载 doc 数据
-    docstore = CLIRMatrix_dataset.docs_store()
+    docstore = CLIRMatrix_dataset_train.docs_store()
     # 加载原始的 qrels 数据
-    qrels_df = pd.DataFrame(CLIRMatrix_dataset.qrels_iter())
+    # trian_qrels_df = pd.DataFrame(CLIRMatrix_dataset_train.qrels_iter())
 
     # -------------------- 构建 新的 qrels 文件 --------------------
     # 加载过滤 qrels 数据所需的参考文件
@@ -400,17 +421,45 @@ if __name__ == "__main__":
     # -------------------- 构建 新的 qrels 文件 --------------------
 
 
+    # -------------------- 构建 新的 test qrels 文件 --------------------
+    # CLIRMatrix_dataset_test = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test2')
+    # test_qrels_df = pd.DataFrame(CLIRMatrix_dataset_test.qrels_iter())
+
+    # new_qrels_file = str(HOME_DIR / "base_test2_qrels.csv")
+
+    # build_new_base_test_qrels(
+    #     original_qrels=test_qrels_df,
+    #     query_entity_qid_file=str(HOME_DIR / "base_test2_query_entity_qid_final.csv"),
+    #     new_qrels_file=new_qrels_file
+    # )
+    # -------------------- 构建 新的 test qrels 文件 --------------------
+
+    # build_dataset(
+    #     docstore=docstore,
+    #     query_qid_file=str(HOME_DIR / 'base_train_query_entity_qid_final.csv'),
+    #     qrels_file=str(HOME_DIR / 'base_train_qrels.csv'),
+    #     item_info_file=str(HOME_DIR / 'base_train_query_entity_info_filled.csv'),
+    #     adj_item_info_file=str(HOME_DIR / 'base_train_adj_item_info_filled.csv'),
+    #     triple_id_file=str(HOME_DIR / 'base_train_triplet_id_fragment_3_final.csv'),
+    #     output_file=str(HOME_DIR / 'train_dataset.jsonl'),
+    #     adj_item_num=3,
+    #     dataset_type="train",
+    #     pos_doc_num=1,
+    #     neg_doc_num=1
+    # )
+
     build_dataset(
         docstore=docstore,
-        query_qid_file=str(HOME_DIR / 'base_train_query_entity_qid_final.csv'),
-        qrels_file=str(HOME_DIR / 'base_train_qrels.csv'),
-        item_info_file=str(HOME_DIR / 'base_train_query_entity_info_filled.csv'),
-        adj_item_info_file=str(HOME_DIR / 'base_train_adj_item_info_filled.csv'),
-        triple_id_file=str(HOME_DIR / 'base_train_triplet_id_fragment_3_final.csv'),
-        output_file=str(HOME_DIR / 'train_dataset.jsonl'),
+        query_qid_file=str(HOME_DIR / 'base_test_query_entity_qid_final.csv'),
+        qrels_file=str(HOME_DIR / 'base_test_qrels.csv'),
+        item_info_file=str(HOME_DIR / 'base_test_query_entity_info_filled.csv'),
+        adj_item_info_file=str(HOME_DIR / 'base_test_adj_item_info_filled.csv'),
+        triple_id_file=str(HOME_DIR / 'base_test_triplet_id_final.csv'),
+        output_file=str(HOME_DIR / 'test_dataset.jsonl'),
         adj_item_num=3,
-        dataset_type="train",
+        dataset_type="test",
         pos_doc_num=1,
         neg_doc_num=1
     )
+
 
