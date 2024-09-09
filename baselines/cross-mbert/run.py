@@ -12,8 +12,8 @@ from transformers import get_scheduler, BertTokenizer, AutoTokenizer
 
 from utils import set_seed
 from argments import add_logging_args, add_model_args, add_training_args
-from data import MyDataset, DataCollatorForMBERT, DatasetForTest
-from modeling import CrossModel
+from data import DatasetForMBERT, DataCollatorForMBERT
+from modeling import CrossMBERT
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +22,11 @@ def main():
     model_args = add_model_args()
     training_args = add_training_args()
     # 创建 SummaryWriter,指定日志文件保存路径
-    writer = SummaryWriter(os.path.join(logging_args.log_dir, 'tensorboard_logs'))
+    writer = SummaryWriter(os.path.join(logging_args.log_dir, 'baseline_cross_mbert_tensorboard_logs'))
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
-    log_file = os.path.join(logging_args.log_dir, f"training_{current_date}.log")
+    log_file = os.path.join(logging_args.log_dir, f"baseline_cross_mbert_training_{current_date}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -47,16 +47,17 @@ def main():
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = CrossModel(model_args=model_args).to(device)
+    model = CrossMBERT(model_args=model_args).to(device)
     
     print("  train_dataset生成中ing......")
-    train_dataset = MyDataset(dataset_file=training_args.train_dataset_name_or_path)
-    test_dataset = DatasetForTest(dataset_file=training_args.test_dataset_name_or_path, test_qrels_file=training_args.test_qrels_file)
+    train_dataset = DatasetForMBERT(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
+    test_dataset = DatasetForMBERT(dataset_file=training_args.train_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
 
     test_qrels_df = pd.read_csv(training_args.test_qrels_file, encoding='utf-8')
     test_qrels_df['query_id'] = test_qrels_df['query_id'].astype(str)
     test_qrels_df['doc_id'] = test_qrels_df['doc_id'].astype(str)
-    test_qrels_df.drop('iteration', axis=1, inplace=True)
+    test_qrels_df['relevance'] = test_qrels_df['relevance'].astype(int)
+
     run_qrels_df = test_qrels_df.drop('relevance', axis=1, inplace=False)
 
     METRICS_LIST = [R@5, R@10, RR@5, RR@10, nDCG@5, nDCG@10]
@@ -79,29 +80,6 @@ def main():
 
 
     # ------------------------ Optimizer 优化器 ------------------------
-    # Split weights in two groups, one with weight decay and the other not.
-    # no_decay = ["bias", "LayerNorm.weight"]
-    # optimizer_grouped_parameters = [
-    #     {
-    #         "params": [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
-    #         "weight_decay": args.weight_decay,
-    #     },
-    #     {
-    #         "params": [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)],
-    #         "weight_decay": 0.0,
-    #     },
-    # ]
-    # optimizer = torch.optim.AdamW(optimizer_grouped_parameters, lr=args.learning_rate)
-
-    # 将encoder和其他模块的参数分别收集到不同的参数组，并设置weight_decay
-    # optimizer = torch.optim.AdamW([
-    #     {'params': model.encoder.parameters(), 'lr': 1e-5, 'weight_decay': training_args.weight_decay},
-    #     {'params': model.multihead_attn.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-    #     {'params': model.knowledge_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-    #     {'params': model.language_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-    #     {'params': model.classifier.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay}
-    # ])
-
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5, weight_decay=training_args.weight_decay)
 
 
@@ -141,6 +119,11 @@ def main():
 
     starting_epoch = 0
     completed_steps = 0
+
+    # 初始化最佳性能指标
+    best_ndcg5 = 0.0
+    best_ndcg10 = 0.0
+    all_test_results = []
 
     for epoch in range(starting_epoch, training_args.num_train_epochs):
         model.train()
@@ -214,18 +197,25 @@ def main():
         for metric in METRICS_LIST:
             test_results[str(metric)] = results[metric]
 
+        all_test_results.append(test_results)
+        # 记录当前epoch的nDCG@5和nDCG@10
+        current_ndcg5 = test_results['nDCG@5']
+        current_ndcg10 = test_results['nDCG@10']
+
         logger.info(f"  第{epoch}轮的训练 测试结果为：{test_results}")
 
-        # 每个 epoch 保存一次模型
-        if training_args.checkpointing_steps == "epoch" and (epoch+1) % 5 == 0:
-        # if training_args.checkpointing_steps == "epoch":
-            output_dir_name = f"epoch_{epoch}"
+        # 只有当当前epoch的nDCG@5和nDCG@10都比之前好时才保存模型
+        if current_ndcg5 > best_ndcg5 and current_ndcg10 > best_ndcg10:
+            best_ndcg5 = current_ndcg5
+            best_ndcg10 = current_ndcg10
+            output_dir_name = f"epoch_{epoch}_best"
             if training_args.output_dir is not None:
                 output_dir = os.path.join(training_args.output_dir, output_dir_name)
                 # 使用 os.makedirs 创建目录，如果目录不存在的话
                 os.makedirs(output_dir, exist_ok=True)
                 model_status_save_path = os.path.join(output_dir, 'model.pth')
                 torch.save(model.state_dict(), model_status_save_path)
+
                 logger.info(f"  ------------------------------------------------")
                 logger.info(f"  第 {epoch} 轮已经训练完成  模型保存在 {output_dir}")
                 logger.info(f"  ------------------------------------------------")
@@ -241,6 +231,12 @@ def main():
         logger.info(f"  ------------------------------------------------")
         logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
         logger.info(f"  ------------------------------------------------")
+
+    # 输出所有epoch的平均评测指标
+    avg_results = {metric: sum(result[metric] for result in all_test_results) / len(all_test_results) for metric in METRICS_LIST}
+    logger.info(f"  ------------------------------------------------")
+    logger.info(f"  所有epoch的平均评测指标为: {avg_results}")
+    logger.info(f"  ------------------------------------------------")
     
     writer.close()
 

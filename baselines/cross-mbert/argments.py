@@ -9,7 +9,7 @@ def add_logging_args():
     parser.add_argument(
         "--log_dir",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'HIKE' / 'mbert' / 'training_logs'),
+        default=str(HOME_DIR / 'clir' / 'training_logs'),
         help="日志存放文件夹"
     )
     
@@ -51,8 +51,6 @@ def add_model_args():
     args = parser.parse_args()
     return args
 
-
-
 def add_training_args():
     parser = argparse.ArgumentParser(description="training argments")
     parser.add_argument(
@@ -76,7 +74,7 @@ def add_training_args():
     parser.add_argument(
         "--test_qrels_file",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'HIKE' / 'data' / 'test_qrels.csv'),
+        default=str(HOME_DIR / 'clir' / 'data' / 'mydata' / 'clirmatrix_zh_kk' / 'base_test_qrels.csv'),
         help="测评时使用的 qrels 文件"
     )
     parser.add_argument(
@@ -86,7 +84,7 @@ def add_training_args():
         help="随机种子 保证实验的可复现性"
     )
     parser.add_argument("--batch_size", type=int, default=8, help="批量大小")
-    parser.add_argument("--num_train_epochs", type=int, default=15, help="Total number of training epochs to perform.")
+    parser.add_argument("--num_train_epochs", type=int, default=12, help="Total number of training epochs to perform.")
     parser.add_argument(
         "--learning_rate",
         type=float,

@@ -4,7 +4,7 @@ from transformers import BertTokenizer, BertModel
 from transformers import DataCollatorWithPadding
 from dataclasses import dataclass
 import pandas as pd
-from typing import Dict, List, Tuple, Any, Optional
+from typing import Dict, List, Tuple, Any, Optional, Union
 from pathlib import Path
 import ir_datasets
 
@@ -29,7 +29,7 @@ class DatasetForTest(Dataset):
     def __len__(self):
         return len(self.test_qrels)
 
-    def __getitem__(self, idx) -> Tuple[list[str, list[str]], list[list[str], list[str]], list[list[str], list[str]]]:
+    def __getitem__(self, idx):
         query_id = self.test_qrels.loc[idx]['query_id']
         doc_id = self.test_qrels.loc[idx]['doc_id']
 
@@ -45,21 +45,54 @@ class DatasetForTest(Dataset):
 # test_dataset = DatasetForTest(dataset_file=dataset_file, test_qrels_file=test_qrels_file)
 # print(test_dataset[0])
 
-class MyDataset(Dataset):
-    def __init__(self, dataset_file):
+class DatasetForMBERT(Dataset):
+    def __init__(self, dataset_file, dataset_type: str='train', test_qrels_file: str=None):
         super().__init__()
+        self.dataset_type = dataset_type
         self.dataset = load_dataset('json', data_files=dataset_file)['train']
+        
+        if self.dataset_type == 'test':
+
+            self.dataset_query_id = self.dataset[:]['query_id']
+            self.test_qrels = pd.read_csv(test_qrels_file, encoding='utf-8')
+            self.test_qrels['query_id'] = self.test_qrels['query_id'].astype(str)
+            self.test_qrels['doc_id'] = self.test_qrels['doc_id'].astype(str)
+
+            # 检查 test_dataset.json 和 test_qrels 中的数据是否对等
+            if len(self.dataset_query_id) != len(set(self.dataset_query_id)):
+                raise ValueError("test_dataset.json 中的 query_id 存在 重复数据")
+
+            if len(set(self.dataset_query_id)) != len(set(self.test_qrels['query_id'])):
+                raise ValueError("test_dataset.json 中的 query_id 数据 与 test_qrels 中的 query_id 数据 不对等")
+
+            self.clir_dataset = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test1')
+            # self.queries_df = pd.DataFrame(self.clir_dataset.queries_iter())
+            self.docstore = self.clir_dataset.docs_store()
 
     def __len__(self):
-        return len(self.dataset)
+        if self.dataset_type == 'train':
+            return len(self.dataset)
+        if self.dataset_type == 'test':
+            return len(self.test_qrels)
 
-    def __getitem__(self, idx) -> Tuple[str, list[str]]:
-        item = self.dataset[idx]
-        query = item['query']
-        documet = []
-        documet.append(item['pos_doc'][0])
-        documet.append(item['neg_doc'][0])
+    def __getitem__(self, idx) -> Union[Tuple[str, list[str]], Tuple[str, str]]:
 
+        if self.dataset_type == 'train':
+            item = self.dataset[idx]
+            query = item['query']
+            documet = []
+            documet.append(item['pos_doc'][0])
+            documet.append(item['neg_doc'][0])
+
+        if self.dataset_type == 'test':
+            query_id = self.test_qrels.loc[idx]['query_id']
+            doc_id = self.test_qrels.loc[idx]['doc_id']
+
+            # 获取 query_id 在 test_dataset.json 中的 位置
+            query_index = self.dataset_query_id.index(query_id)
+
+            query = self.dataset[query_index]['query']
+            documet = self.docstore.get(doc_id).text
 
         return query, documet
 

@@ -5,17 +5,8 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizer, BertModel, AutoModelForSequenceClassification
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Any, Optional, NamedTuple
-
 from pathlib import Path
 from argments import add_model_args
-# from criteria import PairwiseHingeLoss
-# from data import MyDataset, DataCollatorForMBERT
-
-model_path = str(Path(__file__).parent.parent / 'models' / 'models--bert-base-multilingual-uncased')
-
-# class KnowledgeLevelFusion(nn.Module):
-
-# class LanguageLevelFusion(nn.Module):
 
 
 class PairwiseHingeLoss(torch.nn.Module):
@@ -46,7 +37,7 @@ class OutputTuple(NamedTuple):
     # doc_vector: Optional[torch.Tensor] = None
     # embedding: Optional[torch.Tensor] = None
 
-class CrossModel(nn.Module):
+class CrossMBERT(nn.Module):
     def __init__(self, model_args: add_model_args):
         super().__init__()
         # self.batch_size = 8
@@ -74,23 +65,3 @@ class CrossModel(nn.Module):
             loss=loss,
             scores=scores
         )
-
-
-
-# dataset_file = str(Path(__file__).parent.parent / 'data' / 'dataset.jsonl')
-# model_args = add_model_args()
-
-# model = CrossModel(model_args=model_args)
-# tokenizer = BertTokenizer.from_pretrained(model_args.model_name_or_path)
-
-# dataset = MyDataset(dataset_file=dataset_file)
-# data_collator = DataCollatorForMBERT(tokenizer, max_len=256)
-
-# train_dataloader = DataLoader(
-#     dataset, shuffle=True, collate_fn=data_collator, batch_size=8
-# )
-
-# for batch_idx, batch in enumerate(train_dataloader):
-#     scores = model(qd_batch=batch['qd_batch']).scores
-#     print(scores)
-#     break
