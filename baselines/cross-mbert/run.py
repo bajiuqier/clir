@@ -22,7 +22,9 @@ def main():
     model_args = add_model_args()
     training_args = add_training_args()
     # 创建 SummaryWriter,指定日志文件保存路径
-    writer = SummaryWriter(os.path.join(logging_args.log_dir, 'baseline_cross_mbert_tensorboard_logs'))
+    tensorboard_logs_path = os.path.join(logging_args.log_dir, 'tensorboard_logs')
+    os.makedirs(tensorboard_logs_path, exist_ok=True)
+    writer = SummaryWriter(os.path.join(tensorboard_logs_path, 'baseline_cross_mbert'))
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -51,7 +53,7 @@ def main():
     
     print("  train_dataset生成中ing......")
     train_dataset = DatasetForMBERT(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
-    test_dataset = DatasetForMBERT(dataset_file=training_args.train_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
+    test_dataset = DatasetForMBERT(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
 
     test_qrels_df = pd.read_csv(training_args.test_qrels_file, encoding='utf-8')
     test_qrels_df['query_id'] = test_qrels_df['query_id'].astype(str)
@@ -208,32 +210,33 @@ def main():
         if current_ndcg5 > best_ndcg5 and current_ndcg10 > best_ndcg10:
             best_ndcg5 = current_ndcg5
             best_ndcg10 = current_ndcg10
-            output_dir_name = f"epoch_{epoch}_best"
+            output_dir_name = "best_model"
             if training_args.output_dir is not None:
                 output_dir = os.path.join(training_args.output_dir, output_dir_name)
                 # 使用 os.makedirs 创建目录，如果目录不存在的话
                 os.makedirs(output_dir, exist_ok=True)
                 model_status_save_path = os.path.join(output_dir, 'model.pth')
                 torch.save(model.state_dict(), model_status_save_path)
+                tokenizer.save_pretrained(output_dir)
 
                 logger.info(f"  ------------------------------------------------")
                 logger.info(f"  第 {epoch} 轮已经训练完成  模型保存在 {output_dir}")
                 logger.info(f"  ------------------------------------------------")
     
     # 训练完成后保存模型        
-    if training_args.output_dir is not None:
-        output_dir = os.path.join(training_args.output_dir, 'training_ended')
-        os.makedirs(output_dir, exist_ok=True)
+    # if training_args.output_dir is not None:
+    #     output_dir = os.path.join(training_args.output_dir, 'training_ended')
+    #     os.makedirs(output_dir, exist_ok=True)
 
-        model_status_save_path = os.path.join(output_dir, 'model.pth')
-        torch.save(model.state_dict(), model_status_save_path)
-        tokenizer.save_pretrained(output_dir)
-        logger.info(f"  ------------------------------------------------")
-        logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
-        logger.info(f"  ------------------------------------------------")
+    #     model_status_save_path = os.path.join(output_dir, 'model.pth')
+    #     torch.save(model.state_dict(), model_status_save_path)
+    #     tokenizer.save_pretrained(output_dir)
+    #     logger.info(f"  ------------------------------------------------")
+    #     logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
+    #     logger.info(f"  ------------------------------------------------")
 
     # 输出所有epoch的平均评测指标
-    avg_results = {metric: sum(result[metric] for result in all_test_results) / len(all_test_results) for metric in METRICS_LIST}
+    avg_results = {str(metric): sum(result[str(metric)] for result in all_test_results) / len(all_test_results) for metric in METRICS_LIST}
     logger.info(f"  ------------------------------------------------")
     logger.info(f"  所有epoch的平均评测指标为: {avg_results}")
     logger.info(f"  ------------------------------------------------")

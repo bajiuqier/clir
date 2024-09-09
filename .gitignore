@@ -37,3 +37,4 @@ HIKE/data/*
 .ipynb_checkpoints/
 
 /code_test/*
+output/

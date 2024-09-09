@@ -7,12 +7,9 @@ import pandas as pd
 from typing import Dict, List, Tuple, Any, Optional, Union
 from pathlib import Path
 import ir_datasets
+# from argments import add_training_args
 
-# dataset_file = str(Path(__file__).parent / 'data' / 'test_dataset.jsonl')
-# test_qrels_file = str(Path(__file__).parent / 'data' / 'test_qrels.csv')
 
-# dataset = load_dataset('json', data_files=dataset_file)['train']
-# print(dataset)
 class DatasetForTest(Dataset):
     def __init__(self, dataset_file, test_qrels_file):
         super().__init__()
@@ -41,9 +38,6 @@ class DatasetForTest(Dataset):
         documet = self.docstore.get(doc_id).text
 
         return query, documet
-
-# test_dataset = DatasetForTest(dataset_file=dataset_file, test_qrels_file=test_qrels_file)
-# print(test_dataset[0])
 
 class DatasetForMBERT(Dataset):
     def __init__(self, dataset_file, dataset_type: str='train', test_qrels_file: str=None):
@@ -132,18 +126,10 @@ class DataCollatorForMBERT(DataCollatorWithPadding):
 
 
 
+# training_args = add_training_args()
+# test_dataset = DatasetForMBERT(dataset_file=training_args.train_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
 
+# dd = test_dataset[0]
 
-# dataset = MyDataset(dataset_file=dataset_file)
+# print(dd)
 
-# model_path = str(Path(__file__).parent.parent / 'models' / 'models--bert-base-multilingual-uncased')
-# encoder = BertModel.from_pretrained(model_path)
-# tokenizer = BertTokenizer.from_pretrained(model_path, use_slow_tokenizer=False)
-
-# data_collator = DataCollatorForMe(tokenizer, max_len=256)
-
-# train_dataloader = DataLoader(
-#     dataset, shuffle=True, collate_fn=data_collator, batch_size=8
-# )
-
-# print(train_dataloader)
