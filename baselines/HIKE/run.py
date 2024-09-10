@@ -49,11 +49,11 @@ def main():
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = HIKE(model_args=model_args).to(device)
+    model = HIKE(model_args=model_args, batch_size=training_args.batch_size).to(device)
     
     print("train/test_dataset生成中ing......")
-    train_dataset = DatasetForHIKE(dataset_file=raining_args.train_dataset_name_or_path, dataset_type='train')
-    test_dataset = DatasetForHIKE(dataset_file=raining_args.test_dataset_name_or_path, dataset_type='train', test_qrels_file=training_args.test_qrels_file)
+    train_dataset = DatasetForHIKE(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
+    test_dataset = DatasetForHIKE(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
 
 
     test_qrels_df = pd.read_csv(training_args.test_qrels_file, encoding='utf-8')
@@ -215,7 +215,7 @@ def main():
         if len(scores) != test_qrels_df.shape[0]:
             ValueError('模型计算的test数据集的得分 数量上和原数据不等')
 
-        scores = sum(scores, [])
+        # scores = sum(scores, [])
         run_qrels_df['score'] = scores
 
         results = ir_measures.calc_aggregate(METRICS_LIST, test_qrels_df, run_qrels_df)

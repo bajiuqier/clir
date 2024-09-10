@@ -129,8 +129,8 @@ class DataCollatorForHIKE(DataCollatorWithPadding):
                 descs_s,
                 padding=True,
                 truncation='only_second',
-                max_length=64,
-                # max_length=self.max_len,
+                # max_length=64,
+                max_length=self.max_len,
                 return_tensors="pt",
             )
         ed_t_batch = self.tokenizer(
@@ -138,8 +138,8 @@ class DataCollatorForHIKE(DataCollatorWithPadding):
                 descs_t,
                 padding=True,
                 truncation='only_second',
-                max_length=64,
-                # max_length=self.max_len,
+                # max_length=64,
+                max_length=self.max_len,
                 return_tensors="pt",
             )
 

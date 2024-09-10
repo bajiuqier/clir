@@ -40,9 +40,9 @@ class OutputTuple(NamedTuple):
     # embedding: Optional[torch.Tensor] = None
 
 class HIKE(nn.Module):
-    def __init__(self, model_args: add_model_args):
+    def __init__(self, model_args: add_model_args, batch_size: int=8):
         super().__init__()
-        self.batch_size = 8
+        self.batch_size = batch_size
         self.encoder = BertModel.from_pretrained(model_args.model_name_or_path)
         self.hidden_size = self.encoder.config.hidden_size
         self.num_heads = model_args.multi_atten_heads_num
