@@ -28,7 +28,7 @@ def add_model_args():
     parser.add_argument(
         "--multi_atten_heads_num",
         type=int,
-        default=6,
+        default=12,
         help="multihead attention 的头数"
     )
 
