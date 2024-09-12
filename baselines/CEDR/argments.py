@@ -2,7 +2,12 @@ import argparse
 from pathlib import Path
 from transformers import SchedulerType
 
-HOME_DIR = Path.home().parent / 'mnt' / 'workspace'
+# 阿里云服务器
+# HOME_DIR = Path.home().parent / 'mnt' / 'workspace'
+
+# my Windows
+HOME_DIR = Path.home() / 'Desktop'
+
 
 def add_logging_args():
     parser = argparse.ArgumentParser(description="logging argments")
