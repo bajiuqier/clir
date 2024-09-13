@@ -56,7 +56,7 @@ def add_training_args():
     parser.add_argument(
         "--output_dir",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'baselines' / 'cross-mbert' / 'output'),
+        default=str(HOME_DIR / 'clir' / 'baselines' / 'HIKE' / 'output'),
         help="Where to store the final model."
     )
     parser.add_argument(
@@ -84,7 +84,7 @@ def add_training_args():
         help="随机种子 保证实验的可复现性"
     )
     parser.add_argument("--batch_size", type=int, default=8, help="批量大小")
-    parser.add_argument("--num_train_epochs", type=int, default=12, help="Total number of training epochs to perform.")
+    parser.add_argument("--num_train_epochs", type=int, default=16, help="Total number of training epochs to perform.")
     parser.add_argument(
         "--learning_rate",
         type=float,

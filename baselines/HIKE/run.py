@@ -188,7 +188,7 @@ def main():
                         logger.info(f"  第 {completed_steps} 步已经训练完成  模型保存在 {output_dir}")
                         logger.info(f"  ----------------------------------------------------------")
 
-            if completed_steps % 10 == 0:
+            if completed_steps % 50 == 0:
                 # print(f'------loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}------')
                 logger.info(f"  loss: {loss:.4f},\tsteps: {completed_steps}/{total_train_steps},\tepoch: {epoch},\tlearning_rate: {lr_scheduler.get_last_lr()[0]}")
                 
@@ -237,9 +237,13 @@ def main():
             best_ndcg10 = current_ndcg10
             output_dir_name = "best_model"
             if training_args.output_dir is not None:
-                output_dir = os.path.join(training_args.output_dir, output_dir_name)
+                output_dir = os.path.join(training_args.output_dir, str(current_date))
                 # 使用 os.makedirs 创建目录，如果目录不存在的话
                 os.makedirs(output_dir, exist_ok=True)
+
+                output_dir = os.path.join(output_dir, output_dir_name)
+                os.makedirs(output_dir, exist_ok=True)
+
                 model_status_save_path = os.path.join(output_dir, 'model.pth')
                 torch.save(model.state_dict(), model_status_save_path)
                 tokenizer.save_pretrained(output_dir)
