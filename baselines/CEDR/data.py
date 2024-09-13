@@ -9,7 +9,7 @@ from pathlib import Path
 import ir_datasets
 # from argments import add_training_args
 
-class DatasetForMBERT(Dataset):
+class DatasetForCEDR(Dataset):
     def __init__(self, dataset_file, dataset_type: str='train', test_qrels_file: str=None):
         super().__init__()
         self.dataset_type = dataset_type
@@ -61,7 +61,7 @@ class DatasetForMBERT(Dataset):
         return query, documet
 
 @dataclass
-class DataCollatorForMBERT(DataCollatorWithPadding):
+class DataCollatorForCEDR(DataCollatorWithPadding):
 
     max_len: int = 256
     training: bool = True

@@ -12,8 +12,8 @@ from transformers import get_scheduler, BertTokenizer, AutoTokenizer
 
 from utils import set_seed
 from argments import add_logging_args, add_model_args, add_training_args
-from data import DatasetForMBERT, DataCollatorForMBERT
-from modeling import CrossMBERT
+from data import DatasetForCEDR, DataCollatorForCEDR
+from modeling import VanillaBertRanker, CedrDrmmRanker, CedrKnrmRanker, CedrPacrrRanker
 
 logger = logging.getLogger(__name__)
 
@@ -24,11 +24,11 @@ def main():
     # 创建 SummaryWriter,指定日志文件保存路径
     tensorboard_logs_path = os.path.join(logging_args.log_dir, 'tensorboard_logs')
     os.makedirs(tensorboard_logs_path, exist_ok=True)
-    writer = SummaryWriter(os.path.join(tensorboard_logs_path, 'baseline_cross_mbert'))
+    writer = SummaryWriter(os.path.join(tensorboard_logs_path, 'baseline_VanillaBert'))
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
-    log_file = os.path.join(logging_args.log_dir, f"baseline_cross_mbert_training_{current_date}.log")
+    log_file = os.path.join(logging_args.log_dir, f"baseline_VanillaBert_training_{current_date}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -44,16 +44,19 @@ def main():
         set_seed(training_args.seed)
     
     # ------------------------ 加载 tokenizer、model、model_config、dataset、dataloader等等 ------------------------
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_args.model_name_or_path, use_fast=not model_args.use_slow_tokenizer, trust_remote_code=model_args.trust_remote_code
+    tokenizer = BertTokenizer.from_pretrained(
+        model_args.model_name_or_path,
+        clean_up_tokenization_spaces=True,
+        use_fast=not model_args.use_slow_tokenizer,
+        trust_remote_code=model_args.trust_remote_code
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = CrossMBERT(model_args=model_args).to(device)
+    model = VanillaBertRanker(model_args=model_args).to(device)
     
     print("  train_dataset生成中ing......")
-    train_dataset = DatasetForMBERT(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
-    test_dataset = DatasetForMBERT(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
+    train_dataset = DatasetForCEDR(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
+    test_dataset = DatasetForCEDR(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
 
     test_qrels_df = pd.read_csv(training_args.test_qrels_file, encoding='utf-8')
     test_qrels_df['query_id'] = test_qrels_df['query_id'].astype(str)
@@ -69,8 +72,8 @@ def main():
     # test_size = len(dataset) - train_size
     # train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 
-    train_data_collator = DataCollatorForMBERT(tokenizer, max_len=256, training=True)
-    test_data_collator = DataCollatorForMBERT(tokenizer, max_len=256, training=False)
+    train_data_collator = DataCollatorForCEDR(tokenizer, max_len=256, training=True)
+    test_data_collator = DataCollatorForCEDR(tokenizer, max_len=256, training=False)
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, collate_fn=train_data_collator, batch_size=training_args.batch_size, drop_last=True
@@ -141,9 +144,16 @@ def main():
         for batch_idx, batch in enumerate(active_dataloader):
             qd_batch = {k: v.to(device) for k, v in batch['qd_batch'].items()}
 
+            input_ids = qd_batch['input_ids']
+            attention_mask = qd_batch['attention_mask']
+            token_type_ids = qd_batch['token_type_ids']
+
             optimizer.zero_grad()
+
             outputs = model(
-                qd_batch=qd_batch
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids
             )
 
             loss = outputs.loss
@@ -180,8 +190,14 @@ def main():
             with torch.no_grad():
                 qd_batch = {k: v.to(device) for k, v in batch['qd_batch'].items()}
 
+                input_ids = qd_batch['input_ids']
+                attention_mask = qd_batch['attention_mask']
+                token_type_ids = qd_batch['token_type_ids']
+
                 outputs = model(
-                    qd_batch=qd_batch
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    token_type_ids=token_type_ids
                 )
 
                 batch_socres = outputs.scores.squeeze(1).tolist()

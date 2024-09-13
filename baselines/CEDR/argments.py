@@ -3,10 +3,10 @@ from pathlib import Path
 from transformers import SchedulerType
 
 # 阿里云服务器
-# HOME_DIR = Path.home().parent / 'mnt' / 'workspace'
+HOME_DIR = Path.home().parent / 'mnt' / 'workspace'
 
 # my Windows
-HOME_DIR = Path.home() / 'Desktop'
+# HOME_DIR = Path.home() / 'Desktop'
 
 
 def add_logging_args():
