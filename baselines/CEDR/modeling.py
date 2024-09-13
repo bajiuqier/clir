@@ -35,7 +35,6 @@ class OutputTuple(NamedTuple):
     scores: Optional[torch.Tensor] = None
     # query_vector: Optional[torch.Tensor] = None
     # doc_vector: Optional[torch.Tensor] = None
-    # embedding: Optional[torch.Tensor] = None
 
 class CrossMBERT(nn.Module):
     def __init__(self, model_args: add_model_args):
