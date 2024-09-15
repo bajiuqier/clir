@@ -134,21 +134,41 @@ CEDR_HOME_DIR = Path(__file__).parent / 'data_file'
 # query_id iteration doc_id relevance score type
 # 151 Q0 clueweb09-en0011-54-30937 1 -2.28234 run
 
-test_qrels_file = str(HOME_DIR / 'base_test_qrels.csv')
-test_qrels_df = pd.read_csv(test_qrels_file, encoding='utf-8')
+# test_qrels_file = str(HOME_DIR / 'base_test_qrels.csv')
+# test_qrels_df = pd.read_csv(test_qrels_file, encoding='utf-8')
 
-test_qrels_df["iteration"] = "Q0"
-test_qrels_df["score"] = 1.0
-test_qrels_df["type"] = "run"
+# test_qrels_df["iteration"] = "Q0"
+# test_qrels_df["score"] = 1.0
+# test_qrels_df["type"] = "run"
 
-new_col_order = ['query_id', 'iteration', 'doc_id', 'relevance', 'score', 'type']
-test_run_df = test_qrels_df[new_col_order]
+# new_col_order = ['query_id', 'iteration', 'doc_id', 'relevance', 'score', 'type']
+# test_run_df = test_qrels_df[new_col_order]
 
-test_run_file = str(CEDR_HOME_DIR / "test.run")
+# test_run_file = str(CEDR_HOME_DIR / "test.run")
 
-with open(test_run_file, 'w', encoding='utf-8') as file:
-    for _, row in tqdm(test_run_df.iterrows(), total=test_run_df.shape[0]):
-        line = ' '.join(map(str, row)) + '\n'
-        file.write(line)
+# with open(test_run_file, 'w', encoding='utf-8') as file:
+#     for _, row in tqdm(test_run_df.iterrows(), total=test_run_df.shape[0]):
+#         line = ' '.join(map(str, row)) + '\n'
+#         file.write(line)
 
-print(f"数据已写入 {test_run_file}")
+# print(f"数据已写入 {test_run_file}")
+
+
+# ---------------------- 构建 dataset.tsv ----------------------
+# documents_file = str(CEDR_HOME_DIR / "documents.tsv")
+# queries_file = str(CEDR_HOME_DIR / "queries.tsv")
+# dataset_file = str(CEDR_HOME_DIR / "dataset.tsv")
+
+# col_name = ["type", "id", "text"]
+
+# # 读取 TSV 文件并指定列名
+# queries_df = pd.read_csv(queries_file, sep='\t', names=col_name, header=None)
+
+# documents_df = pd.read_csv(documents_file, sep='\t', names=col_name, header=None)
+
+# dataset_df = pd.concat([queries_df, documents_df]).reset_index(drop=True)
+# dataset_df.to_csv(dataset_file, sep='\t', index=False, header=False)
+# print(f"数据已写入 {dataset_file}")
+
+
+
