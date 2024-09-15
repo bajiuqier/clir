@@ -40,3 +40,4 @@ HIKE/data/*
 output/
 output_bachsize_8/
 output_epoch_12/
+/baselines/CEDR/data_file/documents.tsv
