@@ -42,3 +42,7 @@ output_bachsize_8/
 output_epoch_12/
 /baselines/CEDR/data_file/documents.tsv
 /baselines/CEDR/data_file/dataset.tsv
+/baselines/CEDR_ORI/data/*
+/baselines/CEDR_ORI/models/*
+
+

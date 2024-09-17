@@ -21,7 +21,11 @@ BATCH_SIZE = 16
 BATCHES_PER_EPOCH = 32
 GRAD_ACC_SIZE = 2
 #other possibilities: ndcg
-VALIDATION_METRIC = 'P_20'
+# VALIDATION_METRIC = 'P_20'
+# VALIDATION_METRIC = 'ndcg_cut'
+VALIDATION_METRIC = {'ndcg_cut_5', 'ndcg_cut_10'}
+
+
 PATIENCE = 20 # how many epochs to wait for validation improvement
 
 torch.manual_seed(SEED)
@@ -79,7 +83,9 @@ def main(model, dataset, train_pairs, qrels_train, valid_run, qrels_valid, model
         valid_score = validate(model, dataset, valid_run, qrels_valid, epoch)
         print(f'validation epoch={epoch} score={valid_score}')
 
-        if top_valid_score is None or valid_score > top_valid_score:
+        # if top_valid_score is None or valid_score > top_valid_score:
+        if top_valid_score is None or mean(valid_score.values()) > mean(top_valid_score.values()):
+
             top_valid_score = valid_score
             print('new top validation score, saving weights', flush=True)
             model.save(os.path.join(model_out_dir, 'weights.p'))
@@ -122,12 +128,17 @@ def train_iteration(model, optimizer, dataset, train_pairs, qrels):
 def validate(model, dataset, run, valid_qrels, epoch):
     run_scores = run_model(model, dataset, run)
     metric = VALIDATION_METRIC
-    if metric.startswith("P_"):
-        metric = "P"
-    trec_eval = pytrec_eval.RelevanceEvaluator(valid_qrels, {metric})
+    # if metric.startswith("ndcg_cut_"):
+    #     metric = "ndcg_cut"
+    trec_eval = pytrec_eval.RelevanceEvaluator(valid_qrels, metric)
     eval_scores = trec_eval.evaluate(run_scores)
     print(eval_scores)
-    return mean([d[VALIDATION_METRIC] for d in eval_scores.values()])
+    # return mean([d[VALIDATION_METRIC] for d in eval_scores.values()])
+    scores = {}
+    for METRIC in VALIDATION_METRIC:
+        scores[METRIC] = mean([d[METRIC] for d in eval_scores.values()])
+    return scores
+
 
 
 def run_model(model, dataset, run, desc='valid'):
