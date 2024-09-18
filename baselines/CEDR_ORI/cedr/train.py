@@ -11,7 +11,11 @@ import pytrec_eval
 from statistics import mean
 from collections import defaultdict
 
-
+# 将输出写进日志文件
+from datetime import datetime
+import logging
+from pathlib import Path
+logger = logging.getLogger(__name__)
 
 SEED = 42
 LR = 0.001
@@ -61,7 +65,21 @@ def main(model, dataset, train_pairs, qrels_train, valid_run, qrels_valid, model
             qrels_valid: A dictionary  containing qrels
             model_out_dir: Location where to write the models. If None, a temporary directoy is used.
     '''
-    
+
+    log_dir = str(Path.home().parent / 'mnt' / 'workspace' / 'clir' / 'training_logs')
+    # 按日期命名日志文件
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    log_file = os.path.join(log_dir, f"baseline_{model}_training_{current_date}.log")
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S", # 这里设置时间格式
+        handlers=[
+            logging.FileHandler(log_file),
+            logging.StreamHandler()
+        ]
+    )
+
     if isinstance(model,str):
         model = MODEL_MAP[model]().cuda()
     if model_out_dir is None:
@@ -74,24 +92,32 @@ def main(model, dataset, train_pairs, qrels_train, valid_run, qrels_valid, model
 
     epoch = 0
     top_valid_score = None
-    print(f'Starting training, upto {MAX_EPOCH} epochs, patience {PATIENCE} LR={LR} BERT_LR={BERT_LR}', flush=True)
+    # print(f'Starting training, upto {MAX_EPOCH} epochs, patience {PATIENCE} LR={LR} BERT_LR={BERT_LR}', flush=True)
+    logger.info(f'Starting training, upto {MAX_EPOCH} epochs, patience {PATIENCE} LR={LR} BERT_LR={BERT_LR}')
     for epoch in range(MAX_EPOCH):
 
         loss = train_iteration(model, optimizer, dataset, train_pairs, qrels_train)
-        print(f'train epoch={epoch} loss={loss}')
+        # print(f'train epoch={epoch} loss={loss}')
+        logger.info(f'train epoch={epoch} loss={loss}')
 
         valid_score = validate(model, dataset, valid_run, qrels_valid, epoch)
-        print(f'validation epoch={epoch} score={valid_score}')
+        # print(f'validation epoch={epoch} score={valid_score}')
+        logger.info(f'validation epoch={epoch} score={valid_score}')
+
 
         # if top_valid_score is None or valid_score > top_valid_score:
         if top_valid_score is None or mean(valid_score.values()) > mean(top_valid_score.values()):
 
             top_valid_score = valid_score
-            print('new top validation score, saving weights', flush=True)
+            # print('new top validation score, saving weights', flush=True)
+            logger.info('new top validation score, saving weights')
+
             model.save(os.path.join(model_out_dir, 'weights.p'))
             top_valid_score_epoch = epoch
         if top_valid_score is not None and epoch - top_valid_score_epoch > PATIENCE:
-            print(f'no validation improvement since {top_valid_score_epoch}, early stopping', flush=True)
+            # print(f'no validation improvement since {top_valid_score_epoch}, early stopping', flush=True)
+            logger.info(f'no validation improvement since {top_valid_score_epoch}, early stopping')
+
             break
         
     #load the final selected model for returning
