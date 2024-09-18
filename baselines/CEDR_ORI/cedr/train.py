@@ -15,8 +15,8 @@ from collections import defaultdict
 
 SEED = 42
 LR = 0.001
-BERT_LR = 2e-5
-MAX_EPOCH = 100
+BERT_LR = 1e-5
+MAX_EPOCH = 16
 BATCH_SIZE = 16
 BATCHES_PER_EPOCH = 32
 GRAD_ACC_SIZE = 2
