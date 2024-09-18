@@ -16,9 +16,6 @@ from argments import add_model_args
 
 model_path = str(Path(__file__).parent.parent / 'models' / 'models--bert-base-multilingual-uncased')
 
-# class KnowledgeLevelFusion(nn.Module):
-
-# class LanguageLevelFusion(nn.Module):
 
 class PairwiseHingeLoss(torch.nn.Module):
     def __init__(self, margin=0, reduction='mean'):
