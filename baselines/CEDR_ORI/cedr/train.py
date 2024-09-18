@@ -132,7 +132,7 @@ def validate(model, dataset, run, valid_qrels, epoch):
     #     metric = "ndcg_cut"
     trec_eval = pytrec_eval.RelevanceEvaluator(valid_qrels, metric)
     eval_scores = trec_eval.evaluate(run_scores)
-    print(eval_scores)
+    # print(eval_scores)
     # return mean([d[VALIDATION_METRIC] for d in eval_scores.values()])
     scores = {}
     for METRIC in VALIDATION_METRIC:
