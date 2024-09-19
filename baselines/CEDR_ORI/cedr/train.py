@@ -28,6 +28,8 @@ GRAD_ACC_SIZE = 2
 # VALIDATION_METRIC = 'P_20'
 # VALIDATION_METRIC = 'ndcg_cut'
 VALIDATION_METRIC = {'ndcg_cut_5', 'ndcg_cut_10'}
+# VALIDATION_METRIC = {'recall_5', 'recall_10', 'recip_rank', 'ndcg_cut_5', 'ndcg_cut_10'}
+
 
 
 PATIENCE = 20 # how many epochs to wait for validation improvement
@@ -69,7 +71,7 @@ def main(model, dataset, train_pairs, qrels_train, valid_run, qrels_valid, model
     log_dir = str(Path.home().parent / 'mnt' / 'workspace' / 'clir' / 'training_logs')
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
-    log_file = os.path.join(log_dir, f"baseline_{model}_training_{current_date}.log")
+    log_file = os.path.join(log_dir, f"baseline_cedr_knrm_training_{current_date}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",

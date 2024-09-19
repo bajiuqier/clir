@@ -1,0 +1,2 @@
+2024-09-19 22:23:55 [INFO] Starting training, upto 16 epochs, patience 20 LR=0.001 BERT_LR=1e-05
+2024-09-19 22:24:38 [INFO] train epoch=0 loss=21.433116048574448

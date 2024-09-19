@@ -1,0 +1,41 @@
+使用了训练完成的 VanillaBert的权重
+2024-09-18 23:08:17 [INFO] Starting training, upto 16 epochs, patience 20 LR=0.001 BERT_LR=1e-05
+2024-09-18 23:08:59 [INFO] train epoch=0 loss=71.27963882684708
+2024-09-18 23:36:08 [INFO] validation epoch=0 score={'ndcg_cut_5': 0.29291282851400197, 'ndcg_cut_10': 0.36934265838901525}
+2024-09-18 23:36:08 [INFO] new top validation score, saving weights
+2024-09-18 23:36:52 [INFO] train epoch=1 loss=24.54815062880516
+2024-09-19 00:02:29 [INFO] validation epoch=1 score={'ndcg_cut_5': 0.42516372182176726, 'ndcg_cut_10': 0.502143522369138}
+2024-09-19 00:02:29 [INFO] new top validation score, saving weights
+2024-09-19 00:03:14 [INFO] train epoch=2 loss=24.955343782901764
+2024-09-19 00:28:52 [INFO] validation epoch=2 score={'ndcg_cut_5': 0.4749914099140519, 'ndcg_cut_10': 0.5395472282186958}
+2024-09-19 00:28:52 [INFO] new top validation score, saving weights
+2024-09-19 00:29:37 [INFO] train epoch=3 loss=18.071693867444992
+2024-09-19 00:55:19 [INFO] validation epoch=3 score={'ndcg_cut_5': 0.5300886456579604, 'ndcg_cut_10': 0.570269235432494}
+2024-09-19 00:55:19 [INFO] new top validation score, saving weights
+2024-09-19 00:56:05 [INFO] train epoch=4 loss=15.071703135967255
+2024-09-19 01:21:50 [INFO] validation epoch=4 score={'ndcg_cut_5': 0.5282089380045659, 'ndcg_cut_10': 0.586661635753733}
+2024-09-19 01:21:50 [INFO] new top validation score, saving weights
+2024-09-19 01:22:34 [INFO] train epoch=5 loss=18.532205015420914
+2024-09-19 01:48:12 [INFO] validation epoch=5 score={'ndcg_cut_5': 0.5451133800566814, 'ndcg_cut_10': 0.6017702887039593}
+2024-09-19 01:48:12 [INFO] new top validation score, saving weights
+2024-09-19 01:48:56 [INFO] train epoch=6 loss=12.472880184650421
+2024-09-19 02:14:31 [INFO] validation epoch=6 score={'ndcg_cut_5': 0.5839407478145432, 'ndcg_cut_10': 0.6306166975590118}
+2024-09-19 02:14:31 [INFO] new top validation score, saving weights
+2024-09-19 02:15:14 [INFO] train epoch=7 loss=14.732610434293747
+2024-09-19 02:40:49 [INFO] validation epoch=7 score={'ndcg_cut_5': 0.5695412248202969, 'ndcg_cut_10': 0.6246178183428465}
+2024-09-19 02:41:31 [INFO] train epoch=8 loss=13.628393411636353
+2024-09-19 03:07:05 [INFO] validation epoch=8 score={'ndcg_cut_5': 0.5754774129050826, 'ndcg_cut_10': 0.6270951778184949}
+2024-09-19 03:07:47 [INFO] train epoch=9 loss=19.973538637161255
+2024-09-19 03:33:21 [INFO] validation epoch=9 score={'ndcg_cut_5': 0.5355301989659489, 'ndcg_cut_10': 0.5870862638891597}
+2024-09-19 03:34:03 [INFO] train epoch=10 loss=15.25165343284607
+2024-09-19 03:59:37 [INFO] validation epoch=10 score={'ndcg_cut_5': 0.5650899695322819, 'ndcg_cut_10': 0.6178978225609986}
+2024-09-19 04:00:19 [INFO] train epoch=11 loss=15.486678391695023
+2024-09-19 04:25:54 [INFO] validation epoch=11 score={'ndcg_cut_5': 0.5429811402928345, 'ndcg_cut_10': 0.5980125127314357}
+2024-09-19 04:26:35 [INFO] train epoch=12 loss=14.066509306430817
+2024-09-19 04:52:10 [INFO] validation epoch=12 score={'ndcg_cut_5': 0.5690196760655855, 'ndcg_cut_10': 0.6212906664809411}
+2024-09-19 04:52:51 [INFO] train epoch=13 loss=17.178152352571487
+2024-09-19 05:18:25 [INFO] validation epoch=13 score={'ndcg_cut_5': 0.5273344635399007, 'ndcg_cut_10': 0.5918793035483564}
+2024-09-19 05:19:07 [INFO] train epoch=14 loss=11.262201011180878
+2024-09-19 05:44:41 [INFO] validation epoch=14 score={'ndcg_cut_5': 0.5503065934063904, 'ndcg_cut_10': 0.6080955130573109}
+2024-09-19 05:45:21 [INFO] train epoch=15 loss=21.30129513144493
+2024-09-19 06:10:56 [INFO] validation epoch=15 score={'ndcg_cut_5': 0.5655255082570472, 'ndcg_cut_10': 0.6232932533487716}
