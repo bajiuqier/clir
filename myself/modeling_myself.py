@@ -69,14 +69,16 @@ class MyModel(nn.Module):
         self.dropout = nn.Dropout(0.1)
         if self.training:
             self.loss_function = PairwiseHingeLoss()
-    def create_subgraph_data2(self, V_qd, V_s, V_t):
+    def create_subgraph_data(self, V_qd, V_s, V_t):
         # 创建节点特征张量
         x = torch.cat([V_qd.unsqueeze(0), V_s, V_t], dim=0)
-
+        
+        # 边的定义
         # Create edge indices
         num_s = V_s.size(0)
         num_t = V_t.size(0)
-        
+
+        # V_qd 的索引是0，V_s 的索引是 1 到 num_s，V_t 的索引是 num_s + 1 到 num_s + num_t
         # Connect v_qd to its children
         edge_index = [[0, 1], [0, num_s + 1]]
         
@@ -91,49 +93,19 @@ class MyModel(nn.Module):
         # Make edges bidirectional
         edge_index = edge_index + [[j, i] for i, j in edge_index]
         
-        edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
-
-        # 创建图数据对象
-        data = Data(x=x, edge_index=edge_index)
-
-        return data
-
-    def create_subgraph_data1(self, V_qd, V_s, V_t):
-        # V_qd: [1, 特征维度]
-        # V_s: [1+相邻实体个数, 特征维度]
-        # V_t: [1+相邻实体个数, 特征维度]
-        
-        # 创建节点特征张量
-        x = torch.cat([V_qd.unsqueeze(0), V_s, V_t], dim=0)
-        # x = torch.cat([V_qd, V_s, V_t], dim=0)
-
-        # 边的定义
-        # V_qd 的索引是0，V_s 的索引是 1 到 n+1，V_t 的索引是 n+2 到 2n+2
-        edge_index = []
-
-        # V_qd 与 V_s 和 V_t 的连接
-        # 下面的这种 是把 V_qd 和 V_s \ V_t 全部连在一起了 图结构为 G1
-        for i in range(1, V_s.size(0) + 1):
-            edge_index.append([0, i])
-            edge_index.append([i, 0])
-
-        for i in range(V_s.size(0) + 1, x.size(0)):
-            edge_index.append([0, i])
-            edge_index.append([i, 0])
-
         # 将 edge_index 转换为张量
         edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
 
         # 创建图数据对象
         data = Data(x=x, edge_index=edge_index)
-        
+
         return data
 
     # 构建批处理数据
     def construct_batch(self, V_qd_batch, V_s_batch, V_t_batch):
         data_list = []
         for i in range(V_qd_batch.size(0)):
-            data = self.create_subgraph_data2(V_qd_batch[i], V_s_batch[i], V_t_batch[i])
+            data = self.create_subgraph_data(V_qd_batch[i], V_s_batch[i], V_t_batch[i])
             data_list.append(data)
         batch_data = Batch.from_data_list(data_list)
         return batch_data
