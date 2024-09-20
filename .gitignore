@@ -33,7 +33,7 @@ cython_debug/
 /data/wikidata/base_adj_item_info/*
 
 tensorboard_logs/
-HIKE/data/*
+/myself/data/*
 .ipynb_checkpoints/
 
 /code_test/*
