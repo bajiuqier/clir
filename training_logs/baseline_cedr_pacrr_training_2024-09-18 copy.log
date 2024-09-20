@@ -1,0 +1,42 @@
+Starting training, upto 16 epochs, patience 20 LR=0.001 BERT_LR=1e-05 train epoch=0 loss=65.13077464699745
+validation epoch=0 score={'ndcg_cut_5': 0.40497421215873625, 'ndcg_cut_10':0.4766595010675131} 
+new top validation score, saving weights
+train epoch=1 loss=24.249544858932495
+validation epoch=1 score={'ndcg_cut_5': 0.46644322088613893, 'ndcg_cut_10':0.5341297493401478} 
+new top validation score, saving weights
+train epoch=2 loss=26.089640080928802
+validation epoch=2 score={'ndcg_cut_5': 0.5458075131742504, 'ndcg_cut_10':0.5975294489725113} 
+new top validation score, saving weights
+train epoch=3 loss=19.98685422539711
+validation epoch=3 score={'ndcg_cut_5': 0.5012624682958114, 'ndcg_cut_10':0.5629028582234336} 
+train epoch=4 loss=16.060891032218933
+validation epoch=4 score={'ndcg_cut_5': 0.5708733895998817, 'ndcg_cut_10':0.6208579488250648} 
+new top validation score, saving weights
+train epoch=5 loss=19.797147154808044
+validation epoch=5 score={'ndcg_cut_5': 0.560743659022315, 'ndcg_cut_10':0.6140776335840034} 
+train epoch=6 loss=15.812134742736816
+validation epoch=6 score={'ndcg_cut_5': 0.5285892563031727, 'ndcg_cut_10':0.5913043929089183} 
+train  epoch=7 loss=16. 94012513756752
+validation epoch=7 score={'ndcg_cut_5': 0.519305038455865, 'ndcg_cut_10':0.5853382620723327} 
+train epoch=8 loss=17.314383238554
+validation epoch=8 score={'ndcg_cut_5': 0.5336601179305663, 'ndcg_cut_10':0.5904956455955314} 
+train epoch=9 loss=18.69911488890648
+validation epoch=9 score={'ndcg_cut_5':0.528441076975227, 'ndcg_cut_10':0.5878438594293325} 
+train epoch=10 loss=16.522499978542328
+validation epoch=10 score={'ndcg_cut_5': 0.556600660794689, 'ndcg_cut_10':0.6150471661259908} 
+train epoch=11 loss=12.578063428401947
+validation epoch=11 score={'ndcg_cut_5': 0.5157131065943309, 'ndcg_cut_10':0.5806649144933651} 
+train epoch=12 loss=9.621825486421585
+validation epoch=11 score={'ndcg_cut_5': 0.5157131065943309, 'ndcg_cut_10':0.5806649144933651} 
+train epoch=12 loss=9.621825486421585
+validation epoch=12 score={'ndcg_cut_5': 0.5896994905547925, 'ndcg_cut_10':0.6450339006723592} 
+new top validation score, saving weights
+validation epoch=12 score={'ndcg_cut_5': 0.5896994905547925, 'ndcg_cut_10':0.6450339006723592} 
+new top validation score, saving weights
+train epoch=13 loss=13.470861226320267
+validation epoch=13 score={'ndcg_cut_5': 0.545841006219436, 'ndcg_cut_10':0.6043867756110216} 
+train  epoch=14 1oss-9. 853289783000946
+validation epoch=14 score={'ndcg_cut_5': 0.5351883503754553, 'ndcg_cut_10':0.5983096805460945} 
+train epoch=15 loss=14.469495743513107
+validation epoch=15 score={'ndcg_cut_5': 0.6011376760095226, 'ndcg_cut_10':0.6464098117969698} 
+new top validation score, saving weights
