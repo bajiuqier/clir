@@ -1,15 +1,13 @@
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 from datasets import load_dataset
-from transformers import BertTokenizer, BertModel
 from transformers import DataCollatorWithPadding
 from dataclasses import dataclass
 import pandas as pd
-from typing import Dict, List, Tuple, Any, Optional, Union
-from pathlib import Path
+from typing import Dict, List, Tuple, Any, Union
 import ir_datasets
 
 
-class DatasetForHIKE(Dataset):
+class DatasetForMe(Dataset):
     def __init__(self, dataset_file, dataset_type: str='train', test_qrels_file: str=None):
         super().__init__()
 
@@ -40,7 +38,7 @@ class DatasetForHIKE(Dataset):
         if self.dataset_type == 'test':
             return len(self.test_qrels)
 
-    def __getitem__(self, idx) -> Tuple[list[str, Union[str, list[str]]], list[list[str], list[str]], list[list[str], list[str]]]:
+    def __getitem__(self, idx) -> Tuple[Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]:
         
         if self.dataset_type == 'train':
             item = self.dataset[idx]
@@ -78,15 +76,15 @@ class DatasetForHIKE(Dataset):
         for em in item['adj_item_info']['description_kk']:
             desc_t.append(em)
 
-        return [query, documet], [entity_s, desc_s], [entity_t, desc_t] 
+        return (query, documet), (entity_s, desc_s), (entity_t, desc_t) 
 
 @dataclass
-class DataCollatorForHIKE(DataCollatorWithPadding):
+class DataCollatorForMe(DataCollatorWithPadding):
 
     max_len: int = 256
     training: bool = True
     
-    def __call__(self, features: List[Tuple[list[str, Union[str, list[str]]], list[list[str], list[str]], list[list[str], list[str]]]]) -> Dict[str, Any]:
+    def __call__(self, features: List[Tuple[Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]]) -> Dict[str, Any]:
 
         queries = [f[0][0] for f in features]
         documents = [f[0][1] for f in features]

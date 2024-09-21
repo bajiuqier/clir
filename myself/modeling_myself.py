@@ -6,13 +6,12 @@ from transformers import BertTokenizer, BertModel
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Any, Optional, NamedTuple
 import torch.nn.functional as F
-from torch_geometric.nn import GCNConv, GATConv
-from torch_geometric.data import Data, Batch
+# import torch_geometric.nn as gnn
+# from torch_geometric import data
 
 from pathlib import Path
 from argments import add_model_args
-# from criteria import PairwiseHingeLoss
-# from data import MyDataset, DataCollatorForHIKE
+
 
 model_path = str(Path(__file__).parent.parent / 'models' / 'models--bert-base-multilingual-uncased')
 
@@ -57,8 +56,8 @@ class MyModel(nn.Module):
 
         # self.gcn1 = GCNConv(self.hidden_size, 128)
         # self.gcn2 = GCNConv(128, self.hidden_size)
-        self.gat1 = GATConv(self.hidden_size, 128, heads=4, dropout=0.1)
-        self.gat2 = GATConv(128*4, self.hidden_size, heads=1, concat=True, dropout=0.1)
+        # self.gat1 = GAT(self.hidden_size, 128, heads=4, dropout=0.1)
+        # self.gat2 = GAT(128*4, self.hidden_size, heads=1, concat=True, dropout=0.1)
 
         self.num_entities = 3
         # self.knowledge_level_fusion = nn.Linear(self.hidden_size * (2 + self.num_entities), self.hidden_size)
@@ -69,46 +68,46 @@ class MyModel(nn.Module):
         self.dropout = nn.Dropout(0.1)
         if self.training:
             self.loss_function = PairwiseHingeLoss()
-    def create_subgraph_data(self, V_qd, V_s, V_t):
-        # 创建节点特征张量
-        x = torch.cat([V_qd.unsqueeze(0), V_s, V_t], dim=0)
+    # def create_subgraph_data(self, V_qd, V_s, V_t):
+    #     # 创建节点特征张量
+    #     x = torch.cat([V_qd.unsqueeze(0), V_s, V_t], dim=0)
         
-        # 边的定义
-        # Create edge indices
-        num_s = V_s.size(0)
-        num_t = V_t.size(0)
+    #     # 边的定义
+    #     # Create edge indices
+    #     num_s = V_s.size(0)
+    #     num_t = V_t.size(0)
 
-        # V_qd 的索引是0，V_s 的索引是 1 到 num_s，V_t 的索引是 num_s + 1 到 num_s + num_t
-        # Connect v_qd to its children
-        edge_index = [[0, 1], [0, num_s + 1]]
+    #     # V_qd 的索引是0，V_s 的索引是 1 到 num_s，V_t 的索引是 num_s + 1 到 num_s + num_t
+    #     # Connect v_qd to its children
+    #     edge_index = [[0, 1], [0, num_s + 1]]
         
-        # Connect v_s nodes
-        for i in range(1, num_s):
-            edge_index.append([1, i + 1])
+    #     # Connect v_s nodes
+    #     for i in range(1, num_s):
+    #         edge_index.append([1, i + 1])
         
-        # Connect v_t nodes
-        for i in range(1, num_t):
-            edge_index.append([num_s + 1, num_s + 1 + i])
+    #     # Connect v_t nodes
+    #     for i in range(1, num_t):
+    #         edge_index.append([num_s + 1, num_s + 1 + i])
         
-        # Make edges bidirectional
-        edge_index = edge_index + [[j, i] for i, j in edge_index]
+    #     # Make edges bidirectional
+    #     edge_index = edge_index + [[j, i] for i, j in edge_index]
         
-        # 将 edge_index 转换为张量
-        edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
+    #     # 将 edge_index 转换为张量
+    #     edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
 
-        # 创建图数据对象
-        data = Data(x=x, edge_index=edge_index)
+    #     # 创建图数据对象
+    #     data = Data(x=x, edge_index=edge_index)
 
-        return data
+    #     return data
 
     # 构建批处理数据
-    def construct_batch(self, V_qd_batch, V_s_batch, V_t_batch):
-        data_list = []
-        for i in range(V_qd_batch.size(0)):
-            data = self.create_subgraph_data(V_qd_batch[i], V_s_batch[i], V_t_batch[i])
-            data_list.append(data)
-        batch_data = Batch.from_data_list(data_list)
-        return batch_data
+    # def construct_batch(self, V_qd_batch, V_s_batch, V_t_batch):
+    #     data_list = []
+    #     for i in range(V_qd_batch.size(0)):
+    #         data = self.create_subgraph_data(V_qd_batch[i], V_s_batch[i], V_t_batch[i])
+    #         data_list.append(data)
+    #     batch_data = Batch.from_data_list(data_list)
+    #     return batch_data
 
     def forward(self, qd_batch, ed_s_batch, ed_t_batch):
 
@@ -139,18 +138,18 @@ class MyModel(nn.Module):
             entity_desc_t_embedding_dim_trans = entity_desc_t_embedding.view(self.batch_size, (1 + self.num_entities), self.hidden_size)
 
         # 获取 图 结构数据
-        batch_data = self.construct_batch(query_doc_embedding, entity_desc_s_embedding_dim_trans, entity_desc_t_embedding_dim_trans)
-        batch_data.to(self.device)
-        x, edge_index = batch_data.x, batch_data.edge_index
-        x = F.relu(self.gat1(x, edge_index))
-        x = self.gat2(x, edge_index)
+        # batch_data = self.construct_batch(query_doc_embedding, entity_desc_s_embedding_dim_trans, entity_desc_t_embedding_dim_trans)
+        # batch_data.to(self.device)
+        # x, edge_index = batch_data.x, batch_data.edge_index
+        # x = F.relu(self.gat1(x, edge_index))
+        # x = self.gat2(x, edge_index)
 
-        V_qd_list = []
-        for i in range(batch_data.batch_size):
-            batch_mask = batch_data.batch == i
-            V_qd_list.append(x[batch_mask][0])
+        # V_qd_list = []
+        # for i in range(batch_data.batch_size):
+        #     batch_mask = batch_data.batch == i
+        #     V_qd_list.append(x[batch_mask][0])
 
-        v_qd = torch.stack(V_qd_list)
+        # v_qd = torch.stack(V_qd_list)
 
         # # [16, 5, 768]
         # knowledge_input_s = torch.cat((query_doc_embedding_dim_trans, entity_desc_s_embedding_dim_trans), dim=1)
@@ -203,25 +202,46 @@ class MyModel(nn.Module):
             scores=scores
         )
 
+from data import DatasetForMe, DataCollatorForMe
+from argments import add_logging_args, add_training_args
 
-# model_args = add_model_args()
 
-# batch_size = 8
-# dataset_file = str(Path(__file__).parent / 'data' / 'dataset.jsonl')
-# model_path = str(Path(__file__).parent.parent / 'models' / 'models--bert-base-multilingual-uncased')
+logging_args = add_logging_args()
+model_args = add_model_args()
+training_args = add_training_args()
 
-# encoder = BertModel.from_pretrained(model_path)
-# model = MyModel(model_args)
-# tokenizer = BertTokenizer.from_pretrained(model_path)
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+model = MyModel(model_args=model_args).to(device)
 
-# dataset = MyDataset(dataset_file=dataset_file)
-# data_collator = DataCollatorForHIKE(tokenizer, max_len=256)
+tokenizer = BertTokenizer.from_pretrained(
+    model_args.model_name_or_path, use_fast=not model_args.use_slow_tokenizer, trust_remote_code=model_args.trust_remote_code
+)
 
-# train_dataloader = DataLoader(
-#     dataset, shuffle=True, collate_fn=data_collator, batch_size=batch_size
-# )
+print("  train_dataset生成中ing......")
+train_dataset = DatasetForMe(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
+test_dataset = DatasetForMe(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
 
-# for batch_idx, batch in enumerate(train_dataloader):
-#     scores = model(qd_batch=batch['qd_batch'], ed_s_batch=batch['ed_s_batch'], ed_t_batch=batch['ed_t_batch']).scores
-#     print(scores)
-#     break
+train_data_collator = DataCollatorForMe(tokenizer, max_len=256, training=True)
+test_data_collator = DataCollatorForMe(tokenizer, max_len=256, training=False)
+
+train_dataloader = DataLoader(
+    train_dataset, shuffle=True, collate_fn=train_data_collator, batch_size=training_args.batch_size, drop_last=True
+)
+test_dataloader = DataLoader(
+    test_dataset, shuffle=False, collate_fn=test_data_collator, batch_size=training_args.batch_size, drop_last=True
+)
+
+for batch_idx, batch in enumerate(train_dataloader):
+    qd_batch = {k: v.to(device) for k, v in batch['qd_batch'].items()}
+    ed_s_batch = {k: v.to(device) for k, v in batch['ed_s_batch'].items()}
+    ed_t_batch = {k: v.to(device) for k, v in batch['ed_t_batch'].items()}
+
+    outputs = model(
+        qd_batch=qd_batch,
+        ed_s_batch=ed_s_batch,
+        ed_t_batch=ed_t_batch
+    )
+
+    print(outputs)
+
+
