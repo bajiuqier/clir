@@ -1,19 +1,13 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import  DataLoader
 from transformers import BertTokenizer, BertModel
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Any, Optional, NamedTuple
 import torch.nn.functional as F
-# import torch_geometric.nn as gnn
-# from torch_geometric import data
-
-from pathlib import Path
+from torch_geometric.nn import GCNConv, GATConv
+from torch_geometric.data import Data
 from argments import add_model_args
-
-
-model_path = str(Path(__file__).parent.parent / 'models' / 'models--bert-base-multilingual-uncased')
 
 
 class PairwiseHingeLoss(torch.nn.Module):
