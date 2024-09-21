@@ -50,8 +50,8 @@ class MyModel(nn.Module):
 
         # self.gcn1 = GCNConv(self.hidden_size, 128)
         # self.gcn2 = GCNConv(128, self.hidden_size)
-        # self.gat1 = GAT(self.hidden_size, 128, heads=4, dropout=0.1)
-        # self.gat2 = GAT(128*4, self.hidden_size, heads=1, concat=True, dropout=0.1)
+        self.gat1 = GATConv(self.hidden_size, 128, heads=4, dropout=0.1)
+        self.gat2 = GATConv(128*4, self.hidden_size, heads=1, concat=True, dropout=0.1)
 
         self.num_entities = 3
         # self.knowledge_level_fusion = nn.Linear(self.hidden_size * (2 + self.num_entities), self.hidden_size)
@@ -62,46 +62,46 @@ class MyModel(nn.Module):
         self.dropout = nn.Dropout(0.1)
         if self.training:
             self.loss_function = PairwiseHingeLoss()
-    # def create_subgraph_data(self, V_qd, V_s, V_t):
-    #     # 创建节点特征张量
-    #     x = torch.cat([V_qd.unsqueeze(0), V_s, V_t], dim=0)
+    def create_subgraph_data(self, V_qd, V_s, V_t):
+        # 创建节点特征张量
+        x = torch.cat([V_qd.unsqueeze(0), V_s, V_t], dim=0)
         
-    #     # 边的定义
-    #     # Create edge indices
-    #     num_s = V_s.size(0)
-    #     num_t = V_t.size(0)
+        # 边的定义
+        # Create edge indices
+        num_s = V_s.size(0)
+        num_t = V_t.size(0)
 
-    #     # V_qd 的索引是0，V_s 的索引是 1 到 num_s，V_t 的索引是 num_s + 1 到 num_s + num_t
-    #     # Connect v_qd to its children
-    #     edge_index = [[0, 1], [0, num_s + 1]]
+        # V_qd 的索引是0，V_s 的索引是 1 到 num_s，V_t 的索引是 num_s + 1 到 num_s + num_t
+        # Connect v_qd to its children
+        edge_index = [[0, 1], [0, num_s + 1]]
         
-    #     # Connect v_s nodes
-    #     for i in range(1, num_s):
-    #         edge_index.append([1, i + 1])
+        # Connect v_s nodes
+        for i in range(1, num_s):
+            edge_index.append([1, i + 1])
         
-    #     # Connect v_t nodes
-    #     for i in range(1, num_t):
-    #         edge_index.append([num_s + 1, num_s + 1 + i])
+        # Connect v_t nodes
+        for i in range(1, num_t):
+            edge_index.append([num_s + 1, num_s + 1 + i])
         
-    #     # Make edges bidirectional
-    #     edge_index = edge_index + [[j, i] for i, j in edge_index]
+        # Make edges bidirectional
+        edge_index = edge_index + [[j, i] for i, j in edge_index]
         
-    #     # 将 edge_index 转换为张量
-    #     edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
+        # 将 edge_index 转换为张量
+        edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
 
-    #     # 创建图数据对象
-    #     data = Data(x=x, edge_index=edge_index)
+        # 创建图数据对象
+        data = Data(x=x, edge_index=edge_index)
 
-    #     return data
+        return data
 
-    # 构建批处理数据
-    # def construct_batch(self, V_qd_batch, V_s_batch, V_t_batch):
-    #     data_list = []
-    #     for i in range(V_qd_batch.size(0)):
-    #         data = self.create_subgraph_data(V_qd_batch[i], V_s_batch[i], V_t_batch[i])
-    #         data_list.append(data)
-    #     batch_data = Batch.from_data_list(data_list)
-    #     return batch_data
+    构建批处理数据
+    def construct_batch(self, V_qd_batch, V_s_batch, V_t_batch):
+        data_list = []
+        for i in range(V_qd_batch.size(0)):
+            data = self.create_subgraph_data(V_qd_batch[i], V_s_batch[i], V_t_batch[i])
+            data_list.append(data)
+        batch_data = Batch.from_data_list(data_list)
+        return batch_data
 
     def forward(self, qd_batch, ed_s_batch, ed_t_batch):
 
@@ -132,18 +132,18 @@ class MyModel(nn.Module):
             entity_desc_t_embedding_dim_trans = entity_desc_t_embedding.view(self.batch_size, (1 + self.num_entities), self.hidden_size)
 
         # 获取 图 结构数据
-        # batch_data = self.construct_batch(query_doc_embedding, entity_desc_s_embedding_dim_trans, entity_desc_t_embedding_dim_trans)
-        # batch_data.to(self.device)
-        # x, edge_index = batch_data.x, batch_data.edge_index
-        # x = F.relu(self.gat1(x, edge_index))
-        # x = self.gat2(x, edge_index)
+        batch_data = self.construct_batch(query_doc_embedding, entity_desc_s_embedding_dim_trans, entity_desc_t_embedding_dim_trans)
+        batch_data.to(self.device)
+        x, edge_index = batch_data.x, batch_data.edge_index
+        x = F.relu(self.gat1(x, edge_index))
+        x = self.gat2(x, edge_index)
 
-        # V_qd_list = []
-        # for i in range(batch_data.batch_size):
-        #     batch_mask = batch_data.batch == i
-        #     V_qd_list.append(x[batch_mask][0])
+        V_qd_list = []
+        for i in range(batch_data.batch_size):
+            batch_mask = batch_data.batch == i
+            V_qd_list.append(x[batch_mask][0])
 
-        # v_qd = torch.stack(V_qd_list)
+        v_qd = torch.stack(V_qd_list)
 
         # # [16, 5, 768]
         # knowledge_input_s = torch.cat((query_doc_embedding_dim_trans, entity_desc_s_embedding_dim_trans), dim=1)
