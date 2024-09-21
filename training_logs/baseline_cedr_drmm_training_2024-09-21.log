@@ -1,0 +1,36 @@
+2024-09-21 00:02:56 [INFO] Starting training, upto 16 epochs, patience 20 LR=0.001 BERT_LR=1e-05
+2024-09-21 00:03:37 [INFO] train epoch=0 loss=37.41832476854324
+2024-09-21 00:33:21 [INFO] validation epoch=0 score={'ndcg_cut_5': 0.5099818499232652, 'ndcg_cut_10': 0.5637126440588593}
+2024-09-21 00:33:22 [INFO] new top validation score, saving weights
+2024-09-21 00:34:04 [INFO] train epoch=1 loss=20.062581449747086
+2024-09-21 01:02:29 [INFO] validation epoch=1 score={'ndcg_cut_5': 0.5499167580094647, 'ndcg_cut_10': 0.6009752404615107}
+2024-09-21 01:02:29 [INFO] new top validation score, saving weights
+2024-09-21 01:03:18 [INFO] train epoch=2 loss=21.982787519693375
+2024-09-21 01:31:43 [INFO] validation epoch=2 score={'ndcg_cut_5': 0.5180891925317017, 'ndcg_cut_10': 0.5751652040613972}
+2024-09-21 01:32:25 [INFO] train epoch=3 loss=19.095404148101807
+2024-09-21 02:00:51 [INFO] validation epoch=3 score={'ndcg_cut_5': 0.5396154216378695, 'ndcg_cut_10': 0.5735795090581197}
+2024-09-21 02:01:34 [INFO] train epoch=4 loss=15.380225896835327
+2024-09-21 02:30:00 [INFO] validation epoch=4 score={'ndcg_cut_5': 0.6002081916992826, 'ndcg_cut_10': 0.6405806231840994}
+2024-09-21 02:30:00 [INFO] new top validation score, saving weights
+2024-09-21 02:30:49 [INFO] train epoch=5 loss=17.277591466903687
+2024-09-21 02:59:15 [INFO] validation epoch=5 score={'ndcg_cut_5': 0.5881401276289959, 'ndcg_cut_10': 0.6365856115331195}
+2024-09-21 02:59:56 [INFO] train epoch=6 loss=13.618658781051636
+2024-09-21 03:28:23 [INFO] validation epoch=6 score={'ndcg_cut_5': 0.5918883898732891, 'ndcg_cut_10': 0.6395745801723698}
+2024-09-21 03:29:04 [INFO] train epoch=7 loss=16.948428720235825
+2024-09-21 03:57:29 [INFO] validation epoch=7 score={'ndcg_cut_5': 0.5725291209386448, 'ndcg_cut_10': 0.614757011617572}
+2024-09-21 03:58:10 [INFO] train epoch=8 loss=21.50800049304962
+2024-09-21 04:26:36 [INFO] validation epoch=8 score={'ndcg_cut_5': 0.5648873715726426, 'ndcg_cut_10': 0.6070342857749046}
+2024-09-21 04:27:18 [INFO] train epoch=9 loss=17.687248826026917
+2024-09-21 04:55:42 [INFO] validation epoch=9 score={'ndcg_cut_5': 0.5913113179350296, 'ndcg_cut_10': 0.6349444940846053}
+2024-09-21 04:56:24 [INFO] train epoch=10 loss=13.43563163280487
+2024-09-21 05:24:49 [INFO] validation epoch=10 score={'ndcg_cut_5': 0.5866763497170558, 'ndcg_cut_10': 0.6378462120376741}
+2024-09-21 05:25:31 [INFO] train epoch=11 loss=9.202040702104568
+2024-09-21 05:53:57 [INFO] validation epoch=11 score={'ndcg_cut_5': 0.5796600003055957, 'ndcg_cut_10': 0.6223861181321165}
+2024-09-21 05:54:38 [INFO] train epoch=12 loss=16.71043109893799
+2024-09-21 06:23:04 [INFO] validation epoch=12 score={'ndcg_cut_5': 0.5834125218767485, 'ndcg_cut_10': 0.6285794120663074}
+2024-09-21 06:23:45 [INFO] train epoch=13 loss=17.03748655319214
+2024-09-21 06:52:10 [INFO] validation epoch=13 score={'ndcg_cut_5': 0.5684496315240628, 'ndcg_cut_10': 0.6189150025250307}
+2024-09-21 06:52:52 [INFO] train epoch=14 loss=15.302476346492767
+2024-09-21 07:21:17 [INFO] validation epoch=14 score={'ndcg_cut_5': 0.5562830466360645, 'ndcg_cut_10': 0.6059043606081556}
+2024-09-21 07:21:58 [INFO] train epoch=15 loss=19.546960085630417
+2024-09-21 07:50:22 [INFO] validation epoch=15 score={'ndcg_cut_5': 0.5540980648038009, 'ndcg_cut_10': 0.5952764067619737}

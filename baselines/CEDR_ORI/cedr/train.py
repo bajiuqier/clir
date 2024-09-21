@@ -71,7 +71,7 @@ def main(model, dataset, train_pairs, qrels_train, valid_run, qrels_valid, model
     log_dir = str(Path.home().parent / 'mnt' / 'workspace' / 'clir' / 'training_logs')
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
-    log_file = os.path.join(log_dir, f"baseline_cedr_knrm_training_{current_date}.log")
+    log_file = os.path.join(log_dir, f"baseline_cedr_drmm_training_{current_date}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
