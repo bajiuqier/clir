@@ -94,7 +94,7 @@ class MyModel(nn.Module):
 
         return data
 
-    构建批处理数据
+    # 构建批处理数据
     def construct_batch(self, V_qd_batch, V_s_batch, V_t_batch):
         data_list = []
         for i in range(V_qd_batch.size(0)):

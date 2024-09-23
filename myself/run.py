@@ -43,7 +43,10 @@ def main():
     
     # ------------------------ 加载 tokenizer、model、model_config、dataset、dataloader等等 ------------------------
     tokenizer = BertTokenizer.from_pretrained(
-        model_args.model_name_or_path, use_fast=not model_args.use_slow_tokenizer, trust_remote_code=model_args.trust_remote_code
+        model_args.model_name_or_path,
+        clean_up_tokenization_spaces=True,
+        use_fast=not model_args.use_slow_tokenizer,
+        trust_remote_code=model_args.trust_remote_code
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
