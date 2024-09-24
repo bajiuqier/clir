@@ -1,0 +1,41 @@
+2024-09-24 01:40:32 [INFO]   ***** Running training *****
+2024-09-24 01:40:32 [INFO]   当前时间: 2024-09-24 01:40:32
+2024-09-24 01:40:32 [INFO]   Num examples = 5087
+2024-09-24 01:40:32 [INFO]   Num Epochs = 16
+2024-09-24 01:40:32 [INFO]   Instantaneous batch size per device = 8
+2024-09-24 01:40:32 [INFO]   Total train batch size (w. parallel, distributed & accumulation) = 16
+2024-09-24 01:40:32 [INFO]   Total optimization steps = 10160
+2024-09-24 01:40:32 [INFO]   训练的设备: cuda, 设备编号: 0
+2024-09-24 01:41:03 [INFO]   loss: 0.2185,	steps: 50/10160,	epoch: 0,	learning_rate: 7.874015748031496e-07
+2024-09-24 01:41:33 [INFO]   loss: 0.1184,	steps: 100/10160,	epoch: 0,	learning_rate: 1.5748031496062992e-06
+2024-09-24 01:42:04 [INFO]   loss: 0.0003,	steps: 150/10160,	epoch: 0,	learning_rate: 2.362204724409449e-06
+2024-09-24 01:42:35 [INFO]   loss: 0.0442,	steps: 200/10160,	epoch: 0,	learning_rate: 3.1496062992125985e-06
+2024-09-24 01:43:05 [INFO]   loss: 0.1976,	steps: 250/10160,	epoch: 0,	learning_rate: 3.937007874015748e-06
+2024-09-24 01:43:36 [INFO]   loss: 0.0940,	steps: 300/10160,	epoch: 0,	learning_rate: 4.724409448818898e-06
+2024-09-24 01:44:07 [INFO]   loss: 0.1754,	steps: 350/10160,	epoch: 0,	learning_rate: 5.511811023622048e-06
+2024-09-24 01:44:37 [INFO]   loss: 0.0584,	steps: 400/10160,	epoch: 0,	learning_rate: 6.299212598425197e-06
+2024-09-24 01:45:09 [INFO]   loss: 0.0217,	steps: 450/10160,	epoch: 0,	learning_rate: 7.086614173228347e-06
+2024-09-24 01:45:40 [INFO]   loss: 0.0000,	steps: 500/10160,	epoch: 0,	learning_rate: 7.874015748031496e-06
+2024-09-24 01:46:11 [INFO]   loss: 0.0000,	steps: 550/10160,	epoch: 0,	learning_rate: 8.661417322834647e-06
+2024-09-24 01:46:41 [INFO]   loss: 0.0337,	steps: 600/10160,	epoch: 0,	learning_rate: 9.448818897637797e-06
+2024-09-24 01:51:57 [INFO]   ***** Running training *****
+2024-09-24 01:51:57 [INFO]   当前时间: 2024-09-24 01:51:57
+2024-09-24 01:51:57 [INFO]   Num examples = 5087
+2024-09-24 01:51:57 [INFO]   Num Epochs = 16
+2024-09-24 01:51:57 [INFO]   Instantaneous batch size per device = 8
+2024-09-24 01:51:57 [INFO]   Total train batch size (w. parallel, distributed & accumulation) = 16
+2024-09-24 01:51:57 [INFO]   Total optimization steps = 10160
+2024-09-24 01:51:57 [INFO]   训练的设备: cuda, 设备编号: 0
+2024-09-24 01:52:28 [INFO]   loss: 0.2185,	steps: 50/10160,	epoch: 0,	learning_rate: 7.874015748031496e-07
+2024-09-24 01:52:58 [INFO]   loss: 0.1184,	steps: 100/10160,	epoch: 0,	learning_rate: 1.5748031496062992e-06
+2024-09-24 01:53:29 [INFO]   loss: 0.0003,	steps: 150/10160,	epoch: 0,	learning_rate: 2.362204724409449e-06
+2024-09-24 01:54:00 [INFO]   loss: 0.0442,	steps: 200/10160,	epoch: 0,	learning_rate: 3.1496062992125985e-06
+2024-09-24 01:54:30 [INFO]   loss: 0.1976,	steps: 250/10160,	epoch: 0,	learning_rate: 3.937007874015748e-06
+2024-09-24 01:55:01 [INFO]   loss: 0.0937,	steps: 300/10160,	epoch: 0,	learning_rate: 4.724409448818898e-06
+2024-09-24 01:55:32 [INFO]   loss: 0.1750,	steps: 350/10160,	epoch: 0,	learning_rate: 5.511811023622048e-06
+2024-09-24 01:56:03 [INFO]   loss: 0.0637,	steps: 400/10160,	epoch: 0,	learning_rate: 6.299212598425197e-06
+2024-09-24 01:56:34 [INFO]   loss: 0.0063,	steps: 450/10160,	epoch: 0,	learning_rate: 7.086614173228347e-06
+2024-09-24 01:57:05 [INFO]   loss: 0.0000,	steps: 500/10160,	epoch: 0,	learning_rate: 7.874015748031496e-06
+2024-09-24 01:57:36 [INFO]   loss: 0.0000,	steps: 550/10160,	epoch: 0,	learning_rate: 8.661417322834647e-06
+2024-09-24 01:58:07 [INFO]   loss: 0.0356,	steps: 600/10160,	epoch: 0,	learning_rate: 9.448818897637797e-06
+2024-09-24 02:43:49 [INFO] generated new fontManager

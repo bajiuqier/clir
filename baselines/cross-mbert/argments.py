@@ -83,7 +83,7 @@ def add_training_args():
         default=42,
         help="随机种子 保证实验的可复现性"
     )
-    parser.add_argument("--batch_size", type=int, default=16, help="批量大小")
+    parser.add_argument("--batch_size", type=int, default=8, help="批量大小")
     parser.add_argument("--num_train_epochs", type=int, default=12, help="Total number of training epochs to perform.")
     parser.add_argument(
         "--learning_rate",

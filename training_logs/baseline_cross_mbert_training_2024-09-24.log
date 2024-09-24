@@ -1,0 +1,71 @@
+2024-09-24 02:53:23 [INFO]   ***** Running training *****
+2024-09-24 02:53:23 [INFO]   当前时间: 2024-09-24 02:53:23
+2024-09-24 02:53:23 [INFO]   Num examples = 5087
+2024-09-24 02:53:23 [INFO]   Num Epochs = 12
+2024-09-24 02:53:23 [INFO]   Instantaneous batch size per device = 8
+2024-09-24 02:53:23 [INFO]   Total train batch size (w. parallel, distributed & accumulation) = 16
+2024-09-24 02:53:23 [INFO]   Total optimization steps = 7620
+2024-09-24 02:53:23 [INFO]   训练的设备: cuda, 设备编号: 0
+2024-09-24 02:53:27 [INFO]   loss: 0.5124,	steps: 10/7620,	epoch: 0,	learning_rate: 1.5748031496062994e-07
+2024-09-24 02:53:29 [INFO]   loss: 0.5430,	steps: 20/7620,	epoch: 0,	learning_rate: 3.149606299212599e-07
+2024-09-24 02:53:32 [INFO]   loss: 0.5197,	steps: 30/7620,	epoch: 0,	learning_rate: 4.724409448818898e-07
+2024-09-24 02:53:35 [INFO]   loss: 0.5461,	steps: 40/7620,	epoch: 0,	learning_rate: 6.299212598425198e-07
+2024-09-24 02:53:37 [INFO]   loss: 0.5700,	steps: 50/7620,	epoch: 0,	learning_rate: 7.874015748031496e-07
+2024-09-24 02:53:40 [INFO]   loss: 0.4967,	steps: 60/7620,	epoch: 0,	learning_rate: 9.448818897637796e-07
+2024-09-24 02:53:42 [INFO]   loss: 0.4939,	steps: 70/7620,	epoch: 0,	learning_rate: 1.1023622047244096e-06
+2024-09-24 02:53:45 [INFO]   loss: 0.5228,	steps: 80/7620,	epoch: 0,	learning_rate: 1.2598425196850396e-06
+2024-09-24 02:53:48 [INFO]   loss: 0.4662,	steps: 90/7620,	epoch: 0,	learning_rate: 1.4173228346456693e-06
+2024-09-24 02:53:50 [INFO]   loss: 0.4913,	steps: 100/7620,	epoch: 0,	learning_rate: 1.5748031496062992e-06
+2024-09-24 02:53:53 [INFO]   loss: 0.5059,	steps: 110/7620,	epoch: 0,	learning_rate: 1.7322834645669292e-06
+2024-09-24 02:53:56 [INFO]   loss: 0.5092,	steps: 120/7620,	epoch: 0,	learning_rate: 1.8897637795275591e-06
+2024-09-24 02:53:58 [INFO]   loss: 0.4889,	steps: 130/7620,	epoch: 0,	learning_rate: 2.0472440944881893e-06
+2024-09-24 02:54:01 [INFO]   loss: 0.4481,	steps: 140/7620,	epoch: 0,	learning_rate: 2.2047244094488192e-06
+2024-09-24 02:54:04 [INFO]   loss: 0.5050,	steps: 150/7620,	epoch: 0,	learning_rate: 2.362204724409449e-06
+2024-09-24 02:54:06 [INFO]   loss: 0.4784,	steps: 160/7620,	epoch: 0,	learning_rate: 2.519685039370079e-06
+2024-09-24 02:54:09 [INFO]   loss: 0.4105,	steps: 170/7620,	epoch: 0,	learning_rate: 2.677165354330709e-06
+2024-09-24 02:54:12 [INFO]   loss: 0.4224,	steps: 180/7620,	epoch: 0,	learning_rate: 2.8346456692913386e-06
+2024-09-24 02:54:14 [INFO]   loss: 0.4040,	steps: 190/7620,	epoch: 0,	learning_rate: 2.992125984251969e-06
+2024-09-24 02:54:17 [INFO]   loss: 0.4934,	steps: 200/7620,	epoch: 0,	learning_rate: 3.1496062992125985e-06
+2024-09-24 02:54:20 [INFO]   loss: 0.3110,	steps: 210/7620,	epoch: 0,	learning_rate: 3.307086614173229e-06
+2024-09-24 02:54:22 [INFO]   loss: 0.2508,	steps: 220/7620,	epoch: 0,	learning_rate: 3.4645669291338583e-06
+2024-09-24 02:54:25 [INFO]   loss: 0.3294,	steps: 230/7620,	epoch: 0,	learning_rate: 3.6220472440944887e-06
+2024-09-24 02:54:28 [INFO]   loss: 0.3196,	steps: 240/7620,	epoch: 0,	learning_rate: 3.7795275590551182e-06
+2024-09-24 02:54:30 [INFO]   loss: 0.3888,	steps: 250/7620,	epoch: 0,	learning_rate: 3.937007874015748e-06
+2024-09-24 02:54:33 [INFO]   loss: 0.2810,	steps: 260/7620,	epoch: 0,	learning_rate: 4.0944881889763785e-06
+2024-09-24 02:54:36 [INFO]   loss: 0.2726,	steps: 270/7620,	epoch: 0,	learning_rate: 4.251968503937008e-06
+2024-09-24 02:54:39 [INFO]   loss: 0.2195,	steps: 280/7620,	epoch: 0,	learning_rate: 4.4094488188976384e-06
+2024-09-24 02:54:41 [INFO]   loss: 0.0678,	steps: 290/7620,	epoch: 0,	learning_rate: 4.566929133858268e-06
+2024-09-24 02:54:44 [INFO]   loss: 0.3895,	steps: 300/7620,	epoch: 0,	learning_rate: 4.724409448818898e-06
+2024-09-24 02:54:47 [INFO]   loss: 0.3165,	steps: 310/7620,	epoch: 0,	learning_rate: 4.881889763779528e-06
+2024-09-24 02:54:49 [INFO]   loss: 0.3668,	steps: 320/7620,	epoch: 0,	learning_rate: 5.039370078740158e-06
+2024-09-24 02:54:52 [INFO]   loss: 0.1301,	steps: 330/7620,	epoch: 0,	learning_rate: 5.196850393700788e-06
+2024-09-24 02:54:55 [INFO]   loss: 0.2575,	steps: 340/7620,	epoch: 0,	learning_rate: 5.354330708661418e-06
+2024-09-24 02:54:57 [INFO]   loss: 0.1981,	steps: 350/7620,	epoch: 0,	learning_rate: 5.511811023622048e-06
+2024-09-24 02:55:00 [INFO]   loss: 0.2919,	steps: 360/7620,	epoch: 0,	learning_rate: 5.669291338582677e-06
+2024-09-24 02:55:03 [INFO]   loss: 0.0719,	steps: 370/7620,	epoch: 0,	learning_rate: 5.8267716535433075e-06
+2024-09-24 02:55:06 [INFO]   loss: 0.3040,	steps: 380/7620,	epoch: 0,	learning_rate: 5.984251968503938e-06
+2024-09-24 02:55:08 [INFO]   loss: 0.0814,	steps: 390/7620,	epoch: 0,	learning_rate: 6.141732283464567e-06
+2024-09-24 02:55:11 [INFO]   loss: 0.2474,	steps: 400/7620,	epoch: 0,	learning_rate: 6.299212598425197e-06
+2024-09-24 02:55:14 [INFO]   loss: 0.1089,	steps: 410/7620,	epoch: 0,	learning_rate: 6.456692913385827e-06
+2024-09-24 02:55:17 [INFO]   loss: 0.1078,	steps: 420/7620,	epoch: 0,	learning_rate: 6.614173228346458e-06
+2024-09-24 02:55:19 [INFO]   loss: 0.1797,	steps: 430/7620,	epoch: 0,	learning_rate: 6.771653543307087e-06
+2024-09-24 02:55:22 [INFO]   loss: 0.1502,	steps: 440/7620,	epoch: 0,	learning_rate: 6.929133858267717e-06
+2024-09-24 02:55:25 [INFO]   loss: 0.4503,	steps: 450/7620,	epoch: 0,	learning_rate: 7.086614173228347e-06
+2024-09-24 02:55:27 [INFO]   loss: 0.0242,	steps: 460/7620,	epoch: 0,	learning_rate: 7.2440944881889774e-06
+2024-09-24 02:55:30 [INFO]   loss: 0.1972,	steps: 470/7620,	epoch: 0,	learning_rate: 7.401574803149607e-06
+2024-09-24 02:55:33 [INFO]   loss: 0.1035,	steps: 480/7620,	epoch: 0,	learning_rate: 7.5590551181102365e-06
+2024-09-24 02:55:36 [INFO]   loss: 0.0193,	steps: 490/7620,	epoch: 0,	learning_rate: 7.716535433070867e-06
+2024-09-24 02:55:38 [INFO]   loss: 0.1067,	steps: 500/7620,	epoch: 0,	learning_rate: 7.874015748031496e-06
+2024-09-24 02:55:41 [INFO]   loss: 0.0026,	steps: 510/7620,	epoch: 0,	learning_rate: 8.031496062992128e-06
+2024-09-24 02:55:44 [INFO]   loss: 0.1067,	steps: 520/7620,	epoch: 0,	learning_rate: 8.188976377952757e-06
+2024-09-24 02:55:47 [INFO]   loss: 0.0469,	steps: 530/7620,	epoch: 0,	learning_rate: 8.346456692913387e-06
+2024-09-24 02:55:49 [INFO]   loss: 0.0159,	steps: 540/7620,	epoch: 0,	learning_rate: 8.503937007874016e-06
+2024-09-24 02:55:52 [INFO]   loss: 0.1794,	steps: 550/7620,	epoch: 0,	learning_rate: 8.661417322834647e-06
+2024-09-24 02:55:55 [INFO]   loss: 0.0892,	steps: 560/7620,	epoch: 0,	learning_rate: 8.818897637795277e-06
+2024-09-24 02:55:58 [INFO]   loss: 0.2340,	steps: 570/7620,	epoch: 0,	learning_rate: 8.976377952755906e-06
+2024-09-24 02:56:00 [INFO]   loss: 0.1166,	steps: 580/7620,	epoch: 0,	learning_rate: 9.133858267716536e-06
+2024-09-24 02:56:03 [INFO]   loss: 0.0985,	steps: 590/7620,	epoch: 0,	learning_rate: 9.291338582677165e-06
+2024-09-24 02:56:06 [INFO]   loss: 0.0064,	steps: 600/7620,	epoch: 0,	learning_rate: 9.448818897637797e-06
+2024-09-24 02:56:09 [INFO]   loss: 0.0068,	steps: 610/7620,	epoch: 0,	learning_rate: 9.606299212598426e-06
+2024-09-24 02:56:11 [INFO]   loss: 0.0496,	steps: 620/7620,	epoch: 0,	learning_rate: 9.763779527559056e-06
+2024-09-24 02:56:14 [INFO]   loss: 0.1096,	steps: 630/7620,	epoch: 0,	learning_rate: 9.921259842519685e-06

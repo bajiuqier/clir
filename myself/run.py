@@ -12,8 +12,8 @@ from transformers import get_scheduler, BertTokenizer
 
 from utils import set_seed
 from argments import add_logging_args, add_model_args, add_training_args
-from data import MyDataset, DataCollatorForHIKE, DatasetForTest
-from modeling_myself import MyModel
+from data import DatasetForMe, DataCollatorForMe
+from modeling2 import MyModel
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +22,13 @@ def main():
     model_args = add_model_args()
     training_args = add_training_args()
     # 创建 SummaryWriter,指定日志文件保存路径
-    writer = SummaryWriter(os.path.join(logging_args.log_dir, 'tensorboard_logs'))
+    tensorboard_logs_path = os.path.join(logging_args.log_dir, 'tensorboard_logs')
+    os.makedirs(tensorboard_logs_path, exist_ok=True)
+    writer = SummaryWriter(os.path.join(tensorboard_logs_path, 'myself_model_2'))
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
-    log_file = os.path.join(logging_args.log_dir, f"training_{current_date}.log")
+    log_file = os.path.join(logging_args.log_dir, f"myself_model_2_training_{current_date}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -50,33 +52,30 @@ def main():
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = MyModel(model_args=model_args).to(device)
+    model = MyModel(tokenizer=tokenizer, model_args=model_args, batch_size=training_args.batch_size).to(device)
     
-    print("  train_dataset生成中ing......")
-    train_dataset = MyDataset(dataset_file=training_args.train_dataset_name_or_path)
-    test_dataset = DatasetForTest(dataset_file=training_args.test_dataset_name_or_path, test_qrels_file=training_args.test_qrels_file)
+    print("train/test_dataset生成中ing......")
+    train_dataset = DatasetForMe(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
+    test_dataset = DatasetForMe(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
+
 
     test_qrels_df = pd.read_csv(training_args.test_qrels_file, encoding='utf-8')
     test_qrels_df['query_id'] = test_qrels_df['query_id'].astype(str)
     test_qrels_df['doc_id'] = test_qrels_df['doc_id'].astype(str)
-    test_qrels_df.drop('iteration', axis=1, inplace=True)
+    test_qrels_df['relevance'] = test_qrels_df['relevance'].astype(int)
+
     run_qrels_df = test_qrels_df.drop('relevance', axis=1, inplace=False)
 
     METRICS_LIST = [R@5, R@10, RR@5, RR@10, nDCG@5, nDCG@10]
 
-    # 将数据集划分为训练集和测试集
-    # train_size = int(0.8 * len(dataset))
-    # test_size = len(dataset) - train_size
-    # train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
-
-    train_data_collator = DataCollatorForHIKE(tokenizer, max_len=256, training=True)
-    test_data_collator = DataCollatorForHIKE(tokenizer, max_len=256, training=False)
+    train_data_collator = DataCollatorForMe(tokenizer, max_len=256, training=True)
+    test_data_collator = DataCollatorForMe(tokenizer, max_len=256, training=False)
 
     train_dataloader = DataLoader(
         train_dataset, shuffle=True, collate_fn=train_data_collator, batch_size=training_args.batch_size, drop_last=True
     )
     test_dataloader = DataLoader(
-        test_dataset, shuffle=False, collate_fn=test_data_collator, batch_size=training_args.batch_size, drop_last=True
+        test_dataset, shuffle=False, collate_fn=test_data_collator, batch_size=training_args.batch_size * 2, drop_last=True
     )
     # ------------------------ 加载 tokenizer、model、model_config、dataset、dataloader等等 ------------------------
 
@@ -99,16 +98,13 @@ def main():
     # 将encoder和其他模块的参数分别收集到不同的参数组，并设置weight_decay
     optimizer = torch.optim.AdamW([
         {'params': model.encoder.parameters(), 'lr': 1e-5, 'weight_decay': training_args.weight_decay},
-        # {'params': model.multihead_attn.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-        # {'params': model.knowledge_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-        # {'params': model.language_level_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-        {'params': model.gat1.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
-        {'params': model.gat2.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        {'params': model.query_knowledge_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        {'params': model.gcn1.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        {'params': model.gcn2.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        # {'params': model.gat1.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        # {'params': model.gat2.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
         {'params': model.classifier.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay}
     ])
-
-    # optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate)
-
 
     # Scheduler and math around the number of training steps.
     num_update_steps_per_epoch = len(train_dataloader)
@@ -147,15 +143,14 @@ def main():
     starting_epoch = 0
     completed_steps = 0
 
+    # 初始化最佳性能指标
+    best_ndcg5 = 0.0
+    best_ndcg10 = 0.0
+    all_test_results = []
+
     for epoch in range(starting_epoch, training_args.num_train_epochs):
         model.train()
 
-        # 从检查点恢复训练
-        # if args.resume_from_checkpoint and epoch == starting_epoch and resume_step is not None:
-        #     # We skip the first `n` batches in the dataloader when resuming from a checkpoint
-        #     active_dataloader = accelerator.skip_first_batches(train_dataloader, resume_step)
-        # else:
-        #     active_dataloader = train_dataloader
         active_dataloader = train_dataloader
 
         for batch_idx, batch in enumerate(active_dataloader):
@@ -192,7 +187,7 @@ def main():
                         logger.info(f"  第 {completed_steps} 步已经训练完成  模型保存在 {output_dir}")
                         logger.info(f"  ----------------------------------------------------------")
 
-            if completed_steps % 10 == 0:
+            if completed_steps % 50 == 0:
                 # print(f'------loss: {loss}, learning_rate: {lr_scheduler.get_last_lr()[0]}, steps: {completed_steps}/{total_train_steps}------')
                 logger.info(f"  loss: {loss:.4f},\tsteps: {completed_steps}/{total_train_steps},\tepoch: {epoch},\tlearning_rate: {lr_scheduler.get_last_lr()[0]}")
                 
@@ -219,7 +214,7 @@ def main():
         if len(scores) != test_qrels_df.shape[0]:
             ValueError('模型计算的test数据集的得分 数量上和原数据不等')
 
-
+        # scores = sum(scores, [])
         run_qrels_df['score'] = scores
 
         results = ir_measures.calc_aggregate(METRICS_LIST, test_qrels_df, run_qrels_df)
@@ -228,34 +223,66 @@ def main():
         for metric in METRICS_LIST:
             test_results[str(metric)] = results[metric]
 
+        all_test_results.append(test_results)
+        # 记录当前epoch的nDCG@5和nDCG@10
+        current_ndcg5 = test_results['nDCG@5']
+        current_ndcg10 = test_results['nDCG@10']
+
         logger.info(f"  第{epoch}轮的训练 测试结果为：{test_results}")
 
-        # 每个 epoch 保存一次模型
-        if training_args.checkpointing_steps == "epoch" and (epoch+1) % 5 == 0:
-        # if training_args.checkpointing_steps == "epoch":
-            output_dir_name = f"epoch_{epoch}"
+        # 只有当当前epoch的nDCG@5和nDCG@10都比之前好时才保存模型
+        if current_ndcg5 > best_ndcg5 and current_ndcg10 > best_ndcg10:
+            best_ndcg5 = current_ndcg5
+            best_ndcg10 = current_ndcg10
+            output_dir_name = "best_model"
             if training_args.output_dir is not None:
-                output_dir = os.path.join(training_args.output_dir, output_dir_name)
+                output_dir = os.path.join(training_args.output_dir, str(current_date))
                 # 使用 os.makedirs 创建目录，如果目录不存在的话
                 os.makedirs(output_dir, exist_ok=True)
+
+                output_dir = os.path.join(output_dir, output_dir_name)
+                os.makedirs(output_dir, exist_ok=True)
+
                 model_status_save_path = os.path.join(output_dir, 'model.pth')
                 torch.save(model.state_dict(), model_status_save_path)
+                tokenizer.save_pretrained(output_dir)
+
                 logger.info(f"  ------------------------------------------------")
                 logger.info(f"  第 {epoch} 轮已经训练完成  模型保存在 {output_dir}")
                 logger.info(f"  ------------------------------------------------")
+
+        # # 每个 epoch 保存一次模型
+        # if training_args.checkpointing_steps == "epoch" and (epoch+1) % 5 == 0:
+        # # if training_args.checkpointing_steps == "epoch":
+        #     output_dir_name = f"epoch_{epoch}"
+        #     if training_args.output_dir is not None:
+        #         output_dir = os.path.join(training_args.output_dir, output_dir_name)
+        #         # 使用 os.makedirs 创建目录，如果目录不存在的话
+        #         os.makedirs(output_dir, exist_ok=True)
+        #         model_status_save_path = os.path.join(output_dir, 'model.pth')
+        #         torch.save(model.state_dict(), model_status_save_path)
+        #         logger.info(f"  ------------------------------------------------")
+        #         logger.info(f"  第 {epoch} 轮已经训练完成  模型保存在 {output_dir}")
+        #         logger.info(f"  ------------------------------------------------")
     
     # 训练完成后保存模型        
-    if training_args.output_dir is not None:
-        output_dir = os.path.join(training_args.output_dir, 'training_ended')
-        os.makedirs(output_dir, exist_ok=True)
+    # if training_args.output_dir is not None:
+    #     output_dir = os.path.join(training_args.output_dir, 'training_ended')
+    #     os.makedirs(output_dir, exist_ok=True)
 
-        model_status_save_path = os.path.join(output_dir, 'model.pth')
-        torch.save(model.state_dict(), model_status_save_path)
-        tokenizer.save_pretrained(output_dir)
-        logger.info(f"  ------------------------------------------------")
-        logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
-        logger.info(f"  ------------------------------------------------")
-    
+    #     model_status_save_path = os.path.join(output_dir, 'model.pth')
+    #     torch.save(model.state_dict(), model_status_save_path)
+    #     tokenizer.save_pretrained(output_dir)
+    #     logger.info(f"  ------------------------------------------------")
+    #     logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
+    #     logger.info(f"  ------------------------------------------------")
+
+    # 输出所有epoch的平均评测指标
+    avg_results = {str(metric): sum(result[str(metric)] for result in all_test_results) / len(all_test_results) for metric in METRICS_LIST}
+    logger.info(f"  ------------------------------------------------")
+    logger.info(f"  所有epoch的平均评测指标为: {avg_results}")
+    logger.info(f"  ------------------------------------------------")
+
     writer.close()
 
 

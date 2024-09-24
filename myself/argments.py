@@ -61,7 +61,7 @@ def add_training_args():
     parser.add_argument(
         "--output_dir",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'baselines' / 'HIKE' / 'output'),
+        default=str(HOME_DIR / 'clir' / 'myself' / 'output'),
         help="Where to store the final model."
     )
     parser.add_argument(
