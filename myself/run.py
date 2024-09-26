@@ -13,7 +13,7 @@ from transformers import get_scheduler, BertTokenizer
 from utils import set_seed
 from argments import add_logging_args, add_model_args, add_training_args
 from data import DatasetForMe, DataCollatorForMe
-from modeling2 import MyModel
+from modeling3 import MyModel
 
 logger = logging.getLogger(__name__)
 
@@ -24,11 +24,11 @@ def main():
     # 创建 SummaryWriter,指定日志文件保存路径
     tensorboard_logs_path = os.path.join(logging_args.log_dir, 'tensorboard_logs')
     os.makedirs(tensorboard_logs_path, exist_ok=True)
-    writer = SummaryWriter(os.path.join(tensorboard_logs_path, 'myself_model_2'))
+    writer = SummaryWriter(os.path.join(tensorboard_logs_path, 'myself_model_3'))
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
-    log_file = os.path.join(logging_args.log_dir, f"myself_model_2_training_{current_date}.log")
+    log_file = os.path.join(logging_args.log_dir, f"myself_model_3_training_{current_date}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -77,6 +77,9 @@ def main():
     test_dataloader = DataLoader(
         test_dataset, shuffle=False, collate_fn=test_data_collator, batch_size=training_args.batch_size * 2, drop_last=True
     )
+    # test_dataloader = DataLoader(
+    #     test_dataset, shuffle=False, collate_fn=test_data_collator, batch_size=training_args.batch_size * 2, drop_last=False
+    # )
     # ------------------------ 加载 tokenizer、model、model_config、dataset、dataloader等等 ------------------------
 
 
