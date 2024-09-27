@@ -10,6 +10,7 @@ from torch_geometric.nn import global_mean_pool, global_max_pool, global_add_poo
 from torch_geometric.data import Data, Batch
 
 from argments import add_model_args
+from criteria import PairInBatchNegCoSentLoss
 
 
 class PairwiseHingeLoss(torch.nn.Module):
@@ -70,8 +71,8 @@ class MyModel(nn.Module):
 
         if self.training:
             self.loss_function1 = PairwiseHingeLoss()
-            self.loss_function2 = nn.CosineEmbeddingLoss()
-            # self.loss_function = nn.CrossEntropyLoss()
+            self.loss_function2 = PairInBatchNegCoSentLoss()
+
 
     def create_subgraph_data(self, V_qd, V_s, V_t, include_V_qd_node: bool=True):
         '''
@@ -247,8 +248,7 @@ class MyModel(nn.Module):
             target = torch.tensor([1, 0], device=scores.device, dtype=torch.long).repeat(scores.size()[0], 1)
             loss1 = self.loss_function1(scores, target)
 
-            cosine_target = torch.ones(V_entity_desc_s.size(0)).to(self.device)
-            loss2 = self.loss_function2(V_entity_desc_s, V_entity_desc_t, cosine_target)
+            loss2 = self.loss_function2(V_entity_desc_s, V_entity_desc_t)
             loss = loss1 + self.alpha * loss2
         else:
             loss = None
