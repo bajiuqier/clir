@@ -66,7 +66,7 @@ class MyModel(nn.Module):
         self.softmax = nn.Softmax(dim=1)
         self.dropout = nn.Dropout(0.1)
 
-        self.alpha = 0.75  # 权重系数
+        self.alpha = 1  # 权重系数
 
         if self.training:
             self.loss_function1 = PairwiseHingeLoss()
