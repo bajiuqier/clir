@@ -42,12 +42,11 @@ class OutputTuple(NamedTuple):
     # embedding: Optional[torch.Tensor] = None
 
 class MyModel(nn.Module):
-    def __init__(self, tokenizer, model_args: add_model_args, batch_size: int=8):
+    def __init__(self, model_args: add_model_args):
         super().__init__()
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-        self.batch_size = batch_size
+        # self.batch_size = batch_size
         self.encoder = BertModel.from_pretrained(model_args.model_name_or_path)
-        self.tokenizer = tokenizer
         self.hidden_size = self.encoder.config.hidden_size
         self.normalized = False
 
@@ -67,7 +66,7 @@ class MyModel(nn.Module):
         self.softmax = nn.Softmax(dim=1)
         self.dropout = nn.Dropout(0.1)
 
-        self.alpha = 1  # 权重系数
+        self.alpha = 0.6  # 权重系数
 
         if self.training:
             self.loss_function1 = PairwiseHingeLoss()
@@ -277,7 +276,7 @@ if __name__ == "__main__":
     )
 
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = MyModel(tokenizer=tokenizer, model_args=model_args, batch_size=training_args.batch_size).to(device)
+    model = MyModel(model_args=model_args).to(device)
 
 
     print("  train_dataset生成中ing......")

@@ -52,7 +52,7 @@ def main():
     )
     
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    model = MyModel(tokenizer=tokenizer, model_args=model_args, batch_size=training_args.batch_size).to(device)
+    model = MyModel(model_args=model_args).to(device)
     
     print("train/test_dataset生成中ing......")
     train_dataset = DatasetForMe(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
@@ -133,6 +133,19 @@ def main():
     now = datetime.now()
     formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
     
+    # 参数记录
+    logger.info(f"  batch_size: {training_args.batch_size * 2}, epoch: {training_args.num_train_epochs}")
+    logger.info(f"  知识对比学习损失的权重: {model.alpha}")
+    logger.info(f"  学习率:")
+    logger.info(f"      mbert 编码器: 1e-5")
+    logger.info(f"      query_knowledge_fusion: 1e-3")
+    logger.info(f"      GCN: 1e-3")
+    logger.info(f"      classifier: 1e-3")
+
+
+
+
+
     logger.info("  ***** Running training *****")
     logger.info(f"  当前时间: {formatted_now}")
     logger.info(f"  Num examples = {len(train_dataset)}")
@@ -147,6 +160,7 @@ def main():
     completed_steps = 0
 
     # 初始化最佳性能指标
+    best_metrics = {}
     best_ndcg5 = 0.0
     best_ndcg10 = 0.0
     all_test_results = []
@@ -235,8 +249,11 @@ def main():
 
         # 只有当当前epoch的nDCG@5和nDCG@10都比之前好时才保存模型
         if current_ndcg5 > best_ndcg5 and current_ndcg10 > best_ndcg10:
+            # 更新最佳值
+            best_metrics = test_results
             best_ndcg5 = current_ndcg5
             best_ndcg10 = current_ndcg10
+
             output_dir_name = "best_model"
             if training_args.output_dir is not None:
                 output_dir = os.path.join(training_args.output_dir, str(current_date))
@@ -279,6 +296,12 @@ def main():
     #     logger.info(f"  ------------------------------------------------")
     #     logger.info(f"  训练完成!  模型和 tokenizer 保存在 {output_dir}")
     #     logger.info(f"  ------------------------------------------------")
+
+
+    # 输出最好的一次结果
+    logger.info(f"  ------------------------------------------------")
+    logger.info(f"  所有epoch的平均评测指标为: {best_metrics}")
+    logger.info(f"  ------------------------------------------------")    
 
     # 输出所有epoch的平均评测指标
     avg_results = {str(metric): sum(result[str(metric)] for result in all_test_results) / len(all_test_results) for metric in METRICS_LIST}
