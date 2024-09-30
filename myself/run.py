@@ -300,7 +300,7 @@ def main():
 
     # 输出最好的一次结果
     logger.info(f"  ------------------------------------------------")
-    logger.info(f"  所有epoch的平均评测指标为: {best_metrics}")
+    logger.info(f"  最佳评测指标为: {best_metrics}")
     logger.info(f"  ------------------------------------------------")    
 
     # 输出所有epoch的平均评测指标
