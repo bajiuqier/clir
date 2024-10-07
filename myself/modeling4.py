@@ -222,13 +222,21 @@ class MyModel(nn.Module):
            及 self.create_subgraph_data() 中的 include_V_qd_node 为 True
         '''
         # 使用全局平均池化获取整个图的向量表示
-        V_kg = global_mean_pool(x, graph_batch_data.batch)  # shape: [16, 768]
+        # V_kg = global_mean_pool(x, graph_batch_data.batch)  # shape: [16, 768]
 
         # 使用全局最大池化获取整个图的向量表示
         # V_kg = global_max_pool(x, graph_batch_data.batch)
 
         # 使用全局加和池化获取整个图的向量表示
         # V_kg = global_add_pool(x, graph_batch_data.batch)
+
+        # 单独拿出来 v_qd
+        V_kg_list = []
+        for i in range(graph_batch_data.batch_size):
+            batch_mask = graph_batch_data.batch == i
+            V_kg_list.append(x[batch_mask][0])
+
+        V_kg = torch.stack(V_kg_list)
 
         # 融合 V_kg 和 V_qd
         V_q_kg = self.query_knowledge_fusion(torch.cat((V_qd, V_kg), dim=-1))
