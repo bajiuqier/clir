@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.utils.data import  DataLoader
+from torch.utils.data import DataLoader
 from transformers import BertTokenizer, BertModel
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Any, Optional, NamedTuple
@@ -20,9 +20,9 @@ class PairwiseHingeLoss(torch.nn.Module):
 
     def forward(self, score, target):
         # Compute the loss based on the target labels
-        loss = torch.where(target == 1, 1 - score, 
+        loss = torch.where(target == 1, 1 - score,
                            torch.clamp(score - self.margin, min=0))
-        
+
         # Apply the reduction method
         if self.reduction == 'none':
             return loss
@@ -33,6 +33,7 @@ class PairwiseHingeLoss(torch.nn.Module):
         else:
             raise ValueError(f"Invalid reduction mode: {self.reduction}")
 
+
 class OutputTuple(NamedTuple):
     loss: Optional[torch.Tensor] = None
     scores: Optional[torch.Tensor] = None
@@ -40,8 +41,9 @@ class OutputTuple(NamedTuple):
     # doc_vector: Optional[torch.Tensor] = None
     # embedding: Optional[torch.Tensor] = None
 
+
 class MyModel(nn.Module):
-    def __init__(self, tokenizer, model_args: add_model_args, batch_size: int=8):
+    def __init__(self, tokenizer, model_args: add_model_args, batch_size: int = 8):
         super().__init__()
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
         self.batch_size = batch_size
@@ -69,16 +71,16 @@ class MyModel(nn.Module):
             self.loss_function = PairwiseHingeLoss()
             # self.loss_function = nn.CrossEntropyLoss()
 
-    def create_subgraph_data(self, V_qd, V_s, V_t, include_V_qd_node: bool=True):
-        '''
+    def create_subgraph_data(self, V_qd, V_s, V_t, include_V_qd_node: bool = True):
+        """
         构建一个子图
         V_qd: shape [1, 768]
         V_s: shape [4, 768]
         V_t: shape [4, 768]
-        '''
+        """
         if include_V_qd_node:
             # 创建节点特征张量
-            x = torch.cat([V_qd, V_s, V_t], dim=0)    # shape [9, 768]
+            x = torch.cat([V_qd, V_s, V_t], dim=0)  # shape [9, 768]
 
             # 边的定义
             # Create edge indices
@@ -95,13 +97,13 @@ class MyModel(nn.Module):
 
             # 连接查询对应的源语言实体的相邻源语言实体
             for i in range(1, num_s):
-                edge_index.append([1, i + 1])        
-            # 连接查询对应的目标语言实体的相邻目标语言实体
+                edge_index.append([1, i + 1])
+                # 连接查询对应的目标语言实体的相邻目标语言实体
             for i in range(1, num_t):
                 edge_index.append([num_s + 1, i + num_s + 1])
         else:
             # 创建节点特征张量
-            x = torch.cat([V_s, V_t], dim=0)    # shape [8, 768]
+            x = torch.cat([V_s, V_t], dim=0)  # shape [8, 768]
 
             # 边的定义
             # Create edge indices
@@ -115,13 +117,13 @@ class MyModel(nn.Module):
 
             # 连接查询对应的源语言实体的相邻源语言实体
             for i in range(1, num_s):
-                edge_index.append([0, i])        
-            # 连接查询对应的目标语言实体的相邻目标语言实体
+                edge_index.append([0, i])
+                # 连接查询对应的目标语言实体的相邻目标语言实体
             for i in range(1, num_t):
                 edge_index.append([num_s, num_s + i])
 
         # Make edges bidirectional
-        edge_index = edge_index + [[j, i] for i, j in edge_index]   
+        edge_index = edge_index + [[j, i] for i, j in edge_index]
 
         # 将 edge_index 转换为张量
         edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
@@ -130,11 +132,10 @@ class MyModel(nn.Module):
 
         return data
 
-    
     def construct_graph_batch_data(self, V_qd_batch, V_s_batch, V_t_batch):
-        '''
+        """
         构建图的批处理数据 加速计算
-        '''
+        """
         data_list = []
 
         for i in range(V_s_batch.size(0)):
@@ -143,7 +144,7 @@ class MyModel(nn.Module):
 
         batch_data = Batch.from_data_list(data_list)
 
-        return batch_data    
+        return batch_data
 
     def forward(self, qd_batch, ed_s_batch, ed_t_batch):
 
@@ -164,18 +165,22 @@ class MyModel(nn.Module):
 
         if self.training:
             # [16, 4, 768]
-            V_entity_desc_s_dim_trans = V_entity_desc_s.view(self.batch_size, (1 + self.num_entities), self.hidden_size).repeat_interleave(2, dim=0)
+            V_entity_desc_s_dim_trans = V_entity_desc_s.view(self.batch_size, (1 + self.num_entities),
+                                                             self.hidden_size).repeat_interleave(2, dim=0)
             # [16, 4, 768]
-            V_entity_desc_t_dim_trans = V_entity_desc_t.view(self.batch_size, (1 + self.num_entities), self.hidden_size).repeat_interleave(2, dim=0)
+            V_entity_desc_t_dim_trans = V_entity_desc_t.view(self.batch_size, (1 + self.num_entities),
+                                                             self.hidden_size).repeat_interleave(2, dim=0)
         else:
             # [8, 4, 768]
-            V_entity_desc_s_dim_trans = V_entity_desc_s.view(self.batch_size * 2, (1 + self.num_entities), self.hidden_size)
+            V_entity_desc_s_dim_trans = V_entity_desc_s.view(self.batch_size * 2, (1 + self.num_entities),
+                                                             self.hidden_size)
             # [8, 4, 768]
-            V_entity_desc_t_dim_trans = V_entity_desc_t.view(self.batch_size * 2, (1 + self.num_entities), self.hidden_size)
+            V_entity_desc_t_dim_trans = V_entity_desc_t.view(self.batch_size * 2, (1 + self.num_entities),
+                                                             self.hidden_size)
 
         # 获取 图 结构数据
         # graph_batch_data: DataBatch(x=[128, 768], edge_index=[2, 224], batch=[128], ptr=[17])
-        '''
+        """
         ### 1. `x=[128, 768]`
         - **`x` 是节点特征矩阵**，其中每个节点都有一个特征向量。
         - `128` 表示 **128个节点**（从所有图中合并）。
@@ -197,8 +202,9 @@ class MyModel(nn.Module):
         - **`ptr` 是指针数组**，表示批次中的每个图是如何划分的。
         - 它的长度为 `num_graphs + 1`。例如，`ptr=[0, 17]` 表示第一个图的节点范围是从 `0` 到 `16`，第二个图的节点范围从 `17` 开始。
         - 在你给出的 `ptr=[17]` 中，`17` 通常是用来表明第一个图的节点数量，后面可能还有更多图的数据没有被展示。
-        '''
-        graph_batch_data = self.construct_graph_batch_data(V_qd_dim_trans, V_entity_desc_s_dim_trans, V_entity_desc_t_dim_trans)
+        """
+        graph_batch_data = self.construct_graph_batch_data(V_qd_dim_trans, V_entity_desc_s_dim_trans,
+                                                           V_entity_desc_t_dim_trans)
         graph_batch_data.to(self.device)
 
         # 获取 图节点向量 和 图的边数据
@@ -252,7 +258,6 @@ if __name__ == "__main__":
     from data import DatasetForMe, DataCollatorForMe
     from argments import add_logging_args, add_training_args
 
-
     logging_args = add_logging_args()
     model_args = add_model_args()
     training_args = add_training_args()
@@ -267,10 +272,10 @@ if __name__ == "__main__":
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     model = MyModel(tokenizer=tokenizer, model_args=model_args, batch_size=training_args.batch_size).to(device)
 
-
     print("  train_dataset生成中ing......")
     train_dataset = DatasetForMe(dataset_file=training_args.train_dataset_name_or_path, dataset_type='train')
-    test_dataset = DatasetForMe(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
+    test_dataset = DatasetForMe(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test',
+                                test_qrels_file=training_args.test_qrels_file)
 
     train_data_collator = DataCollatorForMe(tokenizer, max_len=256, training=True)
     test_data_collator = DataCollatorForMe(tokenizer, max_len=256, training=False)
@@ -294,5 +299,3 @@ if __name__ == "__main__":
         )
 
         print(outputs)
-
-
