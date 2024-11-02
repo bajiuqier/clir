@@ -8,7 +8,7 @@ import ir_datasets
 
 
 class DatasetForMe(Dataset):
-    def __init__(self, dataset_file, dataset_type: str='train', test_qrels_file: str=None):
+    def __init__(self, dataset_file, dataset_type: str = 'train', test_qrels_file: str = None):
         super().__init__()
 
         self.dataset_type = dataset_type
@@ -30,7 +30,7 @@ class DatasetForMe(Dataset):
 
             self.clir_dataset = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test1')
             # self.queries_df = pd.DataFrame(self.clir_dataset.queries_iter())
-            self.docstore = self.clir_dataset.docs_store()        
+            self.docstore = self.clir_dataset.docs_store()
 
     def __len__(self):
         if self.dataset_type == 'train':
@@ -38,14 +38,15 @@ class DatasetForMe(Dataset):
         if self.dataset_type == 'test':
             return len(self.test_qrels)
 
-    def __getitem__(self, idx) -> Tuple[Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]:
-        
+    def __getitem__(self, idx) -> Tuple[
+        Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]:
+
         if self.dataset_type == 'train':
             item = self.dataset[idx]
             query = item['query']
-            documet = []
-            documet.append(item['pos_doc'][0])
-            documet.append(item['neg_doc'][0])
+            document = []
+            document.append(item['pos_doc'][0])
+            document.append(item['neg_doc'][0])
 
         if self.dataset_type == 'test':
             query_id = self.test_qrels.loc[idx]['query_id']
@@ -53,7 +54,7 @@ class DatasetForMe(Dataset):
 
             query_index = self.dataset_query_id.index(query_id)
             query = self.dataset[query_index]['query']
-            documet = self.docstore.get(doc_id).text
+            document = self.docstore.get(doc_id).text
 
             item = self.dataset[query_index]
 
@@ -76,15 +77,17 @@ class DatasetForMe(Dataset):
         for em in item['adj_item_info']['description_kk']:
             desc_t.append(em)
 
-        return (query, documet), (entity_s, desc_s), (entity_t, desc_t) 
+        return (query, document), (entity_s, desc_s), (entity_t, desc_t)
+
 
 @dataclass
 class DataCollatorForMe(DataCollatorWithPadding):
-
     max_len: int = 256
     training: bool = True
-    
-    def __call__(self, features: List[Tuple[Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]]) -> Dict[str, Any]:
+
+    def __call__(self, features: List[
+        Tuple[Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]]) -> Dict[
+        str, Any]:
 
         queries = [f[0][0] for f in features]
         documents = [f[0][1] for f in features]
@@ -109,45 +112,39 @@ class DataCollatorForMe(DataCollatorWithPadding):
             entities_t = sum(entities_t, [])
         if isinstance(descs_t[0], list):
             descs_t = sum(descs_t, [])
-        
+
         if self.training:
             # 将 query 中的内容 重复两份
-            queries = sum([[element]*2 for element in queries], [])
+            queries = sum([[element] * 2 for element in queries], [])
 
         qd_batch = self.tokenizer(
-                queries,
-                documents,
-                padding=True,
-                truncation='only_second',
-                max_length=self.max_len,
-                return_tensors="pt",
-            )
+            queries,
+            documents,
+            padding=True,
+            truncation='only_second',
+            max_length=self.max_len,
+            return_tensors="pt",
+        )
         ed_s_batch = self.tokenizer(
-                entities_s,
-                descs_s,
-                padding=True,
-                truncation='only_second',
-                # max_length=64,
-                max_length=self.max_len,
-                return_tensors="pt",
-            )
+            entities_s,
+            descs_s,
+            padding=True,
+            truncation='only_second',
+            # max_length=64,
+            max_length=self.max_len,
+            return_tensors="pt",
+        )
         ed_t_batch = self.tokenizer(
-                entities_t,
-                descs_t,
-                padding=True,
-                truncation='only_second',
-                # max_length=64,
-                max_length=self.max_len,
-                return_tensors="pt",
-            )
+            entities_t,
+            descs_t,
+            padding=True,
+            truncation='only_second',
+            # max_length=64,
+            max_length=self.max_len,
+            return_tensors="pt",
+        )
 
         return {'qd_batch': qd_batch, 'ed_s_batch': ed_s_batch, 'ed_t_batch': ed_t_batch}
-
-
-
-
-
-
 
 # dataset = MyDataset(dataset_file=dataset_file)
 

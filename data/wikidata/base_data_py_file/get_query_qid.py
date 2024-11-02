@@ -5,7 +5,6 @@ from pathlib import Path
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-
 HOME_DIR = Path(__file__).parent.parent / 'base_data'
 # 定义 查询 对应 qid 的文件
 query_entity_qid_file = str(HOME_DIR / 'base_test2_query_entity_qid.csv')
@@ -13,6 +12,8 @@ query_entity_qid_file = str(HOME_DIR / 'base_test2_query_entity_qid.csv')
 # 加载 zh-kk base-train 查询数据 并将其转成列表
 dataset_obj = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test2')
 queries_df = pd.DataFrame(dataset_obj.queries_iter())
+
+
 # queries_list = queries_df['text'].to_list()
 
 def fetch_qid(query_id, query_text):
@@ -38,12 +39,13 @@ def fetch_qid(query_id, query_text):
 
         # 再判断一下 结果 的 label 值是否与 search_term 或者 query_text 相同
         if item['label'] == search_term:
-        # if item['label'] == query_text:
+            # if item['label'] == query_text:
             data_item['q_item_qid'] = item.get('id')
             data_item['label'] = item.get('label')
             data_item['description'] = item.get('description')
-    
+
     return data_item
+
 
 def process_query(query_id, query_text):
     result = fetch_qid(query_id, query_text)

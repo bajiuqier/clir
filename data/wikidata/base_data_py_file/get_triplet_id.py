@@ -27,6 +27,7 @@ def fetch_triplet_id(query_entity_qid: str) -> list:
     url = 'https://query.wikidata.org/sparql'
     params = {'query': query, 'format': 'json'}
 
+
     # 发送请求
     response = requests.get(url, params=params)
 

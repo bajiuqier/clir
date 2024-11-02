@@ -7,14 +7,21 @@ import jsonlines
 from typing import NamedTuple
 from tqdm import tqdm
 
+
+"""
+已弃用，请使用 dataset_builder 构建数据集
+"""
 logging.basicConfig(level=logging.INFO)
 
+
 def filter_qrels(qrels_df: pd.DataFrame, filter_reference_file: str) -> pd.DataFrame:
-    '''
+    """
     配合 build_new_base_train_qrels 使用
-    '''
+    """
+
     # 加载 过滤 所需的文件
-    filter_reference_df = pd.read_csv(filter_reference_file, encoding='utf-8').astype(str)
+    filter_reference_df = pd.read_csv(
+        filter_reference_file, encoding='utf-8').astype(str)
     query_ids = set(filter_reference_df['query_id'])
 
     # 过滤掉多余的 query_id 的文档数据
@@ -24,10 +31,12 @@ def filter_qrels(qrels_df: pd.DataFrame, filter_reference_file: str) -> pd.DataF
 
     return qrels_filtered_df
 
-def build_new_base_test_qrels(original_qrels: pd.DataFrame, query_entity_qid_file: str=None, new_qrels_file: str=None,):
 
+def build_new_base_test_qrels(original_qrels: pd.DataFrame, query_entity_qid_file: str = None,
+                              new_qrels_file: str = None):
     # 加载 过滤 所需的文件
-    filter_reference_df = pd.read_csv(query_entity_qid_file, encoding='utf-8').astype(str)
+    filter_reference_df = pd.read_csv(
+        query_entity_qid_file, encoding='utf-8').astype(str)
     query_ids = set(filter_reference_df['query_id'])
 
     # 过滤掉多余的 query_id 的文档数据
@@ -43,18 +52,20 @@ def build_new_base_test_qrels(original_qrels: pd.DataFrame, query_entity_qid_fil
     print("----------------------------------------------------------")
 
 
-def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str=None, neg_doc_num: int=5, save_new_qrels: bool=True) -> pd.DataFrame:
-    '''
+def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str = None, neg_doc_num: int = 5,
+                               save_new_qrels: bool = True) -> pd.DataFrame:
+    """
     base 版本数据的 qrels 中，作者已经为每个 query 构建了 100 个对应的文档
     其中 相关度从高到底 6 5 4 3 2 1 0
     full 版本数据的 qrels 和 base不同的是 query 没有对应的负样本文档 及 没有相关度为 0 的文档 id
-    '''
+    """
     # 设置随机种子
     random_seed = 42
     random.seed(random_seed)
 
     # 计算每个 query_id 对应的 relevance 为 0 的 doc_id 数量
-    neg_samples_counts_df = original_qrels[original_qrels['relevance'] == 0].groupby('query_id').size().reset_index(name='neg_sample_count')
+    neg_samples_counts_df = original_qrels[original_qrels['relevance'] == 0].groupby('query_id').size().reset_index(
+        name='neg_sample_count')
     # query_id 对应的 relevance 为 0 的 doc_id 数量 不足 5个的 query_id
     insufficient_neg_samples_df = neg_samples_counts_df[neg_samples_counts_df['neg_sample_count'] < neg_doc_num]
     # 获取 这些 query_ids
@@ -75,17 +86,17 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         if len(zero_relevance_docs) < neg_doc_num:
             # 当前缺少的 doc_id 数量
             shortage = neg_doc_num - len(zero_relevance_docs)
-            
+
             # 获取当前 query_id 下所有的 doc_id
             current_doc_ids = current_docs['doc_id'].unique()
 
             # 从其他查询中随机选择不足的数量的文档ID
             # 并确保随机选择的文档ID不会与当前查询下的文档ID重复
             candidates_doc_ids = [doc_id for doc_id in all_doc_ids if doc_id not in current_doc_ids]
-            
+
             # 随机选择 shortage 数量的 doc_id
             selected_docs = random.sample(list(candidates_doc_ids), shortage)
-            
+
             # 记录新添加的数据
             new_rows.extend([{'query_id': query_id, 'doc_id': doc, 'relevance': 0} for doc in selected_docs])
 
@@ -112,10 +123,11 @@ def build_new_base_train_qrels(original_qrels: pd.DataFrame, new_qrels_file: str
         print("------------------------------------------------------")
         print(f"新的 qrels 文件已经保存在{new_qrels_file}")
         print("------------------------------------------------------")
-        
+
     return new_qrels
 
-def build_dataset_old(
+
+def build_dataset(
         docstore: NamedTuple,
         query_qid_file: str,
         qrels_file: str,
@@ -123,161 +135,31 @@ def build_dataset_old(
         adj_item_info_file: str,
         triple_id_file: str,
         output_file: str,
-        adj_item_num: int=3,
-        dataset_type: str="train",
-        pos_doc_num: int=1,
-        neg_doc_num: int=1
+        adj_item_num: int = 3,
+        dataset_type: str = "train",
+        pos_doc_num: int = 1,
+        neg_doc_num: int = 1
 ):
+    """
 
-    '''
-    构建数据集使用的 jsonl 数据    
-    '''
-    query_qid_df = pd.read_csv(query_qid_file, encoding='utf-8').astype(str)
-    item_info_df = pd.read_csv(item_info_file, encoding='utf-8').astype(str)
-    adj_item_info_df = pd.read_csv(adj_item_info_file, encoding='utf-8').astype(str)
-    triple_id_df = pd.read_csv(triple_id_file, encoding='utf-8').astype(str)
+    Parameters
+    ----------
+    docstore :
+    query_qid_file : 查询对应的 wikidata 中的实体的 id 数据
+    qrels_file :
+    item_info_file : 实体信息文件
+    adj_item_info_file : 相邻实体信息文件
+    triple_id_file : 三元组数据文件
+    output_file : 训练数据和测试数据的文件
+    adj_item_num : 相邻实体的数量
+    dataset_type : ‘train’ or ‘test’
+    pos_doc_num : 正样本数量
+    neg_doc_num : 负样本数量
 
-    qrels_df = pd.read_csv(qrels_file, encoding='utf-8')
-    qrels_df['query_id'] = qrels_df['query_id'].astype(str)
-    qrels_df['doc_id'] = qrels_df['doc_id'].astype(str)
-    qrels_df['relevance'] = qrels_df['relevance'].astype(int)
+    Returns
+    -------
 
-    # 构建JSONL数据
-    jsonl_data = []
-
-    for _, row in tqdm(query_qid_df.iterrows(), total=query_qid_df.shape[0], desc="building dataset"):
-        query_id = row['query_id']
-        query_text = row['query_text']
-        q_item_qid = row['q_item_qid']
-
-        # 获取查询对应实体的信息
-        q_item = item_info_df[item_info_df['item_qid'] == q_item_qid]
-
-        if q_item.shape[0] == 0:
-            continue
-        else:
-            q_item = q_item.iloc[0]
-
-        # 检查q_item中的'label_zh', 'label_kk' description_zh description_kk 是否有一个为空
-        if q_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any():
-            continue
-
-        q_item_info = {
-            "label_zh": q_item['label_zh'],
-            "label_kk": q_item['label_kk'],
-            "description_zh": q_item['description_zh'],
-            "description_kk": q_item['description_kk']
-        }
-        
-        # 获取相邻实体的信息
-        # adj_items = filtered_triplet_id[filtered_triplet_id['item'] == qid]['adjItem'].unique()
-        adj_item_qids = triple_id_df[triple_id_df['item_qid'] == q_item_qid]['adj_item_qid']
-
-        # 舍弃相邻实体数量为0的query
-        if len(adj_item_qids) == 0:
-            continue
-        elif len(adj_item_qids) > 0 and len(adj_item_qids) < adj_item_num:
-            adj_item_qids = adj_item_qids.tolist()
-            while len(adj_item_qids) < adj_item_num:
-                adj_item_qids.append(adj_item_qids[(adj_item_num - len(adj_item_qids)) % len(adj_item_qids)])
-            adj_item_qids = pd.Series(adj_item_qids)
-        else:
-            # replace=False 是 pandas sample() 方法的一个参数，表示在抽样时不进行重复抽样
-            # sampled_adj_items = adj_items.sample(adjitem_num, replace=False)
-            adj_item_qids = adj_item_qids.sample(adj_item_num)
-
-        adj_item_info = {
-            "label_zh": [],
-            "label_kk": [],
-            "description_zh": [],
-            "description_kk": []
-        }
-        
-        stop_inner = False
-
-        for adj_item_qid in adj_item_qids:
-            adj_item = adj_item_info_df[adj_item_info_df['item_qid'] == adj_item_qid]
-
-            if adj_item.shape[0] == 0:
-                stop_inner = True
-                break
-            else:
-                adj_item = adj_item.iloc[0]
-
-            # 检查 adj_item 中的'label_zh', 'label_kk' description_zh description_kk 是否有一个为空
-            if adj_item[['label_zh', 'label_kk', 'description_zh', 'description_kk']].isnull().any():
-                stop_inner = True
-                break
-
-            adj_item_info["label_zh"].append(adj_item['label_zh'])
-            adj_item_info["label_kk"].append(adj_item['label_kk'])
-            adj_item_info["description_zh"].append(adj_item['description_zh'])
-            adj_item_info["description_kk"].append(adj_item['description_kk'])
-        
-        if stop_inner:
-            # 跳过外层循环中剩下的代码，进行下一次迭代
-            continue
-        
-        if dataset_type == "train":
-            query_docs = qrels_df[qrels_df['query_id'] == query_id]
-            if query_docs.shape[0] == 0:
-                continue
-            else:
-                pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'][:pos_doc_num]
-                # neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'][:3]
-                neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(neg_doc_num)
-
-                pos_doc_texts = [docstore.get(doc_id).text for doc_id in pos_doc_ids]
-                neg_doc_texts = [docstore.get(doc_id).text for doc_id in neg_doc_ids]
-            
-            # if len(pos_doc_texts) == 0:
-            #     continue
-
-            jsonl_data.append({
-                "query_id": query_id,
-                "q_item_qid": q_item_qid,
-                "query": query_text,
-                "q_item_info": q_item_info,
-                "adj_item_info": adj_item_info,
-                "pos_doc": pos_doc_texts,
-                "neg_doc": neg_doc_texts,
-            })
-
-        elif dataset_type == "test":
-
-            jsonl_data.append({
-                "query_id": query_id,
-                "q_item_qid": q_item_qid,
-                "query": query_text,
-                "q_item_info": q_item_info,
-                "adj_item_info": adj_item_info,
-            })
-
-        else:
-            raise ValueError("dataset_type 值缺失/错误: “train”或者“test”")           
-
-    # 将数据写入JSONL文件
-    with jsonlines.open(output_file, mode='w') as writer:
-        writer.write_all(jsonl_data)
-
-    print("--------------------------------------------------------------")
-    print(f"数据集构建完成 存储在了{output_file} 数据量为 {len(jsonl_data)}")
-    print("--------------------------------------------------------------")
-
-
-def build_dataset(
-    docstore: NamedTuple,
-    query_qid_file: str,
-    qrels_file: str,
-    item_info_file: str,
-    adj_item_info_file: str,
-    triple_id_file: str,
-    output_file: str,
-    adj_item_num: int=3,
-    dataset_type: str="train",
-    pos_doc_num: int=1,
-    neg_doc_num: int=1
-):
+    """
     try:
         query_qid_df = pd.read_csv(query_qid_file, encoding='utf-8').astype(str)
         item_info_df = pd.read_csv(item_info_file, encoding='utf-8').astype(str)
@@ -322,7 +204,8 @@ def build_dataset(
             continue
 
         # Ensure we have the correct number of adjacent items
-        adj_item_qids = adj_item_qids.sample(n=adj_item_num, replace=True) if len(adj_item_qids) < adj_item_num else adj_item_qids.sample(n=adj_item_num)
+        adj_item_qids = adj_item_qids.sample(n=adj_item_num, replace=True) if len(
+            adj_item_qids) < adj_item_num else adj_item_qids.sample(n=adj_item_num)
 
         adj_item_info = {
             "label_zh": [],
@@ -334,7 +217,8 @@ def build_dataset(
         stop_inner = False
 
         for adj_item_qid in adj_item_qids:
-            adj_item = adj_item_info_df.get(adj_item_info_df['item_qid'] == adj_item_qid)
+            adj_item = adj_item_info_df.get(
+                adj_item_info_df['item_qid'] == adj_item_qid)
 
             # 其实这里可以不判断的，因为 triplet id 数据 已经经过 adj_item_info 过滤过了
             if adj_item.empty:
@@ -376,6 +260,7 @@ def build_dataset(
                 "pos_doc": pos_doc_texts,
                 "neg_doc": neg_doc_texts,
             })
+
         elif dataset_type == "test":
             jsonl_data.append({
                 "query_id": query_id,
@@ -395,7 +280,6 @@ def build_dataset(
 
 
 if __name__ == "__main__":
-
     HOME_DIR = Path(__file__).parent.parent / 'base_data_file'
 
     # 加载 zh-kk clir 数据集
@@ -403,11 +287,11 @@ if __name__ == "__main__":
     # 加载原始查询数据
     # queries_df = pd.DataFrame(CLIRMatrix_dataset.queries_iter())
     # 加载 doc 数据
-    docstore = CLIRMatrix_dataset_train.docs_store()
+    docs_docstore = CLIRMatrix_dataset_train.docs_store()
     # 加载原始的 qrels 数据
-    # trian_qrels_df = pd.DataFrame(CLIRMatrix_dataset_train.qrels_iter())
+    # train_qrels_df = pd.DataFrame(CLIRMatrix_dataset_train.qrels_iter())
 
-    # -------------------- 构建 新的 qrels 文件 --------------------
+    # -------------------- 构建 新的 train qrels 文件 --------------------
     # 加载过滤 qrels 数据所需的参考文件
     # triple_id_file = str(HOME_DIR / 'base_train_triplet_id_fragment_5.csv')
 
@@ -418,8 +302,6 @@ if __name__ == "__main__":
     # new_qrels_file = str(HOME_DIR / 'base_train_qrels.csv')
     # new_qrels_df = build_new_base_train_qrels(qrels_filtered_df, new_qrels_file, save_new_qrels=False)
     # print(new_qrels_df)
-    # -------------------- 构建 新的 qrels 文件 --------------------
-
 
     # -------------------- 构建 新的 test qrels 文件 --------------------
     # CLIRMatrix_dataset_test = ir_datasets.load('clirmatrix/kk/bi139-base/zh/test2')
@@ -432,10 +314,10 @@ if __name__ == "__main__":
     #     query_entity_qid_file=str(HOME_DIR / "base_test2_query_entity_qid_final.csv"),
     #     new_qrels_file=new_qrels_file
     # )
-    # -------------------- 构建 新的 test qrels 文件 --------------------
 
+    # -------------------- 构建 train dataset 文件 --------------------
     # build_dataset(
-    #     docstore=docstore,
+    #     docstore=docs_docstore,
     #     query_qid_file=str(HOME_DIR / 'base_train_query_entity_qid_final.csv'),
     #     qrels_file=str(HOME_DIR / 'base_train_qrels.csv'),
     #     item_info_file=str(HOME_DIR / 'base_train_query_entity_info_filled.csv'),
@@ -448,8 +330,9 @@ if __name__ == "__main__":
     #     neg_doc_num=1
     # )
 
+    # -------------------- 构建 test dataset 文件 --------------------
     build_dataset(
-        docstore=docstore,
+        docstore=docs_docstore,
         query_qid_file=str(HOME_DIR / 'base_test_query_entity_qid_final.csv'),
         qrels_file=str(HOME_DIR / 'base_test_qrels.csv'),
         item_info_file=str(HOME_DIR / 'base_test_query_entity_info_filled.csv'),
@@ -461,5 +344,3 @@ if __name__ == "__main__":
         pos_doc_num=1,
         neg_doc_num=1
     )
-
-
