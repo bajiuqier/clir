@@ -22,15 +22,12 @@ cython_debug/
 /models/*
 /data/wikidata/*.csv
 /data/wikidata/data_file/*
-/data/wikidata/data_file_recycle_bin/*
 /data/wikidata/query_entity_info/*
-/data/wikidata/adjitem_info/*
-/data/wikidata/property_info/*
-/data/wikidata/triplet_id_info/*
 /data/wikidata/base_data_file/*
 /data/wikidata/triplet_id_segment/*
 /data/wikidata/neo4j/*
 /data/wikidata/base_adj_item_info/*
+/data/wikidata/dididi/*
 
 tensorboard_logs/
 /myself/data/*
