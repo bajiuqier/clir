@@ -98,7 +98,8 @@ class DatasetBuilder:
 
         try:
             pos_doc_ids = query_docs[query_docs['relevance'] != 0]['doc_id'].head(pos_doc_num)
-            neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(n=neg_doc_num)
+            # neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].sample(n=neg_doc_num)
+            neg_doc_ids = query_docs[query_docs['relevance'] == 0]['doc_id'].tail(neg_doc_num)
 
             return {
                 "pos_doc": [self.docstore.get(doc_id).text for doc_id in pos_doc_ids],

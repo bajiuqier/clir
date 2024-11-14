@@ -28,6 +28,7 @@ cython_debug/
 /data/wikidata/neo4j/*
 /data/wikidata/base_adj_item_info/*
 /data/wikidata/dididi/*
+/data/wikidata/dataset_for_ajd_item_num/data_file/*
 
 tensorboard_logs/
 /myself/data/*
