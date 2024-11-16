@@ -67,13 +67,13 @@ def add_training_args():
     parser.add_argument(
         "--train_dataset_name_or_path",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'data' / 'mydata' / 'clirmatrix_zh_kk' / 'train_dataset.jsonl'),
+        default=str(HOME_DIR / 'clir' / 'data' / 'mydata' / 'clirmatrix_zh_kk' / 'train_dataset_with_2_adj_item.jsonl'),
         help="训练数据集"
     )
     parser.add_argument(
         "--test_dataset_name_or_path",
         type=str,
-        default=str(HOME_DIR / 'clir' / 'data' / 'mydata' / 'clirmatrix_zh_kk' / 'test_dataset.jsonl'),
+        default=str(HOME_DIR / 'clir' / 'data' / 'mydata' / 'clirmatrix_zh_kk' / 'test_dataset_with_2_adj_item.jsonl'),
         help="测试数据集"
     )
     parser.add_argument(

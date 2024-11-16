@@ -141,7 +141,7 @@ def main():
     logger.info(f"      query_knowledge_fusion: 1e-3")
     logger.info(f"      GCN: 1e-3")
     logger.info(f"      classifier: 1e-3")
-    logger.info(f"  v_kg: 单独拿出GCN中的V_qd")
+    logger.info(f"  v_kg: mean pooling")
     # -------------------------------------------------------------------------------------------------------------
     logger.info("  ***** Running training *****")
     logger.info(f"  当前时间: {formatted_now}")
