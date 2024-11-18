@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 class DatasetBuilder:
     def __init__(
             self,
-            docstore: NamedTuple,
+            docstore,
             query_qid_df: pd.DataFrame,
             item_info_df: pd.DataFrame,
             adj_item_info_df: pd.DataFrame,
@@ -64,7 +64,7 @@ class DatasetBuilder:
         # 相邻实体数量在做实验的时候 要确保 少的 相邻实体 是多的相邻实体的子集
         adj_item_qids = (adj_item_qids.sample(n=adj_item_num, replace=True)
                          if len(adj_item_qids) < adj_item_num
-                         else adj_item_qids.sample(n=adj_item_num))
+                         else adj_item_qids.sample(n=adj_item_num, replace=False))
 
         adj_item_info = {
             "label_zh": [], "label_kk": [],
