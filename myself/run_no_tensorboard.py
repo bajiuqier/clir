@@ -7,7 +7,6 @@ from ir_measures import *
 import torch
 from datetime import datetime
 from torch.utils.data import DataLoader, random_split
-# from torch.utils.tensorboard import SummaryWriter
 from transformers import get_scheduler, BertTokenizer
 
 from utils import set_seed
@@ -21,10 +20,7 @@ def main():
     logging_args = add_logging_args()
     model_args = add_model_args()
     training_args = add_training_args()
-    # 创建 SummaryWriter,指定日志文件保存路径
-    # tensorboard_logs_path = os.path.join(logging_args.log_dir, 'tensorboard_logs')
-    # os.makedirs(tensorboard_logs_path, exist_ok=True)
-    # writer = SummaryWriter(os.path.join(tensorboard_logs_path, 'myself_model_4'))
+
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
@@ -142,7 +138,7 @@ def main():
     logger.info(f"      GCN: 1e-3")
     logger.info(f"      classifier: 1e-3")
     logger.info(f"  v_kg: mean pooling")
-    logger.info(f"  相邻实体数量 2")
+    logger.info(f"  相邻实体数量 6")
     # -------------------------------------------------------------------------------------------------------------
     logger.info("  ***** Running training *****")
     logger.info(f"  当前时间: {formatted_now}")
@@ -182,7 +178,7 @@ def main():
             )
 
             loss = outputs.loss
-            # writer.add_scalar('Loss/train', loss.item(), completed_steps)
+
             loss.backward()
             optimizer.step()
             lr_scheduler.step()
@@ -307,7 +303,6 @@ def main():
     logger.info(f"  所有epoch的平均评测指标为: {avg_results}")
     logger.info(f"  ------------------------------------------------")
 
-    # writer.close()
 
 
 

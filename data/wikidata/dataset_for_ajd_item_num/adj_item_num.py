@@ -7,8 +7,8 @@ import random
 
 HOME_DIR = Path(__file__).parent / 'data_file'
 
-train_dataset_file_path = str(HOME_DIR / 'train_dataset.jsonl')
-test_dataset_file_path = str(HOME_DIR / 'test_dataset.jsonl')
+train_dataset_file_path = str(HOME_DIR / 'train_dataset_with_6_adj_item.jsonl')
+test_dataset_file_path = str(HOME_DIR / 'test_dataset_with_6_adj_item.jsonl')
 
 train_triples_file_path = str(HOME_DIR / 'base_train_triplet_id_final.csv')
 train_adj_item_info_file_path = str(HOME_DIR / 'base_train_adj_item_info_filled.csv')
@@ -16,14 +16,17 @@ train_adj_item_info_file_path = str(HOME_DIR / 'base_train_adj_item_info_filled.
 test_triples_file_path = str(HOME_DIR / 'base_test_triplet_id_final.csv')
 test_adj_item_info_file_path = str(HOME_DIR / 'base_test_adj_item_info_filled.csv')
 
-# train_dataset_df = pd.read_json(train_dataset_file_path, lines=True, encoding='utf-8')
-# train_dataset_df['query_id'] = train_dataset_df['query_id'].astype(str)
+train_dataset_df = pd.read_json(train_dataset_file_path, lines=True, encoding='utf-8')
+train_dataset_df['query_id'] = train_dataset_df['query_id'].astype(str)
 
-test_dataset_df = pd.read_json(test_dataset_file_path, lines=True, encoding='utf-8')
-test_dataset_df['query_id'] = test_dataset_df['query_id'].astype(str)
+# test_dataset_df = pd.read_json(test_dataset_file_path, lines=True, encoding='utf-8')
+# test_dataset_df['query_id'] = test_dataset_df['query_id'].astype(str)
 
-triples_df = pd.read_csv(test_triples_file_path, encoding='utf-8')
-adj_item_info_df = pd.read_csv(test_adj_item_info_file_path, encoding='utf-8')
+triples_df = pd.read_csv(train_triples_file_path, encoding='utf-8')
+adj_item_info_df = pd.read_csv(train_adj_item_info_file_path, encoding='utf-8')
+
+# triples_df = pd.read_csv(test_triples_file_path, encoding='utf-8')
+# adj_item_info_df = pd.read_csv(test_adj_item_info_file_path, encoding='utf-8')
 
 
 # 定义一个函数来提取 adj_item_info 中指定的前 n 个元素
@@ -33,16 +36,16 @@ def extract_adj_item_info(row, n):
     return new_adj_item_info
 
 
-adj_item_num = 3
-print(f"生成train_dataset_with_{adj_item_num+1}_adj_item_df")
+adj_item_num = 6
+print(f"生成train/test_dataset_with_{adj_item_num+1}_adj_item_df")
 
 
 a = 0
 b = 0
 c = 0
 
-for index, row in tqdm(test_dataset_df.iterrows(), total=test_dataset_df.shape[0]):
-# for index, row in tqdm(train_dataset_df.iterrows(), total=train_dataset_df.shape[0]):
+# for index, row in tqdm(test_dataset_df.iterrows(), total=test_dataset_df.shape[0]):
+for index, row in tqdm(train_dataset_df.iterrows(), total=train_dataset_df.shape[0]):
     existing_adj_item_info = row['adj_item_info']
     q_item_qid = row['q_item_qid']
 
@@ -106,11 +109,11 @@ for index, row in tqdm(test_dataset_df.iterrows(), total=test_dataset_df.shape[0
             
 
 
-# file_path = str(HOME_DIR / f"train_dataset_with_{adj_item_num+1}_adj_item.jsonl")
-# train_dataset_df.to_json(file_path, orient="records", lines=True, force_ascii=False)
+file_path = str(HOME_DIR / f"train_dataset_with_{adj_item_num+1}_adj_item.jsonl")
+train_dataset_df.to_json(file_path, orient="records", lines=True, force_ascii=False)
 
-file_path = str(HOME_DIR / f"test_dataset_with_{adj_item_num+1}_adj_item.jsonl")
-test_dataset_df.to_json(file_path, orient="records", lines=True, force_ascii=False)
+# file_path = str(HOME_DIR / f"test_dataset_with_{adj_item_num+1}_adj_item.jsonl")
+# test_dataset_df.to_json(file_path, orient="records", lines=True, force_ascii=False)
 
 print(f"数据处理完成 保存路径为 {file_path}")
 
