@@ -85,9 +85,10 @@ class DataCollatorForMe(DataCollatorWithPadding):
     max_len: int = 256
     training: bool = True
 
-    def __call__(self, features: List[
-        Tuple[Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]]) -> Dict[
-        str, Any]:
+    def __call__(
+        self,
+        features: List[Tuple[Tuple[str, Union[str, List[str]]], Tuple[List[str], List[str]], Tuple[List[str], List[str]]]]
+        ) -> Dict[str, Any]:
 
         queries = [f[0][0] for f in features]
         documents = [f[0][1] for f in features]
