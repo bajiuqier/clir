@@ -138,7 +138,7 @@ def main():
     logger.info(f"      GCN: 1e-3")
     logger.info(f"      classifier: 1e-3")
     logger.info(f"  v_kg: mean pooling")
-    logger.info(f"  相邻实体数量 6")
+    logger.info(f"  相邻实体数量 3")
     # -------------------------------------------------------------------------------------------------------------
     logger.info("  ***** Running training *****")
     logger.info(f"  当前时间: {formatted_now}")

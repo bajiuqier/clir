@@ -59,7 +59,7 @@ class MyModel(nn.Module):
         # 查询知识融合
         self.query_knowledge_fusion = nn.Linear(self.hidden_size * 2, self.hidden_size)
 
-        self.num_entities = 6
+        self.num_entities = 7
         self.classifier = nn.Linear(self.hidden_size * 2, 1)
         self.tanh = nn.Tanh()
         self.relu = nn.ReLU()
