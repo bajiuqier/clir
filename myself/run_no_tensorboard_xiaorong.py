@@ -12,7 +12,7 @@ from transformers import get_scheduler, BertTokenizer
 from utils import set_seed
 from argments import add_logging_args, add_model_args, add_training_args
 from data import DatasetForMe, DataCollatorForMe
-from modeling4 import MyModel
+from modeling5 import MyModel
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ def main():
 
     # 按日期命名日志文件
     current_date = datetime.now().strftime("%Y-%m-%d")
-    log_file = os.path.join(logging_args.log_dir, f"myself_model_4_training_{current_date}.log")
+    log_file = os.path.join(logging_args.log_dir, f"myself_model_5_training_{current_date}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -55,8 +55,7 @@ def main():
     test_dataset = DatasetForMe(dataset_file=training_args.test_dataset_name_or_path, dataset_type='test', test_qrels_file=training_args.test_qrels_file)
     print(f"train_dataset的长度:{len(train_dataset)}")
     print(f"test_dataset的长度:{len(test_dataset)}")
-
-
+    
 
     test_qrels_df = pd.read_csv(training_args.test_qrels_file, encoding='utf-8')
     test_qrels_df['query_id'] = test_qrels_df['query_id'].astype(str)
@@ -100,7 +99,7 @@ def main():
     # 将encoder和其他模块的参数分别收集到不同的参数组，并设置weight_decay
     optimizer = torch.optim.AdamW([
         {'params': model.encoder.parameters(), 'lr': 1e-5, 'weight_decay': training_args.weight_decay},
-        {'params': model.query_knowledge_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
+        # {'params': model.query_knowledge_fusion.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
         {'params': model.gcn1.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
         {'params': model.gcn2.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
         # {'params': model.gat1.parameters(), 'lr': 1e-3, 'weight_decay': training_args.weight_decay},
@@ -142,7 +141,7 @@ def main():
     logger.info(f"      classifier: 1e-3")
     logger.info(f"  v_kg: mean pooling")
     logger.info(f"  相邻实体数量 3")
-    logger.info(f"  模块消融 只有实体信息对齐")
+    logger.info(f"  模块消融 实体信息对齐和实体信息聚合")
 
     # -------------------------------------------------------------------------------------------------------------
     logger.info("  ***** Running training *****")

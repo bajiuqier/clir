@@ -57,10 +57,12 @@ class MyModel(nn.Module):
         # self.gat2 = GATConv(128*4, self.hidden_size, heads=1, concat=True, dropout=0.1)
 
         # 查询知识融合
-        self.query_knowledge_fusion = nn.Linear(self.hidden_size * 2, self.hidden_size)
+        # self.query_knowledge_fusion = nn.Linear(self.hidden_size * 2, self.hidden_size)
 
-        self.num_entities = 7
+        self.num_entities = 3
         self.classifier = nn.Linear(self.hidden_size * 2, 1)
+        # self.classifier = nn.Linear(self.hidden_size, 1)
+
         self.tanh = nn.Tanh()
         self.relu = nn.ReLU()
         self.softmax = nn.Softmax(dim=1)
@@ -239,12 +241,18 @@ class MyModel(nn.Module):
         # V_kg = torch.stack(V_kg_list)
 
         # 融合 V_kg 和 V_qd
-        V_q_kg = self.query_knowledge_fusion(torch.cat((V_qd, V_kg), dim=-1))
-        V_q_kg = self.tanh(V_q_kg)
-        V_q_kg = self.dropout(V_q_kg)
+        # V_q_kg = self.query_knowledge_fusion(torch.cat((V_qd, V_kg), dim=-1))
+        # V_q_kg = self.tanh(V_q_kg)
+        # V_q_kg = self.dropout(V_q_kg)
 
         # 使用一个 Linear 
-        scores = self.classifier(torch.cat((V_qd, V_q_kg), dim=-1))
+        # scores = self.classifier(torch.cat((V_qd, V_q_kg), dim=-1))
+        scores = self.classifier(torch.cat((V_qd, V_kg), dim=-1))
+
+
+        # 消融实验
+        # scores = self.classifier(V_qd)
+
 
         if self.training:
             # scores -> [8, 2]
@@ -257,6 +265,8 @@ class MyModel(nn.Module):
 
             loss2 = self.loss_function2(V_entity_desc_s, V_entity_desc_t)
             loss = loss1 + self.alpha * loss2
+            # loss = loss1
+
         else:
             loss = None
 
